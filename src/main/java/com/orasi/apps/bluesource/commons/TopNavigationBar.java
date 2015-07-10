@@ -82,7 +82,7 @@ public class TopNavigationBar {
 	//Verify logout link is displayed
 	@Step("And I log in successfully")
 	public boolean isLoggedIn(){
-		return lnkLogout.isDisplayed();
+		return lnkLogout.syncVisible(te.getDriver());
 	}
 	
 	
