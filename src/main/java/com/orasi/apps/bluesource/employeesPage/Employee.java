@@ -1,5 +1,9 @@
 package com.orasi.apps.bluesource.employeesPage;
 
+import java.io.IOException;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.orasi.api.restServices.core.RestService;
 import com.orasi.utils.Randomness;
 
 public class Employee {
@@ -56,21 +60,33 @@ public class Employee {
     public void setDepartment(String department) {this.department = department;}
     
     public Employee (){
-	this.firstName = Randomness.randomAlphaNumeric(8);
-	this.lastName = Randomness.randomAlphaNumeric(8);
-	this.username = getFirstName() + "." + getLastName();
-	this.title = "Contractor";
-	this.role = "Base";
-	this.manager = "Jim Azar";
-	this.status = "Contractor";
-	this.bridgeTime = "1";
-	this.location = "Remote";
-	this.startDate = "2013-01-20";
-	this.cellPhone = "(336) 358-1321";
-	this.officePhone = "(336) 358-1321";
-	this.email = getUsername() + "@random.com";
-	this.imName = getEmail();
-	this.imClient = "Skype";
-	this.department = "Services";	
+    	//Generate pretty name
+    	RestService rest = new RestService();
+    	String response = "";
+    	JsonNode node = null;
+    	try {
+		response = 	rest.sendGetRequest("http://api.randomuser.me/?nat=us");
+		node = rest.mapJSONToTree(response);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		setFirstName(node.findValue("first").textValue());
+		setLastName(node.findValue("last").textValue());
+		this.username = getFirstName() + "." + getLastName();
+		this.title = "Contractor";
+		this.role = "Base";
+		this.manager = "Company Admin";
+		this.status = "Contractor";
+		this.bridgeTime = "1";
+		this.location = "Remote";
+		this.startDate = "2013-01-20";
+		this.cellPhone = "(336) 358-1321";
+		this.officePhone = "(336) 358-1321";
+		this.email = getUsername() + "@random.com";
+		this.imName = getEmail();
+		this.imClient = "Skype";
+		this.department = "HR";	
     }   
 }
