@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.OutputType;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -13,8 +14,10 @@ import org.openqa.selenium.internal.Locatable;
 import org.openqa.selenium.internal.WrapsElement;
 import org.openqa.selenium.support.FindBy;
 
+import com.orasi.core.Beta;
 import com.orasi.core.interfaces.impl.ElementImpl;
 import com.orasi.core.interfaces.impl.internal.ImplementedBy;
+import com.orasi.utils.OrasiDriver;
 
 
 /**
@@ -30,12 +33,12 @@ public interface Element extends WebElement, WrapsElement, Locatable {
      */
     @Override
     void clear();
-    
+    WebDriver getWrappedDriver();
     /**
      * @author Justin
      * @summary - draws the focus to an object using Actions
      */
-    void focus(WebDriver driver);
+    void focus();
     
     /**
      * @author Justin
@@ -49,7 +52,7 @@ public interface Element extends WebElement, WrapsElement, Locatable {
      * @summary - click an element using a JavascriptExecutor
      * @param driver - Current active WebDriver object
      */
-    void jsClick(WebDriver driver);
+    void jsClick();
     
     /**
      * @author Justin
@@ -57,7 +60,7 @@ public interface Element extends WebElement, WrapsElement, Locatable {
      * @summary - draws the focus to an object and clicks the object using Actions
      * @param driver - Current active WebDriver object
      */
-    void focusClick(WebDriver driver);
+    void focusClick();
 
     /**
      * @author Justin 
@@ -104,7 +107,7 @@ public interface Element extends WebElement, WrapsElement, Locatable {
     @Override
     String getAttribute(String name);
 
-    ArrayList getAllAttributes(WebDriver driver);
+    ArrayList getAllAttributes();
     /**
      * @author Justin
      * @param propertyName - Search for specified property and return it's value
@@ -161,7 +164,8 @@ String getTagName();
     */
    @Override
 boolean isEnabled();
-   
+   @Override
+   boolean isSelected();   
    /**
     * @author Justin
     * @return {@link Boolean} Return TRUE if element is Displayed, FALSE if it is not  
@@ -185,7 +189,7 @@ boolean isDisplayed();
      * @param driver - Current active WebDriver object
      * @return true if the element is found in the DOM, false otherwise
      */
-    boolean syncPresent(WebDriver driver);
+    boolean syncPresent();
 
     /**
      * @summary - Used in conjunction with WebObjectPresent to determine if the desired element is built in the DOM
@@ -196,7 +200,7 @@ boolean isDisplayed();
      * @param timeout - Integer time in seconds used to allow the object to become present in the DOM
      * @return true if the element is found in the DOM, false otherwise
      */
-    //boolean syncPresent(WebDriver driver, int timeout);
+    //boolean syncPresent( int timeout);
 
     /**
      * @summary - Used in conjunction with WebObjectPresent to determine if the desired element is built in the DOM
@@ -209,7 +213,7 @@ boolean isDisplayed();
      * @param returnError - false: does not fail the test if the element is not present in the DOM after <timeout> seconds
      * @return true if the element is found in the DOM, false otherwise
      */
-    boolean syncPresent(WebDriver driver, int timeout, boolean returnError);
+    boolean syncPresent( int timeout, boolean returnError);
 
     /**     
      * @summary - Used in conjunction with WebObjectVisible to determine if the desired element is visible on the screen 
@@ -218,7 +222,7 @@ boolean isDisplayed();
      * @author Justin
      * @param driver - Current active WebDriver object
      */
-    boolean syncVisible(WebDriver driver);
+    boolean syncVisible();
     
     /**
      * @summary - Used in conjunction with WebObjectVisible to determine if the desired element is visible on the screen 
@@ -228,7 +232,7 @@ boolean isDisplayed();
      * @param driver - Current active WebDriver object
      * @param timeout - Integer time in seconds used to allow the object to become visible on the screen
      */
-    //boolean syncVisible(WebDriver driver, int timeout);
+    //boolean syncVisible( int timeout);
     
     /**
      * @summary - Used in conjunction with WebObjectVisible to determine if the desired element is visible on the screen 
@@ -240,7 +244,7 @@ boolean isDisplayed();
      * @param returnError - true: fails the test if the element is visible on the screen after <timeout> seconds
      * @param returnError - false: does not fail the test if the element is visible on the screen after <timeout> seconds
      */
-    boolean syncVisible(WebDriver driver, int timeout, boolean returnError);
+    boolean syncVisible( int timeout, boolean returnError);
     
     /**     
      * @summary - Used in conjunction with WebObjectVisible to determine if the desired element is hidden from the screen 
@@ -249,7 +253,7 @@ boolean isDisplayed();
      * @author Justin
      * @param driver - Current active WebDriver object
      */
-    boolean syncHidden(WebDriver driver);
+    boolean syncHidden();
     
     /**
      * @summary - Used in conjunction with WebObjectVisible to determine if the desired element is hidden from the screen 
@@ -259,7 +263,7 @@ boolean isDisplayed();
      * @param driver - Current active WebDriver object
      * @param timeout - Integer time in seconds used to allow the object to become hidden on the screen
      */
-    //boolean syncHidden(WebDriver driver, int timeout);
+    //boolean syncHidden( int timeout);
     
     /**
      * @summary - Used in conjunction with WebObjectVisible to determine if the desired element is hidden on the screen 
@@ -271,7 +275,7 @@ boolean isDisplayed();
      * @param returnError - true: fails the test if the element is not hidden on the page after <timeout> seconds
      * @param returnError - false: does not fail the test if the element is hidden on the page after <timeout> seconds
      */
-    boolean syncHidden(WebDriver driver,int timeout, boolean returnError);
+    boolean syncHidden(int timeout, boolean returnError);
     
     /**     
      * @summary - Used in conjunction with WebObjectEnabled to determine if the desired element is enabled on the screen 
@@ -280,7 +284,7 @@ boolean isDisplayed();
      * @author Justin
      * @param driver - Current active WebDriver object
      */
-    boolean syncEnabled(WebDriver driver);
+    boolean syncEnabled();
     
     /**
      * @summary - Used in conjunction with WebObjectEnabled to determine if the desired element is enabled on the screen 
@@ -290,7 +294,7 @@ boolean isDisplayed();
      * @param driver - Current active WebDriver object
      * @param timeout - Integer time in seconds used to allow the object to become hidden on the screen
      */
-    //boolean syncEnabled(WebDriver driver, int timeout);
+    //boolean syncEnabled( int timeout);
     
     /**
      * @summary - Used in conjunction with WebObjectEnabled to determine if the desired element is enabled on the screen 
@@ -302,7 +306,7 @@ boolean isDisplayed();
      * @param returnError - true: fails the test if the element is not enabled after <timeout> seconds
      * @param returnError - false: does not fail the test if the element is enabled after <timeout> seconds
      */
-    boolean syncEnabled(WebDriver driver, int timeout, boolean returnError);
+    boolean syncEnabled( int timeout, boolean returnError);
     
     /**     
      * @summary - Used in conjunction with WebObjectEnabled to determine if the desired element is disabled from the screen 
@@ -311,7 +315,7 @@ boolean isDisplayed();
      * @author Justin
      * @param driver - Current active WebDriver object
      */
-    boolean syncDisabled(WebDriver driver);
+    boolean syncDisabled();
     
     /**
      * @summary - Used in conjunction with WebObjectDisabled to determine if the desired element is disabled from the screen 
@@ -321,7 +325,7 @@ boolean isDisplayed();
      * @param driver - Current active WebDriver object
      * @param timeout - Integer time in seconds used to allow the object to become disabled
      */
-    //boolean syncDisabled(WebDriver driver, int timeout);
+    //boolean syncDisabled( int timeout);
     
     /**
      * @summary - Used in conjunction with WebObjectDisabled to determine if the desired element is disabled  on the screen 
@@ -333,7 +337,7 @@ boolean isDisplayed();
      * @param returnError - true: fails the test if the element is not disabled after <timeout> seconds
      * @param returnError - false: does not fail the test if the element is disabled after <timeout> seconds
      */
-    boolean syncDisabled(WebDriver driver,int timeout, boolean returnError);
+    boolean syncDisabled(int timeout, boolean returnError);
     
     /**
      * @summary - Used in conjunction with WebObjectTextPresentto determine if the desired text is displayed in the specified element 
@@ -343,7 +347,7 @@ boolean isDisplayed();
      * @param driver - Current active WebDriver object
      * @param text - Text to search for
      */
-    boolean syncTextInElement(WebDriver driver, String text);  
+    boolean syncTextInElement( String text);  
     
     /**
      * @summary - Used in conjunction with WebObjectTextPresentto determine if the desired text is displayed in the specified element 
@@ -354,7 +358,7 @@ boolean isDisplayed();
      * @param text - Text to search for
      * @param timeout - Signify a timeout to be used (10 will wait for ten seconds)
      */
-    //boolean syncTextInElement(WebDriver driver, String text, int timeout) ;
+    //boolean syncTextInElement( String text, int timeout) ;
  
     /**
      * @summary - Used in conjunction with WebObjectTextPresentto determine if the desired text is displayed in the specified element 
@@ -366,7 +370,7 @@ boolean isDisplayed();
      * @param timeout - Signify a timeout to be used (10 will wait for ten seconds)
      * @param returnError - true to throw and error if object is not visible on screen, false if error is not to be thrown
      */
-    boolean syncTextInElement(WebDriver driver, String text,int timeout, boolean returnError);
+    boolean syncTextInElement( String text,int timeout, boolean returnError);
     
     /**
      * @author Justin
@@ -393,12 +397,16 @@ boolean isDisplayed();
      * @param driver 
      * @return NA
      */
-	public void highlight(WebDriver driver);
+	public void highlight();
     
     /**
      * @summary - Used to highlight and element on a page
      * @author Waits
      * @param driver - Current active WebDriver object
      */
-	public void scrollIntoView(WebDriver driver);
+	public void scrollIntoView();
+	
+	@Beta
+	//@Override
+	 public <X> X getScreenshotAs(OutputType<X> target);
 }

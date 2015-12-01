@@ -2,10 +2,12 @@ package com.orasi.core.interfaces.impl;
 
 import com.orasi.core.interfaces.RadioGroup;
 import com.orasi.core.interfaces.Element;
+import com.orasi.utils.OrasiDriver;
 import com.orasi.utils.TestReporter;
 
 import org.apache.commons.collections.list.FixedSizeList;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 
@@ -40,6 +42,16 @@ public class RadioGroupImpl extends ElementImpl implements RadioGroup {
 		Assert.assertNotEquals(radioButtons.size(), 0,"No radio buttons were found for the element [" + element+ "].");
 		currentIndex = getCurrentIndex();
 	}
+    
+    public RadioGroupImpl(WebElement element, OrasiDriver driver) {
+        super(element, driver);
+        radGroup = new ElementImpl(this.element);
+		this.radioButtons = element.findElements(By.tagName("input"));
+		getNumberOfRadioButtons();
+		getAllOptions();
+		Assert.assertNotEquals(radioButtons.size(), 0,"No radio buttons were found for the element [" + element+ "].");
+		currentIndex = getCurrentIndex();
+    }
 
 	/**
 	 * @summary - Defines the number of radio buttons in the group by the 
@@ -52,8 +64,8 @@ public class RadioGroupImpl extends ElementImpl implements RadioGroup {
 	/**
 	 * @summary - Defines the number of radio buttons and return the integer count
 	 */
-	@Override
-	public int getNumberOfRadioButtons() {
+	//@Override
+	private int getNumberOfRadioButtons() {
 		setNumberOfRadioButtons();
 		return numberOfRadioButtons;
 	}

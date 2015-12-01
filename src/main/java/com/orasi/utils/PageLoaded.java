@@ -21,17 +21,17 @@ import com.orasi.core.interfaces.impl.internal.ElementFactory;
  */
 public class PageLoaded {
 	
-	private WebDriver driver = null;
+	private OrasiDriver driver = null;
 	private Class clazz = null;
 	private int timeout = 0;
 	
 	public PageLoaded(){
-		this.timeout = TestEnvironment.getDefaultTestTimeout();
+		this.timeout = Constants.ELEMENT_TIMEOUT;
 	}
 	
-	public PageLoaded(TestEnvironment te){
-	    	this.driver = te.getDriver();
-		this.timeout = te.getDefaultTestTimeout();
+	public PageLoaded(OrasiDriver driver){
+	    	this.driver = driver;
+		this.timeout = driver.getElementTimeout();
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -93,7 +93,7 @@ public class PageLoaded {
 	 * @author 	Justin Phlegar
 	 * @return 	False if the element is not found after the timeout, true if is found
 	 */
-	public boolean isElementLoaded(Class clazz, WebDriver driver, Element obj){
+	public boolean isElementLoaded(Class clazz, OrasiDriver driver, Element obj){
 		this.driver = driver;
 		this.clazz = clazz;		
 		return isElementLoaded(clazz, obj);	
@@ -111,7 +111,7 @@ public class PageLoaded {
 	 * @author 	Jessica Marshall
 	 * @return 	False if the element is not found after the timeout, true if is found
 	 */
-	public boolean isElementLoaded(Class clazz, WebDriver driver, Element obj, int timeout){
+	public boolean isElementLoaded(Class clazz, OrasiDriver driver, Element obj, int timeout){
 		this.timeout = timeout;
 		return isElementLoaded(clazz, driver, obj);
 	}
@@ -133,7 +133,7 @@ public class PageLoaded {
 
 		do {
 			//this returns a boolean
-			obj = ((JavascriptExecutor) driver).executeScript(
+			obj = driver.executeJavaScript(
                     "var result = document.readyState; return (result == 'complete' || result == 'interactive');");
 			if (count == this.timeout)
 				break;
@@ -163,7 +163,7 @@ public class PageLoaded {
 	 * @author 	Jessica Marshall
 	 * @return 	False if the element is not found after the timeout, true if is found
 	 */
-	public boolean isDomInteractive(WebDriver driver){
+	public boolean isDomInteractive(OrasiDriver driver){
 		this.driver = driver;
 		return isDomInteractive();
 	}
@@ -179,7 +179,7 @@ public class PageLoaded {
 	 * @author 	Jessica Marshall
 	 * @return 	False if the element is not found after the timeout, true if is found
 	 */
-	public boolean isDomInteractive(WebDriver driver, int timeout){
+	public boolean isDomInteractive(OrasiDriver driver, int timeout){
 		this.timeout = timeout;
 		return isDomInteractive(driver);
 	}
@@ -194,7 +194,7 @@ public class PageLoaded {
 	 */
 	public void isAngularComplete() {
 	    try{
-		((JavascriptExecutor) driver).executeAsyncScript("var callback = arguments[arguments.length - 1];" +
+		driver.executeAsyncJavaScript("var callback = arguments[arguments.length - 1];" +
     				"angular.element(document.body).injector().get('$browser').notifyWhenNoOutstandingRequests(callback);");
 	    }catch (WebDriverException wde){
 		TestReporter.logFailure("Unable to perform Angular sync. This is most likely because the $browser service is not injected within the Angular Controller. Performing a IsDomComplete instead");
@@ -222,7 +222,7 @@ public class PageLoaded {
 
 		do {
 			//this returns a boolean
-			obj = ((JavascriptExecutor) driver).executeScript(
+			obj = driver.executeJavaScript(
                     "var result = document.readyState; return (result == 'complete');");
 			if (count == this.timeout)
 				break;
@@ -252,7 +252,7 @@ public class PageLoaded {
 	 * @author 	Jessica Marshall
 	 * @return 	False if the element is not found after the timeout, true if is found
 	 */
-	public boolean isDomComplete(WebDriver driver){
+	public boolean isDomComplete(OrasiDriver driver){
 		this.driver = driver;
 		return isDomComplete();
 	}
@@ -269,7 +269,7 @@ public class PageLoaded {
 	 * @author 	Jessica Marshall
 	 * @return 	False if the element is not found after the timeout, true if is found
 	 */
-	public boolean isDomComplete(WebDriver driver, int timeout){
+	public boolean isDomComplete(OrasiDriver driver, int timeout){
 		this.timeout = timeout;
 		return isDomComplete(driver);
 	}

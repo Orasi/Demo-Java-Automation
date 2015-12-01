@@ -1,4 +1,4 @@
-package com.orasi.core.angular;
+package com.orasi.core.by.angular.internal;
 
 import java.util.List;
 
@@ -7,12 +7,15 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 
+import com.orasi.utils.OrasiDriver;
+
 public class ByAngular {
 
     protected static JavascriptExecutor jse = null;
 
     public ByAngular(WebDriver jse) {
-        ByAngular.jse = (JavascriptExecutor)jse;
+    	if (jse instanceof OrasiDriver) ByAngular.jse = (JavascriptExecutor) ((OrasiDriver) jse).getDriver();
+    	else ByAngular.jse = (JavascriptExecutor)jse;
     }
 
     public static ByAngularRepeater repeater(String repeater) {

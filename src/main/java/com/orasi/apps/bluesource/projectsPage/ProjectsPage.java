@@ -61,7 +61,7 @@ public class ProjectsPage {
 	public ProjectsPage(){}
 	
 	public boolean pageLoaded(){
-	    return te.pageLoaded().isElementLoaded(this.getClass(), txtSearch); 	    
+	    return te.pageLoaded(this.getClass(), txtSearch); 	    
 	}
 	
 	// *****************************************
@@ -79,8 +79,8 @@ public class ProjectsPage {
 	
 	@Step("When I search for \"{0}\" on the Projects Page")
 	public void enterSearchText(String text){
-	    loadingModal.syncHidden(te.getDriver());
-	    txtSearch.syncVisible(te.getDriver());
+	    loadingModal.syncHidden();
+	    txtSearch.syncVisible();
 	    txtSearch.safeSet(text);
 	}
 	
@@ -120,24 +120,24 @@ public class ProjectsPage {
 	}
 	
 	public int getTotalDisplayedProjects(){
-	    loadingModal.syncHidden(te.getDriver());
-	    lblTotalProjectLabel.syncVisible(te.getDriver());
+	    loadingModal.syncHidden();
+	    lblTotalProjectLabel.syncVisible();
 	    String total = lblTotalProjectLabel.getText();
 	    return Integer.parseInt(total.substring(total.indexOf("of")+3, total.length()));
 	}
 
 	@Step("When I click the Add Button on the Employees Page")
 	public void clickAddProjectButton(){
-	    loadingModal.syncHidden(te.getDriver());
+	    loadingModal.syncHidden();
 	    btnAdd.click();
-	    te.pageLoaded().isDomComplete();
+	    te.pageLoaded();
 	}
 	
 	@Step("When I click the Show Inactive Button on the Projects Page")
 	public void clickInactiveButton(){
-	    loadingModal.syncHidden(te.getDriver());
+	    loadingModal.syncHidden();
 	    btnShowInactive.click();
-	    te.pageLoaded().isDomComplete();
+	    te.pageLoaded();
 	} 
 	
 	@Step("Then the Projects table should update the projects displayed")
@@ -147,7 +147,7 @@ public class ProjectsPage {
 	
 	@Step("Then the Employee will display no rows found")
 	public boolean validateNoRowsFound(){
-	    return (tabProjectTable.getRowCount(te) == 1);
+	    return (tabProjectTable.getRowCount() == 1);
 	}
 	
 	public boolean validateProjectFoundInTable(String projectName){

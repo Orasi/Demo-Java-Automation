@@ -44,7 +44,7 @@ public class BluesourceTables {
     public BluesourceTables (TestEnvironment te){
 	this.te = te;	
     	ElementFactory.initElements(te.getDriver(), this);
-    	te.pageLoaded().isElementLoaded(this.getClass(), table);
+    	te.pageLoaded(this.getClass(), table);
     }
     
     /**
@@ -82,7 +82,7 @@ public class BluesourceTables {
      * @doc.description Sync handler for the Loading modal 
      */
     public void loadingDone(){
-	loadingModal.syncHidden(te.getDriver());
+	loadingModal.syncHidden();
     }
     
     /**
@@ -92,7 +92,7 @@ public class BluesourceTables {
      * @doc.description Just wrapping a reusable action for quicker usability 
      */
     public int getColumnPosition(String column){
-	return table.getColumnWithCellText(te, column);
+	return table.getColumnWithCellText( column);
     }
     
     /**
@@ -108,11 +108,11 @@ public class BluesourceTables {
 	// Create two elements. First is the cell itself. The cell contains a link and an icon.
 	// The link is created from its parent cell. To sort, the link needs to be clicked. Once 
 	// clicked, an icon in the cell will update with its current sort order  
-	Element cell = new ElementImpl(table.getCell(te, 1, columnPosition));
+	Element cell = new ElementImpl(table.getCell( 1, columnPosition));
 	Link cellLink = new LinkImpl(cell.findElement(By.xpath("a")));
 	
 	cellLink.click();
-	te.pageLoaded().isDomComplete();
+	te.pageLoaded();
 	
 	String currentOrder = cell.findElement(By.cssSelector("span.glyphicon-sort-by-alphabet")).getAttribute("ng-show");
 	if(order == SortOrder.ASCENDING){
@@ -131,20 +131,20 @@ public class BluesourceTables {
     public boolean validateSortColumn(String column, SortOrder order){
 	loadingDone();
 	int columnPosition = getColumnPosition(column);
-	int numberRows = table.getRowCount(te);
+	int numberRows = table.getRowCount();
 	int currentRow = 3;
 	boolean movedPage = true;
 	boolean result = false;
 	String firstValidationValue = "";
 	String secondValidationValue = "";
-	firstValidationValue = table.getCellData(te, 2, columnPosition);
+	firstValidationValue = table.getCellData( 2, columnPosition);
 	
 	// Loop through the specified column until it finds a value different from the first cell
 	// If it reaches the end of the table, it will click the next button to move to the next
 	// page of table values. If it is the last page or the Pagination buttons are not displayed,
 	// then all values were equivalent.
 	do {	    
-	    secondValidationValue = table.getCellData(te, currentRow, columnPosition);
+	    secondValidationValue = table.getCellData( currentRow, columnPosition);
 	    currentRow++;
 	    
 	    if(!firstValidationValue.equals(secondValidationValue)){
@@ -155,8 +155,8 @@ public class BluesourceTables {
 	    if(currentRow==numberRows+1) {
 		currentRow = 2;
 		movedPage = new Pagination(te).moveNext();
-		te.pageLoaded().isDomComplete();
-		numberRows = table.getRowCount(te);
+		te.pageLoaded();
+		numberRows = table.getRowCount();
 	    }
 	} while (movedPage);	
 	
@@ -187,14 +187,14 @@ public class BluesourceTables {
     }   
     
     public void selectFieldLink(String fieldText){
-    	new LinkImpl(table.findElements(By.xpath("tbody/tr/td/a[text()='" + fieldText + "']")).get(0)).click();
+    	te.getDriver().findLink(By.xpath("tbody/tr/td/a[text()='" + fieldText + "']"));
     }
  
     public boolean validateTextInTable(String text, String column){
 	loadingDone();
 	int row = 0;
 	int columnPosition = getColumnPosition(column);
-	row = table.getRowWithCellText(te, text, columnPosition, 2, false );
+	row = table.getRowWithCellText( text, columnPosition, 2, false );
 	if(row != 0) return true;
 	return false;
     }
@@ -205,12 +205,12 @@ public class BluesourceTables {
     
     public void setRowsPerPageDisplayed(String value){
 	loadingDone();	
-	lstRowsPerPage.syncEnabled(te.getDriver());
+	lstRowsPerPage.syncEnabled();
 	lstRowsPerPage.select(value);
     }
     
     public boolean validateRowsPerPageDisplayed(String numberOfRows){
-	return numberOfRows.equals(String.valueOf(table.getRowCount(te) - 1));
+	return numberOfRows.equals(String.valueOf(table.getRowCount() - 1));
     }
     
     

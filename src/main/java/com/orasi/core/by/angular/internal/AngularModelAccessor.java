@@ -1,12 +1,14 @@
-package com.orasi.core.angular;
+package com.orasi.core.by.angular.internal;
 
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 
+import com.orasi.core.Beta;
+
 /*
  * Original Code from https://github.com/paul-hammant/ngWebDriver
  */
-
+@Beta
 public class AngularModelAccessor {
 
     private JavascriptExecutor driver;

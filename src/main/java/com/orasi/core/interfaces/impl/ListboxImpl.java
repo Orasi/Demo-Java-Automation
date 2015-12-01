@@ -1,10 +1,13 @@
 package com.orasi.core.interfaces.impl;
 
 import com.orasi.core.interfaces.Listbox;
+import com.orasi.utils.OrasiDriver;
 import com.orasi.utils.TestReporter;
 
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+
 import java.util.List;
 
 /**
@@ -20,6 +23,11 @@ public class ListboxImpl extends ElementImpl implements Listbox {
      */
     public ListboxImpl(WebElement element) {
         super(element);        
+        this.innerSelect = new org.openqa.selenium.support.ui.Select(element);
+    }
+    
+    public ListboxImpl(WebElement element, OrasiDriver driver) {
+        super(element, driver);
         this.innerSelect = new org.openqa.selenium.support.ui.Select(element);
     }
   
@@ -50,7 +58,38 @@ public class ListboxImpl extends ElementImpl implements Listbox {
 				throw new NoSuchElementException("The value of [ " + text + " ] was not found in Listbox [  @FindBy: " + getElementLocatorInfo()  + " ]. Acceptable values are " + optionList );
 			}       	
 		}else{
-		    TestReporter.interfaceLog("Skipping input to Listbox [ <b>@FindBy: " + getElementLocatorInfo()  + " </b> ]");
+		    TestReporter.interfaceLog("Skipping input to Textbox [ <b>@FindBy: " + getElementLocatorInfo()  + " </b> ]");
+		}
+    }
+
+    /**
+     * @summary - Wraps Selenium's method.
+     * @param text - visible text to select
+     * @see org.openqa.selenium.support.ui.Select#selectByVisibleText(String)
+     */
+    @Override
+    public void selectValue(String value) {
+		if (!value.isEmpty()){
+			try{   
+			    try{
+				innerSelect.selectByValue(value);
+			    }catch(RuntimeException rte){
+			        TestReporter.interfaceLog("Select option [ <b>" + value.toString() + "</b> ] from Listbox [  <b>@FindBy: " + getElementLocatorInfo()  + " </b>]", true);
+			        throw rte;
+			    }	
+			    
+			    TestReporter.interfaceLog("Select option [ <b>" + value.toString() + "</b> ] from Listbox [  <b>@FindBy: " + getElementLocatorInfo()  + " </b>]");
+			}catch (NoSuchElementException e){
+				String optionList = "";
+				List<WebElement> optionsList= innerSelect.getOptions();
+				for(WebElement option : optionsList){
+					optionList += option.getAttribute("value") + " | ";
+				}
+				TestReporter.interfaceLog(" The value of <b>[ " + value + "</b> ] was not found in Listbox [  <b>@FindBy: " + getElementLocatorInfo()  + " </b>]. Acceptable values are " + optionList +" ]");
+				throw new NoSuchElementException("The value of [ " + value + " ] was not found in Listbox [  @FindBy: " + getElementLocatorInfo()  + " ]. Acceptable values are " + optionList );
+			}       	
+		}else{
+		    TestReporter.interfaceLog("Skipping input to Textbox [ <b>@FindBy: " + getElementLocatorInfo()  + " </b> ]");
 		}
     }
 
@@ -110,10 +149,12 @@ public class ListboxImpl extends ElementImpl implements Listbox {
 	return false;
     }
   
+    @Override
     public List<WebElement> getAllSelectedOptions() {
    	return innerSelect.getAllSelectedOptions();
     }
 
+    @Override
     public boolean isMultiple() {
    	return innerSelect.isMultiple();
     }

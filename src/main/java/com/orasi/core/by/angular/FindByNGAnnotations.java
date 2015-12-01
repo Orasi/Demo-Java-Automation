@@ -22,17 +22,17 @@ public class FindByNGAnnotations extends Annotations {
 		switch (howNG) {
 
 		case NGREPEAT:
-			return ByNG.ngRepeater(using);
+			return ByNG.repeater(using);
 
 		case NGMODEL:
-			return ByNG.ngModel(using);
+			return ByNG.model(using);
 
 		case NGBUTTONTEXT:
-			return ByNG.ngButtonText(using);
+			return ByNG.buttonText(using);
 		case NGCONTROLLER:
-			return ByNG.ngController(using);
+			return ByNG.controller(using);
 		case NGSHOW:
-			return ByNG.ngShow(using);
+			return ByNG.show(using);
 		default:
 			// Note that this shouldn't happen (eg, the above matches all
 			// possible values for the How enum)
@@ -44,15 +44,15 @@ public class FindByNGAnnotations extends Annotations {
 	protected ByNG buildByFromShortFindBy(FindByNG findBy) {
 
 		if (!"".equals(findBy.ngRepeater()))
-			return ByNG.ngRepeater(findBy.ngRepeater());
+			return ByNG.repeater(findBy.ngRepeater());
 		if (!"".equals(findBy.ngModel()))
-			return ByNG.ngModel(findBy.ngModel());
+			return ByNG.model(findBy.ngModel());
 		if (!"".equals(findBy.ngButtonText()))
-			return ByNG.ngButtonText(findBy.ngButtonText());
+			return ByNG.buttonText(findBy.ngButtonText());
 		if (!"".equals(findBy.ngController()))
-			return ByNG.ngController(findBy.ngController());
+			return ByNG.controller(findBy.ngController());
 		if (!"".equals(findBy.ngShow()))
-			return ByNG.ngShow(findBy.ngShow());
+			return ByNG.show(findBy.ngShow());
 		// Fall through
 		return null;
 	}

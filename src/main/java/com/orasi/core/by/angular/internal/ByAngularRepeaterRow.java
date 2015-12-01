@@ -1,4 +1,4 @@
-package com.orasi.core.angular;
+package com.orasi.core.by.angular.internal;
 
 
 import org.openqa.selenium.JavascriptExecutor;
@@ -6,12 +6,14 @@ import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import com.orasi.core.Beta;
+
 import java.util.List;
 
 /*
  * Original Code from https://github.com/paul-hammant/ngWebDriver
  */
-
+@Beta
 public class ByAngularRepeaterRow extends ByAngular.BaseBy {
 
     private final String repeater;

@@ -30,14 +30,14 @@ package com.orasi.utils;
  */
 public class Base64Coder {
 
-    public static void main(String[] args) {
-	byte[] toEncode = "bluesourcetesting".getBytes();
-        System.out.println(encode(toEncode)); // Display the string.
-    }
-    
 // The line separator string of the operating system.
     private static final String systemLineSeparator = System.getProperty("line.separator");
 
+    public static void main(String[] args) {
+	byte[] toEncode = "setSecure".getBytes();
+        System.out.println(encode(toEncode)); // Display the string.
+    }
+    
 // Mapping table from 6-bit nibbles to Base64 characters.
     private static final char[] map1 = new char[64];
 
@@ -300,4 +300,5 @@ public class Base64Coder {
 // Dummy constructor.
     public Base64Coder() {
     }
+
 } // end class Base64Coder

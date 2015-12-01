@@ -4,9 +4,11 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+
 import com.orasi.core.interfaces.Element;
 import com.orasi.core.interfaces.Textbox;
 import com.orasi.utils.Base64Coder;
+import com.orasi.utils.OrasiDriver;
 import com.orasi.utils.TestReporter;
 
 /**
@@ -20,6 +22,11 @@ public class TextboxImpl extends ElementImpl implements Textbox {
      */
     public TextboxImpl(WebElement element) {
     	super(element);
+    	this.element = element;
+    }
+    
+    public TextboxImpl(WebElement element, OrasiDriver driver) {
+        super(element, driver);
     }
 
     /**
@@ -33,7 +40,7 @@ public class TextboxImpl extends ElementImpl implements Textbox {
 			getWrappedElement().clear();
 			TestReporter.interfaceLog(" Clear text from Textbox [<b>@FindBy: " + getElementLocatorInfo() + " </b>]");
 		} catch (RuntimeException rte) {
-			TestReporter.interfaceLog("Clear text from Textbox [<b>@FindBy: " + getElementLocatorInfo() + " </b>]", true);
+			TestReporter.interfaceLog(" Clear text from Textbox [<b>@FindBy: " + getElementLocatorInfo() + " </b>]", true);
 			throw rte;
 		}
     }
@@ -50,9 +57,8 @@ public class TextboxImpl extends ElementImpl implements Textbox {
 			try {
 				getWrappedElement().clear();
 				getWrappedElement().sendKeys(text);
-				TestReporter.log("Send Keys [ <b>" + text.toString() + "</b> ] to Textbox [ <b>@FindBy: " + getElementLocatorInfo() + " </b> ]");
-			} catch (RuntimeException rte) {
-				TestReporter.interfaceLog("Send Keys [ <b>" + text.toString() + "</b> ] to Textbox [ <b>@FindBy: " + getElementLocatorInfo() + " </b> ]", true);
+				} catch (RuntimeException rte) {
+				TestReporter.interfaceLog("Send Keys [ <b>" + text.toString() + "</b> ] to Textbox [ <b>@FindBy: " + getElementLocatorInfo() + " </b>  ]", true);
 				throw rte;
 			}
 		} else {
@@ -69,11 +75,10 @@ public class TextboxImpl extends ElementImpl implements Textbox {
      * @param text - text to enter into the field
      */
     @Override
-    public void set(WebDriver driver, String text) {
+    public void scrollAndSet(String text) {
         if (!text.isEmpty()){
             try{
-        	JavascriptExecutor executor = (JavascriptExecutor)driver; 
-                executor.executeScript("arguments[0].scrollIntoView(true);arguments[0].click();", getWrappedElement());
+        	    driver.executeJavaScript("arguments[0].scrollIntoView(true);arguments[0].click();", getWrappedElement());
             	getWrappedElement().clear();
             	getWrappedElement().sendKeys(text); 
             	TestReporter.interfaceLog(" Send Keys [ <b>" + text.toString() + "</b> ] to Textbox [ <b>@FindBy: " + getElementLocatorInfo()  + " </b> ]");
@@ -99,8 +104,9 @@ public class TextboxImpl extends ElementImpl implements Textbox {
     public void safeSet(String text) {
         if (!text.isEmpty()){
             try{
+        	char ctrl_a = '\u0001';
         	getWrappedElement().click();     	
-        	getWrappedElement().sendKeys(Keys.chord(Keys.CONTROL, "a"));
+        	getWrappedElement().sendKeys(String.valueOf(ctrl_a));
         	getWrappedElement().sendKeys(text);
         	getWrappedElement().sendKeys(Keys.TAB);
         	TestReporter.interfaceLog(" Send Keys [ <b>" + text.toString() + "</b> ] to Textbox [  <b>@FindBy: " + getElementLocatorInfo()  + " </b> ]");
@@ -123,7 +129,6 @@ public class TextboxImpl extends ElementImpl implements Textbox {
     public void setSecure(String text) {
         if (!text.isEmpty()){
             try{
-        	getWrappedElement().clear();
         	getWrappedElement().sendKeys(Base64Coder.decodeString(text).toString());
         	TestReporter.interfaceLog(" Send encoded text [ <b>" + text.toString() + "</b> ] to Textbox [  <b>@FindBy: " + getElementLocatorInfo()  + " </b> ]");          
             }catch(RuntimeException rte){
@@ -148,8 +153,9 @@ public class TextboxImpl extends ElementImpl implements Textbox {
     public void safeSetSecure(String text) {
         if (!text.isEmpty()){
             try{
+        	char ctrl_a = '\u0001';
         	getWrappedElement().click();     	
-        	getWrappedElement().sendKeys(Keys.chord(Keys.CONTROL, "a"));
+        	getWrappedElement().sendKeys(String.valueOf(ctrl_a));
         	getWrappedElement().sendKeys(Base64Coder.decodeString(text).toString());
         	getWrappedElement().sendKeys(Keys.TAB);
         	TestReporter.log(" Send encoded text [ <b>" + text.toString() + "</b> ] to Textbox [  <b>@FindBy: " + getElementLocatorInfo()  + " </b> ]");
@@ -162,70 +168,6 @@ public class TextboxImpl extends ElementImpl implements Textbox {
             TestReporter.interfaceLog(" Skipping input to Textbox [ <b>@FindBy: " + getElementLocatorInfo()  + " </b> ]");
     	}
 
-    }
-    
-    /**
-     * @summary - If the text parameter is not an empty string, this method clears any 
-     * 		existing values and performs a "sendKeys(text)" to simulate typing the 
-     * 		value and loops until the text can be verified to exists within the text 
-     * 		field. An error is thrown if the text is not found within the timeout 
-     * 		window. If the text parameter is an empty string, this step is skipped.
-     * @param driver - Current active WebDriver object
-     * @param text - text to enter into the field
-     */
-    @Override
-    public void setValidate( WebDriver driver, String text){
-    	if(!text.isEmpty()){
-        	try{
-        	    Element obj = new ElementImpl(getWrappedElement());
-        	    obj.syncEnabled(driver);
-        	    getWrappedElement().clear();
-        	    getWrappedElement().sendKeys(text);
-        	    TestReporter.interfaceLog(" Send Keys [ <b>" + text.toString() + "</b> ] to Textbox [  <b>@FindBy: " + getElementLocatorInfo()  + " </b> ]");
-        	    obj.syncTextInElement(driver, text, 3, true);
-        	    TestReporter.interfaceLog(" VALIDATED [ <b>" + text.toString() + "</b> ] was entered in the textbox."); 
-        	}catch(RuntimeException rte){
-        	    TestReporter.interfaceLog("Send Keys [ <b>" + text.toString() + "</b> ] to Textbox [  <b>@FindBy: " + getElementLocatorInfo()  + " </b> ]", true);
-        	    throw rte;
-        	}
-    	
-    	}else{
-    		TestReporter.interfaceLog(" Skipping input to Textbox [ <b>@FindBy: " + getElementLocatorInfo()  + " </b> ]");
-    	}
-    }
-
-    /**
-     * @summary - If the text parameter is not an empty string, the text field is clicked, 
-     * 		then sendKeys() is used to select any/all existing text, type the text passed 
-     * 		in the parameter and send a "TAB" key. This is useful if moving from an element 
-     * 		is required to trigger underlying JavaScript. This method then loops until the 
-     * 		text can be verified to exists within the text field. An error is thrown if 
-     * 		the text is not found within the timeout window. If the text parameter is an 
-     * 		empty string, this step is skipped. 
-     * @param driver - Current active WebDriver object
-     * @param text - text to enter into the field
-     */
-    @Override
-    public void safeSetValidate(WebDriver driver, String text){
-    	if(!text.isEmpty()){
-    	    try{
-        	Element obj = new ElementImpl(getWrappedElement());
-        	obj.syncEnabled(driver);
-        	getWrappedElement().click();     	
-        	getWrappedElement().sendKeys(Keys.chord(Keys.CONTROL, "a"));
-        	getWrappedElement().sendKeys(text);
-        	getWrappedElement().sendKeys(Keys.TAB);
-        	TestReporter.interfaceLog(" Send Keys [ <b>" + text.toString() + "</b> ] to Textbox [  <b>@FindBy: " + getElementLocatorInfo()  + " </b> ]");
-        	
-        	obj.syncTextInElement(driver, text, 3, true);        	
-        	TestReporter.interfaceLog(" VALIDATED [ <b>" + text.toString() + "</b> ] was entered in the textbox.");
-	    }catch(RuntimeException rte){
-		TestReporter.interfaceLog(" Send Keys [ <b>" + text.toString() + "</b> ] to Textbox [  <b>@FindBy: " + getElementLocatorInfo()  + " </b> ]", true);
-	        throw rte;
-	    }
-    	}else{
-    		TestReporter.interfaceLog(" Skipping input to Textbox [ <b>@FindBy: " + getElementLocatorInfo()  + " </b> ]");
-    	}
     }
     
     /**

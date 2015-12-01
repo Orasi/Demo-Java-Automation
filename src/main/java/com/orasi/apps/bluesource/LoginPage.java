@@ -36,7 +36,7 @@ public class LoginPage {
 	}
 	
 	public boolean pageLoaded(){
-	    return te.pageLoaded().isElementLoaded(this.getClass(), btnLogin);
+	    return te.pageLoaded(this.getClass(), btnLogin);
 	}
 	
 	// *****************************************
@@ -59,7 +59,7 @@ public class LoginPage {
 				
 		te.getDriver().switchTo().defaultContent();
 		
-		txtUsername.safeSet(username);
+		txtUsername.set(username);
 		txtPassword.setSecure(password);
 		btnLogin.click();
 	}

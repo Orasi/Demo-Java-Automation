@@ -1,4 +1,4 @@
-package com.orasi.core.angular;
+package com.orasi.core.by.angular.internal;
 
 import java.lang.reflect.Field;
 import java.util.List;

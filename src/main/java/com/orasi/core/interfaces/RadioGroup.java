@@ -22,7 +22,7 @@ public interface RadioGroup extends Element {
 	 * @summary - Returns the number of radio buttons found in the group
 	 * @return int - number of radio buttons found in the group
 	 */
-	public int getNumberOfRadioButtons();
+	//public int getNumberOfRadioButtons();
 	
 	/**
 	 * @author - Waits

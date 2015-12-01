@@ -29,7 +29,7 @@ public class TestManageDepartments  extends TestEnvironment {
     private String application = "Bluesource";
     private String departmentName = "";
     private String subDepartment = "";
-    private String mainDepartment = "Services";
+    private String mainDepartment = "HR";
     @DataProvider(name = "dataScenario")
     public Object[][] scenarios() {
 	return new ExcelDataProvider(Constants.BLUESOURCE_DATAPROVIDER_PATH
@@ -154,7 +154,7 @@ public class TestManageDepartments  extends TestEnvironment {
 	// Verify the dept is displayed on the dept results table
 	TestReporter.assertTrue(deptPage.isSubdepartment(departmentName, mainDepartment), "Verify new department is a direct Subdepartment");
 	deptPage.clickModifyDepartment(departmentName);
-	TestReporter.assertTrue(manageDepartmentPage.validateCorrectParentDepartment("Services"), "Verify correct Parent department is displayed");
+	TestReporter.assertTrue(manageDepartmentPage.validateCorrectParentDepartment("HR"), "Verify correct Parent department is displayed");
 	
 	manageDepartmentPage.clickUpdateButton();
     }

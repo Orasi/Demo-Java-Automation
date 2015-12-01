@@ -3,9 +3,9 @@ package com.orasi.utils.database.databaseImpl;
 import com.orasi.utils.database.Database;
 
 public class MySQLDatabase extends Database {
-	public MySQLDatabase(String environment, String host, String port, String dbName){
-		setDbDriver("com.microsoft.jdbc.sqlserver.SQLServerDriver");
-		setDbConnectionString("jdbc:microsoft:sqlserver://" + host + ":" + port + "[;DatabaseName="+ dbName + "]");		
+	public MySQLDatabase(String host, String port, String dbName){
+		setDbDriver("com.mysql.jdbc.Driver");
+		setDbConnectionString("jdbc:mysql://" + host + ":" + port + "/"+ dbName );		
 	}
 
 	@Override

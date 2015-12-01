@@ -24,6 +24,8 @@ import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.internal.FindsByXPath;
 
+import com.orasi.core.Beta;
+
 /**
  * Mechanism used to locate elements within a document. In order to create your own locating
  * mechanisms, it is possible to subclass this class and override the protected methods as required,
@@ -89,69 +91,70 @@ public abstract class ByNG {
   }*/
 
   /**
-   * @param ngRepeater The value of the "ngButtonText" attribute to search for
-   * @return a By which locates elements by the value of the "ngButtonText" attribute.
+   * @param ngRepeater The value of the "buttonText" attribute to search for
+   * @return a By which locates elements by the value of the "buttonText" attribute.
    */
-  public static ByNG ngButtonText(final String ngButtonText) {
-    if (ngButtonText == null)
+  public static ByNG buttonText(final String buttonText) {
+    if (buttonText == null)
       throw new IllegalArgumentException(
-          "Cannot find elements when ngRepeater text is null.");
+          "Cannot find elements when buttonText text is null.");
 
-    return new ByNGButton(ngButtonText);
+    return new ByNGButton(buttonText);
   }
   
   /**
-   * @param ngController The value of the "ngController" attribute to search for
-   * @return a By which locates elements by the value of the "ngController" attribute.
+   * @param ngController The value of the "controller" attribute to search for
+   * @return a By which locates elements by the value of the "controller" attribute.
    */
-  public static ByNG ngController(final String ngController) {
-  /* @param ngRepeater The value of the "ngRepeater" attribute to search for
-   * @return a By which locates elements by the value of the "ngRepeater" attribute.
+  public static ByNG controller(final String controller) {
+  /* @param controller The value of the "controller" attribute to search for
+   * @return a By which locates elements by the value of the "controller" attribute.
    */
-    if (ngController == null)
+    if (controller == null)
       throw new IllegalArgumentException(
-          "Cannot find elements when ngRepeater text is null.");
+          "Cannot find elements when controller text is null.");
 
-    return new ByNGController(ngController);
+    return new ByNGController(controller);
   } 
   
   /**
-   * @param ngModel The value of the "ngModel" attribute to search for
-   * @return a By which locates elements by the value of the "ngModel" attribute.
+   * @param model The value of the "model" attribute to search for
+   * @return a By which locates elements by the value of the "model" attribute.
    */
-  public static ByNG ngModel(final String ngModel) {
-  /* @param ngRepeater The value of the "ngRepeater" attribute to search for
-   * @return a By which locates elements by the value of the "ngRepeater" attribute.
+  public static ByNG model(final String model) {
+  /* @param ngRepeater The value of the "model" attribute to search for
+   * @return a By which locates elements by the value of the "model" attribute.
    */
-    if (ngModel == null)
+    if (model == null)
       throw new IllegalArgumentException(
-          "Cannot find elements when ngRepeater text is null.");
+          "Cannot find elements when model text is null.");
 
-    return new ByNGModel(ngModel);
+    return new ByNGModel(model);
   }
   
   /**
-   * @param ngRepeater The value of the "ngRepeater" attribute to search for
-   * @return a By which locates elements by the value of the "ngRepeater" attribute.
+   * @param eepeater The value of the "repeater" attribute to search for
+   * @return a By which locates elements by the value of the "repeater" attribute.
    */
- public static ByNG ngRepeater(final String ngRepeater) {
-    if (ngRepeater == null)
+ public static ByNG repeater(final String repeater) {
+    if (repeater == null)
       throw new IllegalArgumentException(
-          "Cannot find elements when ngRepeater text is null.");
+          "Cannot find elements when repeater text is null.");
 
-    return new ByNGRepeater(ngRepeater);
+    return new ByNGRepeater(repeater);
   }
  
  /**
-  * @param ngShow The value of the "ngShow" attribute to search for
-  * @return a By which locates elements by the value of the "ngShow" attribute.
+  * @param show The value of the "show" attribute to search for
+  * @return a By which locates elements by the value of the "show" attribute.
   */
-public static ByNG ngShow(final String ngShow) {
-   if (ngShow == null)
+ @Beta
+public static ByNG show(final String show) {
+   if (show == null)
      throw new IllegalArgumentException(
-         "Cannot find elements when ngRepeater text is null.");
+         "Cannot find elements when show text is null.");
 
-   return new ByNGShow(ngShow);
+   return new ByNGShow(show);
  }
 /*
   *//**
@@ -394,7 +397,7 @@ public static ByNG ngShow(final String ngShow) {
 
 	    @Override
 	    public String toString() {
-	      return "By.name: " + name;
+	      return name;
 	    }
 	  }
   
@@ -426,10 +429,10 @@ public static ByNG ngShow(final String ngShow) {
 
     @Override
     public String toString() {
-      return "By.name: " + name;
+      return name;
     }
   }
-  
+  @Beta
   public static class ByNGShow extends ByNG implements Serializable {
 
       private static final long serialVersionUID = 376317282960469555L;
@@ -458,7 +461,7 @@ public static ByNG ngShow(final String ngShow) {
 
       @Override
       public String toString() {
-        return "By.name: " + name;
+        return name;
       }
     }
   
@@ -490,7 +493,7 @@ public static ByNG ngShow(final String ngShow) {
 
 	    @Override
 	    public String toString() {
-	      return "By.name: " + name;
+	      return name;
 	    }
 	  }
   
@@ -521,7 +524,7 @@ public static ByNG ngShow(final String ngShow) {
 
     @Override
     public String toString() {
-      return "By.name: " + name;
+      return name;
     }
   }
   /*

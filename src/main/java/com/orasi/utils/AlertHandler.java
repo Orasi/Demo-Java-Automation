@@ -13,28 +13,31 @@ public class AlertHandler {
 		try {
 			Reporter.log(new Timestamp( new java.util.Date().getTime()) + " :: Closing alert popup with text [ <i>" + driver.switchTo().alert().getText() +" </i> ]<br />");
 			driver.switchTo().alert().accept();
-	        driver.switchTo().defaultContent();
-	        
-	    } catch (Exception e) {
-	        //exception handling
-	    }
+            	        driver.switchTo().defaultContent();
+            	        
+            	    } catch (Exception e) {
+            	        //exception handling
+            	    }
 	}
 	
 	public static boolean isAlertPresent(WebDriver driver, int timeout){
-        try{
-        	WebDriverWait wait = new WebDriverWait(driver, timeout);
-	        wait.until(ExpectedConditions.alertIsPresent());
-	        driver.switchTo().alert();
-	        return true;
-        }//try
-        catch(Exception e){
-            return false;
-        }//catch
-    }
+            try{
+            	WebDriverWait wait = new WebDriverWait(driver, timeout);
+    	        wait.until(ExpectedConditions.alertIsPresent());
+    	        return true;
+            }
+            catch(Exception e){
+                return false;
+            }
+        }
 	
-	public static void handleAlerts(WebDriver driver, int timeout){
-		while (isAlertPresent(driver, timeout)){
-			alertHandler(driver);
-		}
+	public static void handleAllAlerts(WebDriver driver, int timeout){
+            while (isAlertPresent(driver, timeout)){
+        	alertHandler(driver);
+            }
+	}
+	
+	public static void handleAlert(WebDriver driver, int timeout){
+            if(isAlertPresent(driver, timeout)) alertHandler(driver);
 	}
 }

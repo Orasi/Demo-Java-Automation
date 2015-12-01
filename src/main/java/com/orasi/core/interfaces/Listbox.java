@@ -18,6 +18,13 @@ public interface Listbox extends Element {
      * @see org.openqa.selenium.support.ui.Select#selectByVisibleText(String)
      */
     void select(String value);
+    
+    /**
+     * @summary - Wraps Selenium's method.
+     * @param value - the value/option to select.
+     * @see org.openqa.selenium.support.ui.Select#selectByValue(String)
+     */
+    void selectValue(String value);
 
     /**
      * @summary - Wraps Selenium's method.

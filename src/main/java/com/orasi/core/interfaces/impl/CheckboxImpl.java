@@ -1,10 +1,9 @@
 package com.orasi.core.interfaces.impl;
 
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+
 import com.orasi.core.interfaces.Checkbox;
-import com.orasi.core.interfaces.Element;
+import com.orasi.utils.OrasiDriver;
 import com.orasi.utils.TestReporter;
 
 /**
@@ -21,15 +20,18 @@ public class CheckboxImpl extends ElementImpl implements Checkbox {
         super(element);
     }
 
+    public CheckboxImpl(WebElement element, OrasiDriver driver) {
+        super(element, driver);
+    }
+    
     @Override
     public void toggle() {
         getWrappedElement().click();
     }
 
     @Override
-    public void jsToggle(WebDriver driver) {
-    	JavascriptExecutor executor = (JavascriptExecutor)driver;
-    	executor.executeScript("arguments[0].click();", element);
+    public void jsToggle() {
+    	driver.executeJavaScript("arguments[0].click();", element);
     }
 
     @Override
@@ -64,32 +66,4 @@ public class CheckboxImpl extends ElementImpl implements Checkbox {
     public boolean isChecked() {
         return getWrappedElement().isSelected();
     }
-    
-    @Override
-    public boolean checkValidate(WebDriver driver){
-    	Element obj = new ElementImpl(getWrappedElement());
-    	obj.syncEnabled(driver);
-  
-        if (!isChecked()) {        	
-            TestReporter.log(" Checkbox [ <b>@FindBy: " + getElementLocatorInfo()  + " </b>] was not checked successfully.");
-            return false;
-        }else{
-            TestReporter.log("VALIDATED the Checkbox was <b> CHECKED </b> successfully."); 
-        }
-        return true;
-    }    
-
-    @Override
-    public boolean uncheckValidate(WebDriver driver){
-    	Element obj = new ElementImpl(getWrappedElement());
-    	obj.syncEnabled(driver);
-        
-        if (isChecked()) {
-            TestReporter.log(" Checkbox [ <b>@FindBy: " + getElementLocatorInfo()  + " </b>] was not checked successfully.");
-            return false;
-        }else{
-            TestReporter.log("VALIDATED the Checkbox was <b> UNCHECKED </b> successfully."); 
-        }
-        return true;
-    } 
 }

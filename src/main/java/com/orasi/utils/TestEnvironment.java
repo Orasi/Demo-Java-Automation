@@ -2,29 +2,23 @@ package com.orasi.utils;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.ref.PhantomReference;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.concurrent.TimeUnit;
 
+import org.json.simple.JSONArray;
 import org.openqa.selenium.Platform;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.htmlunit.HtmlUnitDriver;
-import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.remote.RemoteWebDriver;
-import org.openqa.selenium.safari.SafariDriver;
-import org.openqa.selenium.phantomjs.PhantomJSDriver;
-import org.openqa.selenium.phantomjs.PhantomJSDriverService;
+import org.testng.ITestContext;
+import org.testng.ITestResult;
 
+import com.orasi.core.interfaces.Element;
 import com.orasi.core.interfaces.impl.internal.ElementFactory;
 import com.saucelabs.common.SauceOnDemandAuthentication;
+import com.saucelabs.saucerest.SauceREST;
 
 /**
  * 
@@ -50,10 +44,16 @@ public class TestEnvironment {
     protected String runLocation = "";
     protected String environment = "";
     protected String testName = "";
+    protected String pageUrl = "";
     /*
      * WebDriver Fields
      */
-    protected WebDriver driver; /*
+    protected OrasiDriver driver;
+    protected ThreadLocal<OrasiDriver> threadedDriver = new ThreadLocal<OrasiDriver>();
+    private boolean setThreadDriver = false;
+    protected ThreadLocal<String> sessionId = new ThreadLocal<String>();
+    //private WebDriver initDriver; 
+    /*
 				 * Define a collection of webdrivers and test
 				 * names inside a Map. This allows for more than
 				 * one driver to be used within a test class.
@@ -61,7 +61,7 @@ public class TestEnvironment {
 				 * be tied to a specific test based on test
 				 * name.
 				 */
-    protected Map<String, WebDriver> drivers = new HashMap<String, WebDriver>();
+    //protected Map<String, OrasiDriver> drivers = new HashMap<String, OrasiDriver>();
     /*
      * URL and Credential Repository Field
      */
@@ -72,12 +72,11 @@ public class TestEnvironment {
      */
     protected String seleniumHubURL = "http://10.238.242.50:4444/wd/hub";
     
-/*    protected String sauceLabsURL = "http://" + Base64Coder.decodeString(appURLRepository.getString("SAUCELABS_USERNAME"))
-    + ":"+ Base64Coder.decodeString(appURLRepository.getString("SAUCELABS_KEY")) + "@ondemand.saucelabs.com:80/wd/hub";*/
-    
+   
     /*
      * Sauce Labs Fields
      */
+
     /**
      * Constructs a {@link com.saucelabs.common.SauceOnDemandAuthentication}
      * instance using the supplied user name/access key. To use the
@@ -85,30 +84,21 @@ public class TestEnvironment {
      * file, use the no-arg
      * {@link com.saucelabs.common.SauceOnDemandAuthentication} constructor.
      */
+    
     protected SauceOnDemandAuthentication authentication = new SauceOnDemandAuthentication(
 	    Base64Coder.decodeString(appURLRepository
 		    .getString("SAUCELABS_USERNAME")),
 	    Base64Coder.decodeString(appURLRepository
 		    .getString("SAUCELABS_KEY")));
     
+    
     protected String sauceLabsURL = "http://" + authentication.getUsername() + ":" + authentication.getAccessKey() + "@ondemand.saucelabs.com:80/wd/hub";
 	
-    /**
-     * ThreadLocal variable which contains the {@link WebDriver} instance which
-     * is used to perform browser interactions with.
-     */
-    protected ThreadLocal<WebDriver> webDriver = new ThreadLocal<WebDriver>();
-    /**
-     * ThreadLocal variable which contains the Sauce Job Id.
-     */
-    protected ThreadLocal<String> sessionId = new ThreadLocal<String>();
-
     /*
      * Constructors for TestEnvironment class
      */
-    public TestEnvironment() {
-    };
 
+    public TestEnvironment(){};
     public TestEnvironment(String application, String browserUnderTest,
 	    String browserVersion, String operatingSystem,
 	    String setRunLocation, String environment) {
@@ -142,6 +132,17 @@ public class TestEnvironment {
 
     public String getApplicationUnderTest() {
 	return applicationUnderTest;
+    }
+    
+    /*
+     * Getter and setter for application under test
+     */
+    protected void setPageURL(String url) {
+	pageUrl = url;
+    }
+
+    public String getPageURL() {
+	return pageUrl;
     }
 
     /*
@@ -200,7 +201,11 @@ public class TestEnvironment {
      * Getter and setter for run location
      */
     protected void setRunLocation(String rl) {
-	this.runLocation = rl;
+	if (rl.equalsIgnoreCase("jenkinsParameter")) {
+	    this.runLocation = System.getProperty("jenkinsRunLocation".trim());
+	} else {
+	    this.runLocation = rl;
+	}
     }
 
     public String getRunLocation() {
@@ -233,28 +238,26 @@ public class TestEnvironment {
      * Getter and setter for default test timeout
      */
     public void setDefaultTestTimeout(int timeout) {
-	Constants.DEFAULT_GLOBAL_DRIVER_TIMEOUT = timeout;
-	driver.manage()
-	.timeouts()
-	.setScriptTimeout(timeout, TimeUnit.SECONDS)
-	.implicitlyWait(timeout, TimeUnit.SECONDS);
+	System.setProperty(Constants.TEST_DRIVER_TIMEOUT,
+		Integer.toString(timeout));
     }
 
     public static int getDefaultTestTimeout() {
-	return Constants.DEFAULT_GLOBAL_DRIVER_TIMEOUT;
+	return Integer.parseInt(System
+		.getProperty(Constants.TEST_DRIVER_TIMEOUT));
     }
 
     /*
      * Getter and setter for the Selenium Hub URL
      */
     public String getRemoteURL() {
-	if(getRunLocation().equalsIgnoreCase("sauce") | getRunLocation().equalsIgnoreCase("remote")) return sauceLabsURL;
-	else if (getRunLocation().equalsIgnoreCase("grid")) return seleniumHubURL;
-	else return "";
-    }
+  	if(getRunLocation().equalsIgnoreCase("sauce") | getRunLocation().equalsIgnoreCase("remote")) return sauceLabsURL;
+  	else if (getRunLocation().equalsIgnoreCase("grid")) return seleniumHubURL;
+  	else return "";
+      }
 
     protected void setSeleniumHubURL(String url) {
-	this.seleniumHubURL = url;
+	System.setProperty(Constants.SELENIUM_HUB_URL, url);
     }
 
     // ************************************
@@ -268,14 +271,27 @@ public class TestEnvironment {
     /*
      * Getter and setter for the actual WebDriver
      */
-    private void setDriver(WebDriver driverSession) {
-	driver = driverSession;
+    private void setDriver(OrasiDriver driverSession) {
+	if(isThreadedDriver()) threadedDriver.set(driverSession);
+	else this.driver = driverSession;
     }
 
-    public WebDriver getDriver() {
-	return driver;
+    public OrasiDriver getDriver() {
+	if(isThreadedDriver()) return threadedDriver.get();
+	else return this.driver;
     }
 
+    /**
+     * User controls to see the driver to be threaded or not. Only use when using data provider threading
+     */
+    private boolean isThreadedDriver(){
+	return setThreadDriver;
+    }
+    
+    public void setThreadDriver(boolean setThreadDriver) {
+	this.setThreadDriver = setThreadDriver;
+    }
+    
     /*
      * Method to retrive the URL and Credential Repository
      */
@@ -293,11 +309,8 @@ public class TestEnvironment {
      * @return Nothing
      */
    // @Step("Launch \"{0}\"")
-    protected void launchApplication(String URL) {
-	String reportInfo = getBrowserUnderTest().toUpperCase() ;
-	if (!getBrowserVersion().isEmpty()) reportInfo += " v." + getBrowserVersion();
-	TestReporter.log("Launch " + reportInfo + " in OS " + getOperatingSystem().toUpperCase() + " with URL: " + URL);
-	driver.get(URL);
+    private void launchApplication(String URL) {
+	getDriver().get(URL);
     }
 
     private void launchApplication() {
@@ -314,10 +327,7 @@ public class TestEnvironment {
     /**
      * @return the {@link WebDriver} for the current thread
      */
-    public WebDriver getWebDriver() {
-	// System.out.println("WebDriver" + webDriver.get());
-	return webDriver.get();
-    }
+
 
     /**
      * Initializes the webdriver, sets up the run location, driver type,
@@ -330,18 +340,61 @@ public class TestEnvironment {
 	// Uncomment the following line to have TestReporter outputs output to
 	// the console
 	TestReporter.setPrintToConsole(true);
+	setTestName(testName);
 	driverSetup();
-	launchApplication();
-	drivers.put(testName, driver);
-	setDriver(drivers.get(testName));
+	if (getPageURL().isEmpty()) launchApplication();
+	else launchApplication(getPageURL());
     }
 
-    protected void endTest(String testName){
-	WebDriver driver = drivers.get(testName);
-	if (driver != null && driver.getWindowHandles().size() > 0) {	    
-		driver.quit();
+    protected void endTest(String testName){ 	
+ 	if (getDriver() != null && getDriver().getWindowHandles().size() > 0) {
+ 	    getDriver().quit();
+ 	}
+     }
+     
+    /*
+     * Use ITestResult from @AfterMethod to determine run status before closing test if reporting to sauce labs
+     */
+    protected void endTest(String testName, ITestResult testResults){
+	if(runLocation.equalsIgnoreCase("remote") | runLocation.equalsIgnoreCase("sauce")){
+	    endSauceTest(testResults.getStatus());
 	}
+	
+ 	endTest(testName);
     }
+    
+    /*
+     * Use ITestContext from @AfterTest or @AfterSuite to determine run status before closing test if reporting to sauce labs
+     */
+    protected void endTest(String testName, ITestContext testResults){
+ 	if(runLocation.equalsIgnoreCase("remote") | runLocation.equalsIgnoreCase("sauce")){
+ 	    if(testResults.getFailedTests().size() == 0) {
+ 		endSauceTest(ITestResult.SUCCESS);
+ 	    }else{
+ 		endSauceTest(ITestResult.FAILURE);
+ 	    }
+ 	}
+ 	endTest(testName);
+     }
+     
+    
+    /*
+     * Report end of run status to Sauce LAbs
+     */  
+    private void endSauceTest(int result)  {
+	Map<String, Object> updates = new HashMap<String, Object>();
+	updates.put("name", getTestName());	
+	
+	if (result == ITestResult.FAILURE) {
+		updates.put("passed", false);
+	} else {
+		updates.put("passed", true);
+	}
+	
+	SauceREST client = new SauceREST(authentication.getUsername() ,authentication.getAccessKey() );
+	client.updateJobInfo(driver.getSessionId().toString(), updates);			
+}
+
     
     /**
      * Sets up the driver type, location, browser under test, os
@@ -353,20 +406,19 @@ public class TestEnvironment {
      * @throws IOException
      * @throws InterruptedException
      */
-    private void driverSetup()  {
-	driver = null;
-
+    private void driverSetup()  {	
+	DesiredCapabilities caps = null;
 	// If the location is local, grab the drivers for each browser type from
 	// within the project
 	if (getRunLocation().equalsIgnoreCase("local")) {
-	    DesiredCapabilities caps = null;
+	    
 	    File file = null;
 
 	    switch (getOperatingSystem().toLowerCase().trim().replace(" ", "")) {
 	    case "windows":
 		if (getBrowserUnderTest().equalsIgnoreCase("Firefox")
 			|| getBrowserUnderTest().equalsIgnoreCase("FF")) {
-		    driver = new FirefoxDriver();
+		    caps =DesiredCapabilities.firefox();
 		}
 		// Internet explorer
 		else if (getBrowserUnderTest().equalsIgnoreCase("IE")
@@ -382,35 +434,37 @@ public class TestEnvironment {
 					    + "IEDriverServer.exe").getPath());
 		    System.setProperty("webdriver.ie.driver",
 			    file.getAbsolutePath());
-		    driver = new InternetExplorerDriver(caps);
+		    caps =DesiredCapabilities.internetExplorer();
+			   
 		}
 		// Chrome
 		else if (getBrowserUnderTest().equalsIgnoreCase("Chrome")) {
-		    file = new File(this
-			    .getClass()
-			    .getResource(
-				    Constants.DRIVERS_PATH_LOCAL
-					    + "ChromeDriver.exe").getPath());
-		    System.setProperty("webdriver.chrome.driver",
-			    file.getAbsolutePath());
-		    driver = new ChromeDriver();
+		    file = new File(this.getClass().getResource(Constants.DRIVERS_PATH_LOCAL+"ChromeDriver.exe").getPath());
+		    System.setProperty("webdriver.chrome.driver", file.getAbsolutePath());
+		    caps =DesiredCapabilities.chrome();
+			   
 		}
 		// Headless - HTML unit driver
 		else if (getBrowserUnderTest().equalsIgnoreCase("html")) {
-		    driver = new HtmlUnitDriver(true);
+		    caps = DesiredCapabilities.htmlUnitWithJs();
 		}
-		// Headless - HTML unit driver
-		else if (getBrowserUnderTest().equalsIgnoreCase("phantom")) {
-		    caps = DesiredCapabilities.phantomjs();
-		    caps.setCapability("ignoreZoomSetting", true);
-		    caps.setCapability("enablePersistentHover", false);
-		    file = new File(this.getClass().getResource(Constants.DRIVERS_PATH_LOCAL+ "phantomjs.exe").getPath());
-		    caps.setCapability(PhantomJSDriverService.PHANTOMJS_EXECUTABLE_PATH_PROPERTY , file.getAbsolutePath());
-		    driver = new PhantomJSDriver(caps);
-		}
+		/*else if (getBrowserUnderTest().equalsIgnoreCase("phantom")) {
+			    caps = DesiredCapabilities.phantomjs();
+			    caps.setCapability("ignoreZoomSetting", true);
+			    caps.setCapability("enablePersistentHover", false);
+			    file = new File(this.getClass().getResource(Constants.DRIVERS_PATH_LOCAL+ "phantomjs.exe").getPath());
+			    caps.setCapability(PhantomJSDriverService.PHANTOMJS_EXECUTABLE_PATH_PROPERTY , file.getAbsolutePath());
+			    driver = new PhantomJSDriver(caps);
+			
+		}*/
 		// Safari
 		else if (getBrowserUnderTest().equalsIgnoreCase("safari")) {
-		    driver = new SafariDriver();
+		    caps =DesiredCapabilities.safari();
+			   
+		}else if(getBrowserUnderTest().equalsIgnoreCase("microsoftedge")){
+		    file = new File(this.getClass().getResource(Constants.DRIVERS_PATH_LOCAL+"MicrosoftWebDriver.exe").getPath());
+		    System.setProperty("webdriver.edge.driver", file.getAbsolutePath());
+		    caps = DesiredCapabilities.edge();
 		} else {
 		    throw new RuntimeException(
 			    "Parameter not set for browser type");
@@ -420,7 +474,8 @@ public class TestEnvironment {
 	    case "macos":
 		if (getBrowserUnderTest().equalsIgnoreCase("Firefox")
 			|| getBrowserUnderTest().equalsIgnoreCase("FF")) {
-		    driver = new FirefoxDriver();
+		    caps =DesiredCapabilities.firefox();
+			   
 		}
 		// Internet explorer
 		else if (getBrowserUnderTest().equalsIgnoreCase("IE")
@@ -446,7 +501,8 @@ public class TestEnvironment {
 				.exec(new String[] { "/bin/bash", "-c",
 					"chmod 777 " + file.getAbsolutePath() });
 			proc.waitFor();
-			driver = new ChromeDriver();
+			 caps =DesiredCapabilities.chrome();
+			   
 		    } catch (IllegalStateException ise) {
 			ise.printStackTrace();
 			throw new IllegalStateException(
@@ -459,81 +515,94 @@ public class TestEnvironment {
 		}
 		// Headless - HTML unit driver
 		else if (getBrowserUnderTest().equalsIgnoreCase("html")) {
-		    driver = new HtmlUnitDriver(true);
+		    caps =DesiredCapabilities.htmlUnitWithJs();
+			   
 		}
 		// Safari
 		else if (getBrowserUnderTest().equalsIgnoreCase("safari")) {
-		    driver = new SafariDriver();
+		    caps =DesiredCapabilities.safari();		
 		} else {
 		    throw new RuntimeException(
 			    "Parameter not set for browser type");
 		}
 		break;
+	    case "linux":
+		if (getBrowserUnderTest().equalsIgnoreCase("html")) {
+			    caps =DesiredCapabilities.htmlUnitWithJs();		   
+		}else if (getBrowserUnderTest().equalsIgnoreCase("Firefox")
+			|| getBrowserUnderTest().equalsIgnoreCase("FF")) {
+		    caps =DesiredCapabilities.firefox();
+		}
 	    default:
 		break;
 	    }
 
+	    setDriver(new OrasiDriver(caps));
 	    // Code for running on the selenium grid
 	} else if ( getRunLocation().equalsIgnoreCase("grid")) {
-	    DesiredCapabilities capabilities = new DesiredCapabilities();
-	    capabilities.setCapability(CapabilityType.BROWSER_NAME,
+	    caps.setCapability(CapabilityType.BROWSER_NAME,
 		    getBrowserUnderTest());
 	    if (getBrowserVersion() != null) {
-		capabilities.setCapability(CapabilityType.VERSION,
+		caps.setCapability(CapabilityType.VERSION,
 			getBrowserVersion());
 	    }
-	    capabilities.setCapability(CapabilityType.PLATFORM,
+	    
+	    caps.setCapability(CapabilityType.PLATFORM,
 		    getGridPlatformByOS(getOperatingSystem()));
 	    if (getBrowserUnderTest().toLowerCase().contains("ie")
 		    || getBrowserUnderTest().toLowerCase().contains("iexplore")) {
-		capabilities.setCapability("ignoreZoomSetting", true);
+		caps.setCapability("ignoreZoomSetting", true);
 	    }
 	    
 	    try {
-		driver = new RemoteWebDriver(new URL(getRemoteURL()), capabilities);
+		setDriver(new OrasiDriver(caps, new URL(getRemoteURL())));
 	    } catch (MalformedURLException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
 	    }
-	    
+
 	} else if (getRunLocation().equalsIgnoreCase("remote") | getRunLocation().equalsIgnoreCase("sauce")) {
-	    DesiredCapabilities capabilities = new DesiredCapabilities();
-	    capabilities.setCapability(CapabilityType.BROWSER_NAME,
-		    getBrowserUnderTest());
-	    if (getBrowserVersion() != null) {
-		capabilities.setCapability(CapabilityType.VERSION,
-			getBrowserVersion());
-	    }
-	    capabilities.setCapability(CapabilityType.PLATFORM,
-		    getOperatingSystem());
+	
+	    caps = new DesiredCapabilities();
+	    caps.setCapability(CapabilityType.BROWSER_NAME,
+			    getBrowserUnderTest());
+		    if (getBrowserVersion() != null) {
+			caps.setCapability(CapabilityType.VERSION,
+				getBrowserVersion());
+		    }
+		    caps.setCapability(CapabilityType.PLATFORM,
+			    getOperatingSystem());
+	    
 	    if (getBrowserUnderTest().toLowerCase().contains("ie")
 		    || getBrowserUnderTest().toLowerCase().contains("iexplore")) {
-		capabilities.setCapability("ignoreZoomSetting", true);
+		caps.setCapability("ignoreZoomSetting", true);
 	    }
-	    capabilities.setCapability("name", getTestName());
+	    caps.setCapability("name", getTestName());
+	    URL sauceURL = null;
 	    try {
-		webDriver.set(new RemoteWebDriver(new URL(getRemoteURL()), capabilities));
+		sauceURL = new URL("http://" + authentication.getUsername() + ":" + authentication.getAccessKey() + "@ondemand.saucelabs.com:80/wd/hub");
 	    } catch (MalformedURLException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
 	    }
-	    sessionId.set(((RemoteWebDriver) getWebDriver()).getSessionId()
-		    .toString());
-	    driver = webDriver.get();
+
+	    caps.setCapability("name", getTestName());
+	    setDriver(new OrasiDriver(caps, sauceURL));
+
+		
 	}else {
 	    throw new RuntimeException(
 		    "Parameter for run [Location] was not set to 'Local', 'Grid', 'Sauce', or 'Remote'");
 	}
-
-	driver.manage()
-		.timeouts()
-		.setScriptTimeout(Constants.DEFAULT_GLOBAL_DRIVER_TIMEOUT,
-			TimeUnit.SECONDS)
-		.implicitlyWait(Constants.DEFAULT_GLOBAL_DRIVER_TIMEOUT,
-			TimeUnit.SECONDS);
+ 
+	getDriver().setElementTimeout(Constants.ELEMENT_TIMEOUT);
+	getDriver().setPageTimeout(Constants.PAGE_TIMEOUT);
+	getDriver().setScriptTimeout(Constants.DEFAULT_GLOBAL_DRIVER_TIMEOUT);
 	//setDefaultTestTimeout(Constants.DEFAULT_GLOBAL_DRIVER_TIMEOUT);
-	driver.manage().deleteAllCookies();
-	driver.manage().window().maximize();
+	if (!getBrowserUnderTest().toLowerCase().contains("edge")){
+	    getDriver().manage().deleteAllCookies();
+	    getDriver().manage().window().maximize();
+	}
     }
 
     // ************************************
@@ -544,10 +613,6 @@ public class TestEnvironment {
     // ************************************
     // ************************************
 
-    public PageLoaded pageLoaded() {
- 	return new PageLoaded(this);
-     }
-    
     /**
      * @summary loops for a predetermined amount of time (defined by
      *          WebDriverSetup.getDefaultTestTimeout()) to determine if the DOM
@@ -556,11 +621,39 @@ public class TestEnvironment {
      * @param N
      *            /A
      */
-  
+    public boolean pageLoaded() {
+	return new PageLoaded().isDomComplete(getDriver());
+    }
+
+    /**
+     * @summary loops for a predetermined amount of time (defined by
+     *          WebDriverSetup.getDefaultTestTimeout()) to determine if the
+     *          Element is not null
+     * @return boolean: true is the DOM is completely loaded, false otherwise
+     * @param clazz
+     *            - page class that is calling this method
+     * @param element
+     *            - element with which to determine if a page is loaded
+     */
+    public boolean pageLoaded(Class<?> clazz, Element element) {
+
+	return new PageLoaded().isElementLoaded(clazz, getDriver(), element);
+    }
+
+    /**
+     * @summary Used to create all page objects WebElements as proxies (not
+     *          actual objects, but rather placeholders) or to reinitialize all
+     *          page object WebElements to allow for the state of a page to
+     *          change and not fail a test
+     * @return N/A
+     * @param clazz
+     *            - page class that is calling this method for which to
+     *            initialize elements
+     */
     public void initializePage(Class<?> clazz) {
 	try {
-	    ElementFactory.initElements(driver,clazz.getConstructor(TestEnvironment.class));
-	} catch (SecurityException | NoSuchMethodException e) {
+	    ElementFactory.initElements(getDriver(), clazz.getConstructor(TestEnvironment.class));
+	} catch (NoSuchMethodException | SecurityException e) {
 	    // TODO Auto-generated catch block
 	    e.printStackTrace();
 	}
@@ -575,11 +668,13 @@ public class TestEnvironment {
 	    case "xp": return Platform.XP;
 	    case "linux": return Platform.LINUX;
 	    case "mac": return Platform.MAC;
-	/*    case "mavericks": return Platform.MAVERICKS;
+	    case "mavericks": return Platform.MAVERICKS;
 	    case "mountain_lion": return Platform.MOUNTAIN_LION;
 	    case "snow_leopard": return Platform.SNOW_LEOPARD;
-	    case "yosemite": return Platform.YOSEMITE;*/
+	    case "yosemite": return Platform.YOSEMITE;
 	    default: return Platform.ANY;
 	}
     }
+    
+
 }

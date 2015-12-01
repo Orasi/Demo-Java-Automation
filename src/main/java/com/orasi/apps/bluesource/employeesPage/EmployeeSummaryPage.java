@@ -82,7 +82,7 @@ public class EmployeeSummaryPage {
 	}
 		
 	public boolean pageLoaded(){
-		return te.pageLoaded().isElementLoaded(this.getClass(), lnkViewTimeOff); 	    
+		return te.pageLoaded(this.getClass(), lnkViewTimeOff); 	    
 	}
 	// *****************************************
 	// ***Page Interactions ***
@@ -142,20 +142,20 @@ public class EmployeeSummaryPage {
 		
 		String convertedStartDate = DateTimeConversion.convert(employee.getStartDate(), "yyyy-MM-dd", "MMMM dd, yyyy");
 
-		if (!employee.getUsername().equalsIgnoreCase(tabGeneralInfoTable.getCellData(te, USERNAME, 2))) {TestReporter.logFailure("User name did not match"); return false;}
-		if (!employee.getRole().equalsIgnoreCase(tabGeneralInfoTable.getCellData(te,ROLE, 2))) {TestReporter.logFailure("Role did not match"); return false;}
-		if (!employee.getTitle().equalsIgnoreCase(tabGeneralInfoTable.getCellData(te, TITLE, 2))) {TestReporter.logFailure("Title did not match"); return false;}
-		if (!employee.getManager().equalsIgnoreCase(tabGeneralInfoTable.getCellData(te, MANAGER, 2))) {TestReporter.logFailure("Manager did not match"); return false;}
-		if (!employee.getStatus().equalsIgnoreCase(tabGeneralInfoTable.getCellData(te, STATUS, 2))) {TestReporter.logFailure("Status did not match"); return false;}
-		if (!employee.getLocation().equalsIgnoreCase(tabGeneralInfoTable.getCellData(te, LOCATION, 2))) {TestReporter.logFailure("Location did not match"); return false;}
-		if (!convertedStartDate.equals(tabGeneralInfoTable.getCellData(te, START_DATE, 2))) {TestReporter.logFailure("Start Date did not match"); return false;}
-		//if (!employee.getStartDate().equalsIgnoreCase(tabGeneralInfoTable.getCellData(te, TIME_WITH_ORASI, 2))) {TestReporter.logFailure("Time With Orasi did not match"); return false;}
-		if (!employee.getCellPhone().equalsIgnoreCase(tabGeneralInfoTable.getCellData(te, CELLPHONE, 2))) {TestReporter.logFailure("Cell Phone did not match"); return false;}
-		if (!employee.getOfficePhone().equalsIgnoreCase(tabGeneralInfoTable.getCellData(te, OFFICEPHONE, 2))) {TestReporter.logFailure("Office Phone did not match"); return false;}
-		if (!employee.getEmail().equalsIgnoreCase(tabGeneralInfoTable.getCellData(te, EMAIL, 2))) {TestReporter.logFailure("Email did not match"); return false;}
-		if (!employee.getImName().equalsIgnoreCase(tabGeneralInfoTable.getCellData(te, IM_USER, 2))) {TestReporter.logFailure("IM Username did not match"); return false;}
-		if (!employee.getImClient().equalsIgnoreCase(tabGeneralInfoTable.getCellData(te, IM_CLIENT, 2))) {TestReporter.logFailure("IM Client did not match"); return false;}
-		if (!employee.getDepartment().equalsIgnoreCase(tabGeneralInfoTable.getCellData(te, DEPARTMENT, 2))) {TestReporter.logFailure("Department did not match"); return false;}
+		if (!employee.getUsername().equalsIgnoreCase(tabGeneralInfoTable.getCellData( USERNAME, 2))) {TestReporter.logFailure("User name did not match"); return false;}
+		if (!employee.getRole().equalsIgnoreCase(tabGeneralInfoTable.getCellData(ROLE, 2))) {TestReporter.logFailure("Role did not match"); return false;}
+		if (!employee.getTitle().equalsIgnoreCase(tabGeneralInfoTable.getCellData( TITLE, 2))) {TestReporter.logFailure("Title did not match"); return false;}
+		if (!employee.getManager().equalsIgnoreCase(tabGeneralInfoTable.getCellData( MANAGER, 2))) {TestReporter.logFailure("Manager did not match"); return false;}
+		if (!employee.getStatus().equalsIgnoreCase(tabGeneralInfoTable.getCellData( STATUS, 2))) {TestReporter.logFailure("Status did not match"); return false;}
+		if (!employee.getLocation().equalsIgnoreCase(tabGeneralInfoTable.getCellData( LOCATION, 2))) {TestReporter.logFailure("Location did not match"); return false;}
+		if (!convertedStartDate.equals(tabGeneralInfoTable.getCellData( START_DATE, 2))) {TestReporter.logFailure("Start Date did not match"); return false;}
+		//if (!employee.getStartDate().equalsIgnoreCase(tabGeneralInfoTable.getCellData( TIME_WITH_ORASI, 2))) {TestReporter.logFailure("Time With Orasi did not match"); return false;}
+		if (!employee.getCellPhone().equalsIgnoreCase(tabGeneralInfoTable.getCellData(CELLPHONE, 2))) {TestReporter.logFailure("Cell Phone did not match"); return false;}
+		if (!employee.getOfficePhone().equalsIgnoreCase(tabGeneralInfoTable.getCellData( OFFICEPHONE, 2))) {TestReporter.logFailure("Office Phone did not match"); return false;}
+		if (!employee.getEmail().equalsIgnoreCase(tabGeneralInfoTable.getCellData( EMAIL, 2))) {TestReporter.logFailure("Email did not match"); return false;}
+		if (!employee.getImName().equalsIgnoreCase(tabGeneralInfoTable.getCellData( IM_USER, 2))) {TestReporter.logFailure("IM Username did not match"); return false;}
+		if (!employee.getImClient().equalsIgnoreCase(tabGeneralInfoTable.getCellData( IM_CLIENT, 2))) {TestReporter.logFailure("IM Client did not match"); return false;}
+		if (!employee.getDepartment().equalsIgnoreCase(tabGeneralInfoTable.getCellData( DEPARTMENT, 2))) {TestReporter.logFailure("Department did not match"); return false;}
 				
 		return true;
 	}

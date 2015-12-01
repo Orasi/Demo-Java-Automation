@@ -45,7 +45,7 @@ public class ProjectSummaryPage {
 	}
 		
 	public boolean pageLoaded(){
-		return te.pageLoaded().isElementLoaded(this.getClass(), tabProjectInfoTable); 	    
+		return te.pageLoaded(this.getClass(), tabProjectInfoTable); 	    
 	}
 	// *****************************************
 	// ***Page Interactions ***
@@ -55,13 +55,13 @@ public class ProjectSummaryPage {
 	@Step("Then the Projects Information is correct")
 	public boolean validateProjectInfo(Project project){
 
-		if (!project.getClientPartner().equalsIgnoreCase(tabProjectInfoTable.getCellData(te, CLIENT_PARTNER, 2))) {TestReporter.logFailure("Client P name did not match"); return false;}
-		if (!project.getStartDate().equalsIgnoreCase(tabProjectInfoTable.getCellData(te, START_DATE, 2))) {TestReporter.logFailure("Start Date did not match"); return false;}
-		if (!project.getEndDate().equalsIgnoreCase(tabProjectInfoTable.getCellData(te, PROJECTED_END_DATE, 2))) {TestReporter.logFailure("Projected End Date did not match"); return false;}
-		if (!project.getStatus().equalsIgnoreCase(tabProjectInfoTable.getCellData(te, STATUS, 2))) {TestReporter.logFailure("Status did not match"); return false;}
+		if (!project.getClientPartner().equalsIgnoreCase(tabProjectInfoTable.getCellData( CLIENT_PARTNER, 2))) {TestReporter.logFailure("Client P name did not match"); return false;}
+		if (!project.getStartDate().equalsIgnoreCase(tabProjectInfoTable.getCellData( START_DATE, 2))) {TestReporter.logFailure("Start Date did not match"); return false;}
+		if (!project.getEndDate().equalsIgnoreCase(tabProjectInfoTable.getCellData( PROJECTED_END_DATE, 2))) {TestReporter.logFailure("Projected End Date did not match"); return false;}
+		if (!project.getStatus().equalsIgnoreCase(tabProjectInfoTable.getCellData( STATUS, 2))) {TestReporter.logFailure("Status did not match"); return false;}
 			
 		for(String teamLead : project.getTeamLeads()){
-		    if (!tabProjectInfoTable.getCellData(te,TEAM_LEADS, 2).toLowerCase().contains(teamLead.toLowerCase())) {TestReporter.logFailure("Team Lead did not match: " + teamLead); return false;}
+		    if (!tabProjectInfoTable.getCellData(TEAM_LEADS, 2).toLowerCase().contains(teamLead.toLowerCase())) {TestReporter.logFailure("Team Lead did not match: " + teamLead); return false;}
 		}
 		return true;
 	}

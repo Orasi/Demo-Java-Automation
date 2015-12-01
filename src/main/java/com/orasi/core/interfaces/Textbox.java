@@ -4,6 +4,7 @@ import org.openqa.selenium.WebDriver;
 
 import com.orasi.core.interfaces.impl.TextboxImpl;
 import com.orasi.core.interfaces.impl.internal.ImplementedBy;
+import com.orasi.utils.OrasiDriver;
 
 
 /**
@@ -23,10 +24,9 @@ public interface Textbox extends Element {
     void set(String text);
     
     /**
-     * @param driver - Current active WebDriver object
      * @param text - The text to type into the field.
      */
-    void set(WebDriver driver, String text);
+    void scrollAndSet(String text);
     
     /**
      * @param text - The text to type into the field.
@@ -43,20 +43,11 @@ public interface Textbox extends Element {
      */
 	void safeSetSecure(String text);
 	
-    /**
-     * @param text - The text to type into the field.
-     */
-	void safeSetValidate(WebDriver driver, String text);	
-	
+ 
     /** 
      * @see org.openqa.selenium.WebElement#getText()
      */
     @Override
     public String getText();
-    
-    /**
-     * @param text - The text to type into the field.
-     * @param driver - Current active WebDriver object
-     */
-    void setValidate(WebDriver driver, String text);
+ 
 }

@@ -8,8 +8,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Types;
 
-import com.orasi.utils.Constants;
-
 public abstract class Database {
 
 	protected String strDriver = null;	
@@ -77,9 +75,6 @@ public abstract class Database {
 		
 	    Connection connection = null;
 		try {
-			String tns = getClass().getResource(Constants.TNSNAMES_PATH + "tnsnames.ora").getPath().toString();
-			tns = tns.substring(0, tns.lastIndexOf("/"));
-			System.setProperty("oracle.net.tns_admin", tns);
 			
 			connection = DriverManager.getConnection(getDbConnectionString(), getDbUserName(), getDbPassword());
 		} catch (SQLException e) {

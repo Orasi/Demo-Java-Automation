@@ -79,7 +79,7 @@ public class ManageEmployeeModal {
 	}
 	
 	public boolean pageLoaded(){
-		return te.pageLoaded().isElementLoaded(this.getClass(), txtUsername); 		  
+		return te.pageLoaded(this.getClass(), txtUsername); 		  
 	}
 	
 	// *****************************************
@@ -91,7 +91,7 @@ public class ManageEmployeeModal {
 	public void addEmployee(String username, String firstName, String lastName, String title, String role, String manager,
 							String status, String location, String startDate, String cellPhone, String officePhone, 
 							String email, String imName, String imClient, String dept)  {
-	    lblAddEmployeePopup.syncEnabled(te.getDriver());
+	    lblAddEmployeePopup.syncEnabled();
 		  //Fill in the details
 		  try {
 			  txtUsername.set(username);
@@ -111,7 +111,7 @@ public class ManageEmployeeModal {
 			  lstDept.select(dept);
 		  
 			  //submit
-			  btnSave.syncEnabled(te.getDriver());
+			  btnSave.syncEnabled();
 			  btnSave.click();
 			  
 		  }catch (Exception e){
@@ -132,7 +132,7 @@ public class ManageEmployeeModal {
 	public void modifyEmployee(String username, String firstName, String lastName, String title, String role, String manager,
 							String status, String location, String startDate, String cellPhone, String officePhone, 
 							String email, String imName, String imClient, String dept)  {
-	    lblAddEmployeePopup.syncEnabled(te.getDriver());
+	    lblAddEmployeePopup.syncEnabled();
 
 	    if(!txtUsername.getText().equalsIgnoreCase(username)) txtUsername.set(username);			  
 	    if(!txtFirstName.getText().equalsIgnoreCase(firstName)) txtFirstName.set(firstName);
@@ -151,7 +151,7 @@ public class ManageEmployeeModal {
 	    if(!lstDept.getFirstSelectedOption().getText().equalsIgnoreCase(dept)) lstDept.select(dept);
 		  
 	    //submit
-	    btnSave.syncEnabled(te.getDriver());
+	    btnSave.syncEnabled();
 	    btnSave.click();
 
 	  }

@@ -34,7 +34,7 @@ public class Pagination {
     public Pagination(TestEnvironment te){
 	this.te = te;
  	ElementFactory.initElements(te.getDriver(), this);
- 	te.pageLoaded().isElementLoaded(this.getClass(), pagination);
+ 	te.pageLoaded(this.getClass(), pagination);
     } 	
   
     /**

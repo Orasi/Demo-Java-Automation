@@ -9,7 +9,7 @@
 	<!-- <parameter name="runLocation" value="remote"</parameter> -->
 	<test name="Test">
 		<classes>
-			<class name="com.orasi.bluesource.features.manageProjects.CannotAssignInactiveEmployees" />
+			<class name="com.orasi.bluesource.features.manageTitles.TestManageTitles" />
 		</classes>
 	</test> <!-- Test -->
 </suite> <!-- Suite -->

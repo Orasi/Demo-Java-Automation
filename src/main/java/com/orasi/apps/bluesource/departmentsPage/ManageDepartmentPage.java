@@ -35,7 +35,7 @@ public class ManageDepartmentPage {
 	}
 	
 	public boolean pageLoaded(){
-	    return te.pageLoaded().isElementLoaded(this.getClass(), btnCreateDept);
+	    return te.pageLoaded(this.getClass(), btnCreateDept);
 	}
 	
 	// *****************************************
@@ -91,7 +91,7 @@ public class ManageDepartmentPage {
 	}
 	
 	private void manageDepartment(String departmentName, String parentDepartment, String incrementHours ){
-	    txtDept.safeSet(departmentName);
+	    txtDept.set(departmentName);
 	    lstParentDept.select(parentDepartment);
 	    lstHourIncrement.select(incrementHours);
 	    btnCreateDept.click();

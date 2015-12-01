@@ -7,6 +7,7 @@ import java.lang.reflect.Proxy;
 import java.lang.reflect.Type;
 import java.util.List;
 
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.internal.Locatable;
 import org.openqa.selenium.internal.WrapsElement;
@@ -29,6 +30,7 @@ public class ElementDecorator implements FieldDecorator {
      * factory to use when generating ElementLocator.
      */
     protected CustomElementLocatorFactory factory;
+    protected WebDriver driver;
 
     /**
      * Constructor for an ElementLocatorFactory. This class is designed to replace DefaultFieldDecorator.
@@ -39,9 +41,15 @@ public class ElementDecorator implements FieldDecorator {
     public ElementDecorator(CustomElementLocatorFactory factory) {
         this.factory = factory;
     }
+    
+    public ElementDecorator(CustomElementLocatorFactory factory, WebDriver driver) {
+        this.factory = factory;
+        this.driver = driver;
+    }
 
     @Override
     public Object decorate(ClassLoader loader, Field field) {
+    	final WebDriver driverRef = driver;
         if (!(WebElement.class.isAssignableFrom(field.getType()) || isDecoratableList(field))) {
             return null;
         }
@@ -57,7 +65,8 @@ public class ElementDecorator implements FieldDecorator {
         }
 
         if (WebElement.class.isAssignableFrom(fieldType)) {
-            return proxyForLocator(loader, fieldType, locator);
+          //  return proxyForLocator(loader, fieldType, locator);
+        	 return proxyForLocator(loader, fieldType, locator, driverRef);
         } else if (List.class.isAssignableFrom(fieldType)) {
             Class<?> erasureClass = getErasureClass(field);
             return proxyForListLocator(loader, erasureClass, locator);
@@ -98,7 +107,17 @@ public class ElementDecorator implements FieldDecorator {
 
         return true;
     }
+    protected <T> T proxyForLocator(ClassLoader loader, Class<T> interfaceType, ElementLocator locator, WebDriver driver) {
+      //  InvocationHandler handler = new ElementHandler(interfaceType, locator);
+    	final WebDriver driverRef = driver;
+        
+    	  InvocationHandler handler = new ElementHandler(interfaceType, locator,driverRef);
 
+        T proxy;
+        proxy = interfaceType.cast(Proxy.newProxyInstance(
+                loader, new Class[]{interfaceType, WebElement.class, WrapsElement.class, Locatable.class}, handler));
+        return proxy;
+    }
     /**
      * Generate a type-parameterized locator proxy for the element in question. We use our customized InvocationHandler
      * here to wrap classes.
@@ -130,7 +149,7 @@ public class ElementDecorator implements FieldDecorator {
     @SuppressWarnings("unchecked")
     protected <T> List<T> proxyForListLocator(ClassLoader loader, Class<T> interfaceType, ElementLocator locator) {
         InvocationHandler handler;
-        if (interfaceType.getName().startsWith("org.selophane")) {
+        if (interfaceType.getName().contains("orasi")) {
             handler = new ElementListHandler(interfaceType, locator);
         } else {
             handler = new LocatingElementListHandler(locator);

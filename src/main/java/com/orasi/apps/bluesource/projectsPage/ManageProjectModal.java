@@ -60,7 +60,7 @@ public class ManageProjectModal {
     }
     	
     public boolean pageLoaded(){
-    	return te.pageLoaded().isElementLoaded(this.getClass(), txtName); 		  
+    	return te.pageLoaded(this.getClass(), txtName); 		  
     }
     	
     // *****************************************
@@ -70,7 +70,7 @@ public class ManageProjectModal {
     //adds a new project on the projects page
     @Step("And I add a new Project")
     public void addProject(String projectName, String clientPartner, ArrayList<String> teamLeads, String status, String startDate, String endDate){
-	lblAddProjectPopup.syncEnabled(te.getDriver());
+	lblAddProjectPopup.syncEnabled();
     	//Fill in the details
 
 	txtName.set(projectName);
@@ -88,7 +88,7 @@ public class ManageProjectModal {
     	txtProjectEndDate.safeSet(endDate);
     		 
     	//submit
-    	btnSave.syncEnabled(te.getDriver());
+    	btnSave.syncEnabled();
     	btnSave.click();
     		    		  
     	  }
@@ -99,7 +99,7 @@ public class ManageProjectModal {
     
     @Step("And I modify the Project Details")
     public void modifyProject(String projectName, String clientPartner, ArrayList<String> teamLeads, ArrayList<String> teamLeadsToRemove, String status, String startDate, String endDate)  {
-	lblAddProjectPopup.syncEnabled(te.getDriver());
+	lblAddProjectPopup.syncEnabled();
     	if(!txtName.getText().equalsIgnoreCase(projectName)) txtName.set(clientPartner);			  
 	if(!lstClientPartner.getFirstSelectedOption().getText().equalsIgnoreCase(clientPartner)) lstClientPartner.select(clientPartner);
 	if (teamLeads.size() > 0){
@@ -136,7 +136,7 @@ public class ManageProjectModal {
     	if(!txtProjectEndDate.getText().equalsIgnoreCase(endDate)) txtProjectEndDate.set(endDate);
         
         //submit
-        btnSave.syncEnabled(te.getDriver());
+        btnSave.syncEnabled();
         btnSave.click();
     	  }
     

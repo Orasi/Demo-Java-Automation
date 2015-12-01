@@ -18,7 +18,7 @@ public class ElementFactory {
     public static <T> T initElements(WebDriver driver, Class<T> pageClassToProxy) {
         T page = instantiatePage(driver, pageClassToProxy);
         final WebDriver driverRef = driver;
-        PageFactory.initElements(new ElementDecorator(new CustomElementLocatorFactory(driverRef)), page);
+        PageFactory.initElements(new ElementDecorator(new CustomElementLocatorFactory(driverRef),driverRef), page);
         return page;
     }
 
@@ -27,7 +27,7 @@ public class ElementFactory {
      */
     public static void initElements(WebDriver driver, Object page) {
         final WebDriver driverRef = driver;
-        PageFactory.initElements(new ElementDecorator(new CustomElementLocatorFactory(driverRef)), page);
+        PageFactory.initElements(new ElementDecorator(new CustomElementLocatorFactory(driverRef),driverRef), page);
     }
 
     /**

@@ -16,10 +16,11 @@ public class Constants {
     
     /** Location of the user credentials properties file */
     final static public String USER_CREDENTIALS_PATH = "UserCredentials";
-  
     
     /** Location of data provider files in the project  */
     final static public String BLUESOURCE_DATAPROVIDER_PATH = "/bluesource/dataProviders/";
+    
+    final static public String SANDBOX_PATH = "/sandbox/";
     
     /** Location of drivers in project */
     final static public String DRIVERS_PATH_LOCAL = "/drivers/";
@@ -41,20 +42,25 @@ public class Constants {
     final static public String NEW_LINE = LINE_SEPARATOR;
     
     /** The default timeout in seconds, should be a generous default time */
-    static public int DEFAULT_GLOBAL_DRIVER_TIMEOUT = 60;
-    
+    final static public int DEFAULT_GLOBAL_DRIVER_TIMEOUT = 10;
+
     /** The timeout (seconds) for finding web elements on a page, shouldn't be too long */
-    final static public int ELEMENT_TIMEOUT = 10;
+    static public int ELEMENT_TIMEOUT = 3;
     
     /** The timeout (seconds) for page/DOM/transitions, should also be a generous */
-    final static public int PAGE_TIMEOUT = 60;
-    
-    /** Selenium hub URL */
-    final static public String SELENIUM_HUB_URL = "http://dnhprpptst01.disid.disney.com:4444/wd/hub";
+    static public int PAGE_TIMEOUT = 10;
     
     /** System properties */
-    public static final String BROWSER_PROPERTY = "selenium.browser";
-    public static final String TEST_DRIVER_TIMEOUT = "selenium.test_driver_timeout";
+
+    public static final String APPLICATION_UNDER_TEST = "selenium.applicationUnderTest";
+    public static final String BROWSER = "selenium.browser";
+    public static final String BROWSER_VERSION = "selenium.browserVersion";
+    public static final String OPERATING_SYSTEM = "selenium.OS";
+    public static final String RUN_LOCATION = "selenium.runLocation";
+    public static final String SELENIUM_HUB_URL = "selenium.hubUrl";
+    public static final String TEST_DRIVER_TIMEOUT = "selenium.testDriverTimeout";
+    public static final String TEST_ENVIRONMENT = "selenium.testEnvironment";
+    public static final String TEST_NAME = "selenium.testName";
     
 	/**
      * Defaults to "./" if there's an exception of any sort.

@@ -54,7 +54,7 @@ public class ListingTitlesPage {
 	}	
 	
 	public boolean pageLoaded(){
-	    return te.pageLoaded().isElementLoaded(this.getClass(), lnkNewTitle);
+	    return te.pageLoaded(this.getClass(), lnkNewTitle);
 	}
 
 	// *****************************************
@@ -78,7 +78,7 @@ public class ListingTitlesPage {
 	
 	@Step("Then an alert should appear for confirmation")
 	public boolean isSuccessMsgDisplayed() {	 
-	    return lblSuccessMsg.syncVisible(te.getDriver());
+	    return lblSuccessMsg.syncVisible();
 	}
 	
 	@Step("And the title \"{0}\" should be found on the Titles table")
@@ -92,7 +92,7 @@ public class ListingTitlesPage {
 	    Element titleCell = getTitleRowElement(title);
 	    new ElementImpl(titleCell.findElement(deleteIcon)).click();
 	    
-	    AlertHandler.handleAlerts(te.getDriver(), 2);
+	    AlertHandler.handleAllAlerts(te.getDriver(), 2);
 	}
 
 	public void ensureNoExistingTitle(String title){
@@ -112,10 +112,10 @@ public class ListingTitlesPage {
 	
 	private Element getTitleRowElement(String title){
 	    int titleRow = getTitleRowPosition(title);
-	    return new ElementImpl(tabTitles.getCell(te, titleRow, 1));
+	    return new ElementImpl(tabTitles.getCell( titleRow, 1));
 	}
 	
 	private int getTitleRowPosition(String title){
-	    return tabTitles.getRowWithCellText(te, title, 1,1,false);
+	    return tabTitles.getRowWithCellText(title, 1,1,false);
 	}
 }

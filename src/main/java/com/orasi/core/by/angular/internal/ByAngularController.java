@@ -1,4 +1,4 @@
-package com.orasi.core.angular;
+package com.orasi.core.by.angular.internal;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -12,27 +12,27 @@ import org.openqa.selenium.WebElement;
  * Original Code from https://github.com/paul-hammant/ngWebDriver
  */
 
-public class ByAngularShow extends ByAngular.BaseBy {
+public class ByAngularController  extends ByAngular.BaseBy {
+    private String controller;
 
-    public ByAngularShow(JavascriptExecutor jse, String show) {
-        super(jse);
-        this.show = show;
+    public ByAngularController(JavascriptExecutor jse, String controller) {
+    	super(jse);
+        this.controller = controller;
     }
 
-    private String show;
     private String makeJsBy(String oneOrAll) {    	
         return              
         		 "var using = arguments[0] || document;\n" +
-                 "var show = '" + show + "';\n" +
+                 "var controller = '" + controller + "';\n" +
                  "\n" +
                  "var rows = [];\n" +
                  "var prefixes = ['ng-', 'ng_', 'data-ng-', 'x-ng-'];\n" +
                  "for (var p = 0; p < prefixes.length; ++p) {\n" +
-                 "  var attr = prefixes[p] + 'show';\n" +
+                 "  var attr = prefixes[p] + 'controller';\n" +
                  "  var repeatElems = using.querySelectorAll('[' + attr + ']');\n" +
                  "  attr = attr.replace(/\\\\/g, '');\n" +
                  "  for (var i = 0; i < repeatElems.length; ++i) {\n" +
-                 "    if (repeatElems[i].getAttribute(attr).indexOf(show) != -1) {\n" +
+                 "    if (repeatElems[i].getAttribute(attr).indexOf(controller) != -1) {\n" +
                  "      rows.push(repeatElems[i]);\n" +
                  "    }\n" +
                  "  }\n" +
@@ -53,7 +53,7 @@ public class ByAngularShow extends ByAngular.BaseBy {
         try {
         	privateStringField = o.getClass().getDeclaredField("foundBy");
         	privateStringField.setAccessible(true);
-            privateStringField.set(o, o.toString().replace("unknown locator", "ng-show: " + show));
+            privateStringField.set(o, o.toString().replace("unknown locator", "ng-controller: " + controller));
 		} catch (NoSuchFieldException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -81,4 +81,5 @@ public class ByAngularShow extends ByAngular.BaseBy {
         }
         return (List<WebElement>) jse.executeScript(makeJsBy(""), searchContext);
     }
+
 }

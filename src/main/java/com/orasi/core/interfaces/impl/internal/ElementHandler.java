@@ -2,6 +2,7 @@ package com.orasi.core.interfaces.impl.internal;
 
 import com.orasi.core.interfaces.Element;
 
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.pagefactory.ElementLocator;
@@ -10,6 +11,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+
 import static com.orasi.core.interfaces.impl.internal.ImplementedByProcessor.getWrapperClass;
 
 /**
@@ -19,6 +21,7 @@ import static com.orasi.core.interfaces.impl.internal.ImplementedByProcessor.get
 public class ElementHandler  implements InvocationHandler {
     private final ElementLocator locator;
     private final Class<?> wrappingType;
+    private WebDriver driver;
 
     /**
      * Generates a handler to retrieve the WebElement from a locator for a given WebElement interface descendant.
@@ -27,6 +30,16 @@ public class ElementHandler  implements InvocationHandler {
      * @param locator       Element locator that finds the element on a page.
      * @param <T>           type of the interface
      */
+    public <T> ElementHandler(Class<T> interfaceType, ElementLocator locator, WebDriver driver) {
+        this.locator = locator;
+        this.driver = driver;
+        if (!Element.class.isAssignableFrom(interfaceType)) {
+            throw new RuntimeException("interface not assignable to Element.");
+        }
+
+        this.wrappingType = getWrapperClass(interfaceType);
+    }
+
     public <T> ElementHandler(Class<T> interfaceType, ElementLocator locator) {
         this.locator = locator;
         if (!Element.class.isAssignableFrom(interfaceType)) {
@@ -50,6 +63,10 @@ public class ElementHandler  implements InvocationHandler {
     //	driver.manage().timeouts().implicitlyWait(getDefaultTestTimeout(), TimeUnit.SECONDS);
         if ("getWrappedElement".equals(method.getName())) {
             return element;
+        }
+        
+        if ("getWrappedDriver".equals(method.getName())) {
+            return driver;
         }
         Constructor cons = wrappingType.getConstructor(WebElement.class);
         Object thing = cons.newInstance(element);

@@ -64,7 +64,7 @@ public class EmployeesPage {
 	public EmployeesPage(){}
 	
 	public boolean pageLoaded(){
-	    return te.pageLoaded().isElementLoaded(this.getClass(), txtSearch); 	    
+	    return te.pageLoaded(this.getClass(), txtSearch); 	    
 	}
 	
 	// *****************************************
@@ -82,8 +82,8 @@ public class EmployeesPage {
 	
 	@Step("When I search for \"{0}\" on the Employees Page")
 	public void enterSearchText(String text){
-	    loadingModal.syncHidden(te.getDriver());
-	    txtSearch.syncVisible(te.getDriver());
+	    loadingModal.syncHidden();
+	    txtSearch.syncVisible();
 	    txtSearch.safeSet(text);    
 	}
 	
@@ -121,38 +121,38 @@ public class EmployeesPage {
 	}
 	
 	public int getTotalDisplayedEmployees(){
-	    loadingModal.syncHidden(te.getDriver());
-	    lblTotalEmployeeLabel.syncVisible(te.getDriver());
+	    loadingModal.syncHidden();
+	    lblTotalEmployeeLabel.syncVisible();
 	    String total = lblTotalEmployeeLabel.getText();
 	    return Integer.parseInt(total.substring(total.indexOf("of")+3, total.length()));
 	}
 	
 	@Step("When I click the All Button on the Employees Page")
 	public void clickAllButton(){
-	    loadingModal.syncHidden(te.getDriver());
+	    loadingModal.syncHidden();
 	    btnAll.click();
-	    te.pageLoaded().isDomComplete();
+	    te.pageLoaded();
 	}
 	
 	@Step("When I click the Add Button on the Employees Page")
 	public void clickAddEmployeeButton(){
-	    loadingModal.syncHidden(te.getDriver());
+	    loadingModal.syncHidden();
 	    btnAdd.click();
-	    te.pageLoaded().isDomComplete();
+	    te.pageLoaded();
 	}
 	
 	@Step("When I click the Direct Button on the Employees Page")
 	public void clickDirectButton(){
-	    loadingModal.syncHidden(te.getDriver());
+	    loadingModal.syncHidden();
 	    btnDirect.click();
-	    te.pageLoaded().isDomComplete();
+	    te.pageLoaded();
 	}
 	
 	@Step("When I click the Show Inactive Button on the Employees Page")
 	public void clickInactiveButton(){
-	    loadingModal.syncHidden(te.getDriver());
+	    loadingModal.syncHidden();
 	    btnShowInactive.click();
-	    te.pageLoaded().isDomComplete();
+	    te.pageLoaded();
 	} 
 	
 	@Step("Then the Employees table should update the employees displayed")
@@ -162,7 +162,7 @@ public class EmployeesPage {
 	
 	@Step("Then the Employee will display no rows found")
 	public boolean validateNoRowsFound(){
-	    return (tabEmployeeTable.getRowCount(te) == 1);
+	    return (tabEmployeeTable.getRowCount() == 1);
 	}
 	
 	public boolean validateLastnameFoundInTable(String username){

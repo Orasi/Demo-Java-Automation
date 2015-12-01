@@ -29,7 +29,7 @@ public class ManageTitlePage {
 	}
 	
 	public boolean pageLoaded(){
-	    return te.pageLoaded().isElementLoaded(this.getClass(), txtTitle);
+	    return te.pageLoaded(this.getClass(), txtTitle);
 	}
 
 	// *****************************************
@@ -49,7 +49,7 @@ public class ManageTitlePage {
 	}
 	
 	private void enterTitleName(String title){
-	    txtTitle.safeSet(title);
+	    txtTitle.set(title);
 	    btnCreateTitle.click();
 	}
 }

@@ -66,7 +66,7 @@ public class TestReporter {
     
     public static void logFailure(String message){
 	Reporter.log(getTimestamp() + " <font size = 2 color=\"red\"><b><u> FAILURE: " + message + "</font></u></b><br />");
-	if(getPrintToConsole()) System.out.println(getTimestamp() + "FAILURE: " + message);
+	//if(getPrintToConsole()) System.out.println(getTimestamp() + trimHtml( "FAILURE: " + message ));
     }
 
     public static void assertTrue(boolean condition, String description) {	
@@ -137,7 +137,7 @@ public class TestReporter {
 	assertGreaterThanZero((int)value);
     }
     
-    public static void assertNull(boolean condition, String description) {
+    public static void assertNull(Object condition, String description) {
    	try{
    	    Assert.assertNull(condition, description);
    	}catch (AssertionError failure){
@@ -149,7 +149,7 @@ public class TestReporter {
    	if(getPrintToConsole()) System.out.println(getTimestamp() + "Assert Null - " + trimHtml(description));
        }
     
-    public static void assertNotNull(boolean condition, String description) {
+    public static void assertNotNull(Object condition, String description) {
    	try{
    	    Assert.assertNotNull(condition, description);
    	}catch (AssertionError failure){

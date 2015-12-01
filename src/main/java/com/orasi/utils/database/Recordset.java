@@ -105,21 +105,11 @@ public class Recordset {
 	}
 	
 	public String printString(){
-		 return (PrettyPrinter.print(rs, new Printer<Object>() {
-		        @Override
-		        public String print(Object obj) {
-		            return obj.toString();
-		        }
-		    }));
+	    return PrettyPrinter.print(rs);
 	}
 	
 	public void print(){
-		 System.out.println(PrettyPrinter.print(rs, new Printer<Object>() {
-		        @Override
-		        public String print(Object obj) {
-		            return obj.toString();
-		        }
-		    }));
+	    System.out.println(PrettyPrinter.print(rs));
 	}	
 	
 }

@@ -13,7 +13,7 @@ public class TopNavigationBar {
     	private TestEnvironment te = null;
 	
 	//All the page elements:
-	@FindBy(linkText = "Logout")
+	@FindBy(xpath = "//a[text() = 'Logout']")
 	private Link lnkLogout;
 	
 	@FindBy(xpath = "//a[text() = 'Directory']")
@@ -44,7 +44,7 @@ public class TopNavigationBar {
 	}
 	
 	public boolean pageLoaded(){
-	    return te.pageLoaded().isElementLoaded(this.getClass(), lnkLogout); 
+	    return te.pageLoaded(this.getClass(), lnkLogout); 
 	}
 	// *****************************************
 	// ***Page Interactions ***
@@ -82,7 +82,7 @@ public class TopNavigationBar {
 	//Verify logout link is displayed
 	@Step("And I log in successfully")
 	public boolean isLoggedIn(){
-		return lnkLogout.syncVisible(te.getDriver());
+		return lnkLogout.syncVisible();
 	}
 	
 	

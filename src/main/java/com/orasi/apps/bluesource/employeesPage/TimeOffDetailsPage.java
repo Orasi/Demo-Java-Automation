@@ -17,10 +17,11 @@ import com.orasi.core.interfaces.Listbox;
 import com.orasi.core.interfaces.Textbox;
 import com.orasi.core.interfaces.impl.internal.ElementFactory;
 import com.orasi.utils.PageLoaded;
+import com.orasi.utils.TestEnvironment;
 
 public class TimeOffDetailsPage {
 	
-	private WebDriver driver;
+	private TestEnvironment te;
 	
 	//All the page elements
 	@FindBy(id = "new_vacation_date_requested")
@@ -53,18 +54,18 @@ public class TimeOffDetailsPage {
 	// *********************
 	// ** Build page area **
 	// *********************
-	public TimeOffDetailsPage(WebDriver driver){
-		this.driver = driver;
-		ElementFactory.initElements(driver, this);
+	public TimeOffDetailsPage(TestEnvironment te){
+		this.te = te;
+		ElementFactory.initElements(te.getDriver(), this);
 	}
 	
 	public boolean pageLoaded(){
-		return new PageLoaded().isElementLoaded(this.getClass(), driver, txtDateRequested); 
+		return te.pageLoaded(this.getClass(), txtDateRequested); 
 		  
 	}
 	
 	public TimeOffDetailsPage initialize() {
-		return ElementFactory.initElements(driver,
+		return ElementFactory.initElements(te.getDriver(),
 				this.getClass());       
 	 }
 
@@ -73,7 +74,7 @@ public class TimeOffDetailsPage {
 	// *****************************************
 
 	public boolean isSuccessMsgDisplayed(){
-		WebDriverWait wait = new WebDriverWait(driver, 5);
+		WebDriverWait wait = new WebDriverWait(te.getDriver(), 5);
 		wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(".alert-success.alert-dismissable")));
 		return lblSuccessMsg.isDisplayed();
 	}
@@ -83,7 +84,7 @@ public class TimeOffDetailsPage {
 	}
 	
 	public void hoverOverElement(WebElement element){
-		Actions builder = new Actions(driver);
+		Actions builder = new Actions(te.getDriver());
 		Actions hoverOverRegistrar = builder.moveToElement(element);
 		hoverOverRegistrar.perform();
 	}
@@ -106,7 +107,7 @@ public class TimeOffDetailsPage {
 
 		//If its a half day
 		if (halfDay.equalsIgnoreCase("TRUE")){
-			WebDriverWait wait = new WebDriverWait(driver, 5);
+			WebDriverWait wait = new WebDriverWait(te.getDriver(), 5);
 			wait.until(ExpectedConditions.visibilityOf(btnHalfDay));
 			btnHalfDay.click();
 		}
@@ -124,13 +125,13 @@ public class TimeOffDetailsPage {
 	//Clean up - delete all the time off requests
 	public void DeleteAllTimeOff(){
 		
-		List<WebElement> deleteIconsList = driver.findElements(By.cssSelector("a[data-method = 'delete']"));
+		List<WebElement> deleteIconsList = te.getDriver().findElements(By.cssSelector("a[data-method = 'delete']"));
 		if (deleteIconsList.size() > 0){
 			for(WebElement element:deleteIconsList){
 				element.click();
 				
 				//accept the alert that pops up
-				Alert alert = driver.switchTo().alert();
+				Alert alert = te.getDriver().switchTo().alert();
 				alert.accept();
 			}
 		}

@@ -48,7 +48,7 @@ public class ListingDepartmentsPage {
 	}
 	
 	public boolean pageLoaded(){
-	    return te.pageLoaded().isElementLoaded(this.getClass(), lnkAddDept);
+	    return te.pageLoaded(this.getClass(), lnkAddDept);
 	}
 	
 	//Methods
@@ -89,7 +89,7 @@ public class ListingDepartmentsPage {
 	@Step("And I can delete the department from the table")
 	public void deleteDepartment(String departmentName){
 	    new ElementImpl(getDepartmentElement(departmentName).findElement(deleteIcon)).click();
-	    AlertHandler.handleAlerts(te.getDriver(), 1);
+	    AlertHandler.handleAllAlerts(te.getDriver(), 1);
 	}
 	
 	
@@ -134,7 +134,7 @@ public class ListingDepartmentsPage {
 	  //Get all the rows in the table by CSS
 	  List<WebElement> elementList = te.getDriver().findElements(By.cssSelector(".list-group-item"));
 	  for(WebElement element:elementList){
-	      if(element.getText().replace("Add Subdepartment","").trim().equals(departmentName)) return new ElementImpl(element);
+	      if(element.getText().replace("Add Subdepartment","").trim().equals(departmentName)) return new ElementImpl(element,te.getDriver());
 	  }
 	  return null;
 	}
