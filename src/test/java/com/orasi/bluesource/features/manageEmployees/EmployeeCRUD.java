@@ -119,7 +119,6 @@ public class EmployeeCRUD  extends TestEnvironment {
 	
 	EmployeeSummaryPage summary = new EmployeeSummaryPage(this);
 	TestReporter.assertTrue(summary.pageLoaded(),"Verify Employees Summary page is displayed");
-	TestReporter.assertTrue(summary.validateAPIGeneralInfo(employee), "Verify Employee's General Information returned from the API is correct");
 	TestReporter.assertTrue(summary.validateGeneralInfo(employee), "Verify displayed Employee's General Information is correct");
 	
     }

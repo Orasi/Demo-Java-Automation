@@ -187,7 +187,7 @@ public class BluesourceTables {
     }   
     
     public void selectFieldLink(String fieldText){
-    	te.getDriver().findLink(By.xpath("//tbody/tr/td/a[text()='" + fieldText + "']"));
+    	te.getDriver().findLink(By.xpath("//tbody/tr/td/a[text()='" + fieldText + "']")).click();;
     }
  
     public boolean validateTextInTable(String text, String column){
