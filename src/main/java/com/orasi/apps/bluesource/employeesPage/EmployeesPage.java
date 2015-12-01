@@ -36,7 +36,7 @@ public class EmployeesPage {
 	@FindBy(css= "#all-content > div.header-btn-section > div > div:nth-child(2) > label")	
 	private Button btnShowInactive;
 	
-	@FindBy(css= "#all-content > div.header-btn-section > div > div:nth-child(4) > button")	
+	@FindBy(xpath= "//button[@data-target='#modal_1' and text()='Add']")	
 	private Button btnAdd;
 	
 	@FindBy(css = "input[id = 'search-bar']")
@@ -84,7 +84,7 @@ public class EmployeesPage {
 	public void enterSearchText(String text){
 	    loadingModal.syncHidden();
 	    txtSearch.syncVisible();
-	    txtSearch.safeSet(text);    
+	    txtSearch.set(text);    
 	}
 	
 	@Step("Then Employees with the value \"{0}\" in the \"{1}\" column are displayed")

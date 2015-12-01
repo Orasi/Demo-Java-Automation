@@ -102,7 +102,7 @@ public class ManageEmployeeModal {
 			  lstManager.select(manager);
 			  lstStatus.select(status);
 			  lstLocation.select(location);
-			  txtStartDate.safeSet(startDate);
+			  txtStartDate.set(startDate);
 			  txtCellPhone.set(cellPhone);
 			  txtOfficePhone.set(officePhone);
 			  txtEmail.set(email);

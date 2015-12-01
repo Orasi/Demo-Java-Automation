@@ -89,7 +89,7 @@ public class RestService {
 	
 	private void setResponseCookie(HttpResponse httpResponse){
 	    Header[] header = httpResponse.getHeaders("Set-Cookie");
-	    this.cookie = header[0].getValue(); 
+	   // this.cookie = header[0].getValue(); 
 	}
 	
 	public String getResponseCookie(){

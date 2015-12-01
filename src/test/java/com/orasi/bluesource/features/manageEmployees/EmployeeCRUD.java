@@ -101,6 +101,7 @@ public class EmployeeCRUD  extends TestEnvironment {
 	TestReporter.assertTrue(employeesPage.isSuccessMsgDisplayed(), "Verify Success message appears after creating new employee");
 	
 	//Validate new Employee created and visible
+	employeesPage.pageLoaded();
 	employeesPage.enterSearchText(employee.getLastName());
 	TestReporter.assertTrue(employeesPage.validateLastnameFoundInTable(employee.getLastName()), "Verify Employee " + employee.getLastName() + " appeared in the Employee Table");
     }    
