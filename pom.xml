@@ -7,7 +7,7 @@
 
 	<properties>
 		<testNGSourceDirectory>src/test/resources</testNGSourceDirectory>
-		<allure.version>1.4.13</allure.version>
+		<allure.version>1.4.19</allure.version>
 		<aspectj.version>1.8.5</aspectj.version>
 	</properties>
 
@@ -84,8 +84,15 @@
 			</plugin>
 		</plugins>
 	</reporting>
-		<dependencies>
+	<dependencies>
 		<!-- Start Selenium requirements: Up-to-date as of 6-11-2015 -->
+
+		<dependency>
+			<groupId>com.codeborne</groupId>
+			<artifactId>phantomjsdriver</artifactId>
+			<version>1.2.1</version>
+			<exclusions></exclusions>
+		</dependency>
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-java</artifactId>
@@ -94,6 +101,12 @@
 				https://code.google.com/p/selenium/issues/detail?id=8083 https://code.google.com/p/selenium/issues/detail?id=8333 
 				2.45.0 - Issues with Test Execution speed https://code.google.com/p/selenium/issues/detail?id=8551 -->
 		</dependency>
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-remote-driver</artifactId>
+			<version>2.47.2</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.testng</groupId>
 			<artifactId>testng</artifactId>
@@ -110,7 +123,7 @@
 		<dependency>
 			<groupId>ru.yandex.qatools.allure</groupId>
 			<artifactId>allure-testng-adaptor</artifactId>
-			<version>1.4.13</version>
+			<version>1.4.19</version>
 			<exclusions>
 				<exclusion>
 					<groupId>junit</groupId>
@@ -179,7 +192,7 @@
 			<artifactId>httpclient</artifactId>
 			<version>4.4.1</version>
 		</dependency>
-		
+
 		<!-- End HTML Unit Driver requirements: Up-to-date as of 6-11-2015 -->
 
 		<!-- Start General requirements -->
@@ -290,5 +303,16 @@
 			<version>1.1.6</version>
 		</dependency>
 		<!-- End Soap Core requirements -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.5.6</version>
+			<type>jar</type>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+			<version>1.5.6</version>
+		</dependency>
 	</dependencies>
 </project>

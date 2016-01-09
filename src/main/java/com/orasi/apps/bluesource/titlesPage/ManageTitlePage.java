@@ -8,28 +8,26 @@ import ru.yandex.qatools.allure.annotations.Step;
 import com.orasi.core.interfaces.Button;
 import com.orasi.core.interfaces.Textbox;
 import com.orasi.core.interfaces.impl.internal.ElementFactory;
+import com.orasi.utils.OrasiDriver;
 import com.orasi.utils.TestEnvironment;
 
 public class ManageTitlePage {
-    	private TestEnvironment te = null;
+    	private OrasiDriver driver = null;
 
 	//All the page elements
-	@FindBy(id = "title_name")
-	private Textbox txtTitle;
-	
-	@FindBy(name = "commit")
-	private Button btnCreateTitle;
+	@FindBy(id = "title_name") private Textbox txtTitle;	
+	@FindBy(name = "commit") private Button btnCreateTitle;
 	
 	// *********************
 	// ** Build page area **
 	// *********************
-	public ManageTitlePage(TestEnvironment te){
-		this.te = te;
-		ElementFactory.initElements(te.getDriver(), this);
+	public ManageTitlePage(OrasiDriver driver){
+		this.driver = driver;
+		ElementFactory.initElements(driver, this);
 	}
 	
 	public boolean pageLoaded(){
-	    return te.pageLoaded(this.getClass(), txtTitle);
+	    return driver.pageLoaded(this.getClass(), txtTitle);
 	}
 
 	// *****************************************
@@ -50,6 +48,6 @@ public class ManageTitlePage {
 	
 	private void enterTitleName(String title){
 	    txtTitle.set(title);
-	    btnCreateTitle.click();
+	    btnCreateTitle.submit();
 	}
 }

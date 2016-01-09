@@ -10,10 +10,17 @@ import java.util.ResourceBundle;
 
 import org.json.simple.JSONArray;
 import org.openqa.selenium.Platform;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.phantomjs.PhantomJSDriver;
+import org.openqa.selenium.phantomjs.PhantomJSDriverService;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 
 import com.orasi.core.interfaces.Element;
 import com.orasi.core.interfaces.impl.internal.ElementFactory;
@@ -70,7 +77,7 @@ public class TestEnvironment {
     /*
      * Selenium Hub Field
      */
-    protected String seleniumHubURL = "http://10.238.242.50:4444/wd/hub";
+    protected String seleniumHubURL = "http://40.122.51.143:4444/wd/hub";
     
    
     /*
@@ -346,42 +353,48 @@ public class TestEnvironment {
 	else launchApplication(getPageURL());
     }
 
-    protected void endTest(String testName){ 	
+   /* protected void endTest(String testName){ 	
  	if (getDriver() != null && getDriver().getWindowHandles().size() > 0) {
  	    getDriver().quit();
  	}
-     }
+     }*/
      
+    protected void endTest(String testName, OrasiDriver oDriver){ 	
+ 	if (oDriver != null && oDriver.getWindowHandles().size() > 0) {
+ 	   oDriver.quit();
+ 	}
+     }
+    
     /*
      * Use ITestResult from @AfterMethod to determine run status before closing test if reporting to sauce labs
      */
-    protected void endTest(String testName, ITestResult testResults){
+    protected void endTest(String testName, ITestResult testResults, OrasiDriver oDriver){
 	if(runLocation.equalsIgnoreCase("remote") | runLocation.equalsIgnoreCase("sauce")){
-	    endSauceTest(testResults.getStatus());
+	    endSauceTest(testResults.getStatus(), oDriver);
 	}
 	
- 	endTest(testName);
+ 	endTest(testName, oDriver);
     }
     
     /*
      * Use ITestContext from @AfterTest or @AfterSuite to determine run status before closing test if reporting to sauce labs
      */
-    protected void endTest(String testName, ITestContext testResults){
+    protected void endTest(String testName, ITestContext testResults, OrasiDriver oDriver){
  	if(runLocation.equalsIgnoreCase("remote") | runLocation.equalsIgnoreCase("sauce")){
  	    if(testResults.getFailedTests().size() == 0) {
- 		endSauceTest(ITestResult.SUCCESS);
+ 		endSauceTest(ITestResult.SUCCESS, oDriver);
  	    }else{
- 		endSauceTest(ITestResult.FAILURE);
+ 		endSauceTest(ITestResult.FAILURE, oDriver);
  	    }
  	}
- 	endTest(testName);
+ 	endTest(testName,oDriver);
      }
      
     
     /*
      * Report end of run status to Sauce LAbs
      */  
-    private void endSauceTest(int result)  {
+    private void endSauceTest(int result, OrasiDriver oDriver)  {
 	Map<String, Object> updates = new HashMap<String, Object>();
 	updates.put("name", getTestName());	
 	
@@ -392,7 +405,7 @@ public class TestEnvironment {
 	}
 	
 	SauceREST client = new SauceREST(authentication.getUsername() ,authentication.getAccessKey() );
-	client.updateJobInfo(driver.getSessionId().toString(), updates);			
+	client.updateJobInfo(oDriver.getSessionId().toString(), updates);			
 }
 
     
@@ -448,15 +461,13 @@ public class TestEnvironment {
 		else if (getBrowserUnderTest().equalsIgnoreCase("html")) {
 		    caps = DesiredCapabilities.htmlUnitWithJs();
 		}
-		/*else if (getBrowserUnderTest().equalsIgnoreCase("phantom")) {
+		else if (getBrowserUnderTest().equalsIgnoreCase("phantom")) {
 			    caps = DesiredCapabilities.phantomjs();
 			    caps.setCapability("ignoreZoomSetting", true);
 			    caps.setCapability("enablePersistentHover", false);
 			    file = new File(this.getClass().getResource(Constants.DRIVERS_PATH_LOCAL+ "phantomjs.exe").getPath());
 			    caps.setCapability(PhantomJSDriverService.PHANTOMJS_EXECUTABLE_PATH_PROPERTY , file.getAbsolutePath());
-			    driver = new PhantomJSDriver(caps);
-			
-		}*/
+		}
 		// Safari
 		else if (getBrowserUnderTest().equalsIgnoreCase("safari")) {
 		    caps =DesiredCapabilities.safari();
@@ -540,6 +551,7 @@ public class TestEnvironment {
 	    setDriver(new OrasiDriver(caps));
 	    // Code for running on the selenium grid
 	} else if ( getRunLocation().equalsIgnoreCase("grid")) {
+	    caps = new DesiredCapabilities();
 	    caps.setCapability(CapabilityType.BROWSER_NAME,
 		    getBrowserUnderTest());
 	    if (getBrowserVersion() != null) {
@@ -675,6 +687,5 @@ public class TestEnvironment {
 	    default: return Platform.ANY;
 	}
     }
-    
 
 }

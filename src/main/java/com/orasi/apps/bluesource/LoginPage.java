@@ -1,6 +1,7 @@
 package com.orasi.apps.bluesource;
 import java.util.ResourceBundle;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.support.FindBy;
 
 import ru.yandex.qatools.allure.annotations.Step;
@@ -10,33 +11,27 @@ import com.orasi.core.interfaces.Element;
 import com.orasi.core.interfaces.Textbox;
 import com.orasi.core.interfaces.impl.internal.ElementFactory;
 import com.orasi.utils.Constants;
+import com.orasi.utils.OrasiDriver;
 import com.orasi.utils.TestEnvironment;
 
 public class LoginPage {
-	private TestEnvironment te = null;
+	private OrasiDriver driver = null;
 	//all the page elements
-	@FindBy(id = "employee_username")
-	private Textbox txtUsername;
-	
-	@FindBy(id = "employee_password")
-	private Textbox txtPassword;
-	
-	@FindBy(name = "commit")
-	private Button btnLogin;
-	
-	@FindBy(className = "alert-danger")
-	private Element eleAlert;
+	@FindBy(id = "employee_username") private Textbox txtUsername;	
+	@FindBy(id = "employee_password") private Textbox txtPassword;	
+	@FindBy(name = "commit") private Button btnLogin;	
+	@FindBy(className = "alert-danger") private Element eleAlert;	
 	
 	// *********************
 	// ** Build page area **
 	// *********************
-	public LoginPage(TestEnvironment te){
-		this.te = te;		
-		ElementFactory.initElements(te.getDriver(), this);
+	public LoginPage(OrasiDriver driver){
+		this.driver = driver;		
+		ElementFactory.initElements(driver, this);
 	}
 	
 	public boolean pageLoaded(){
-	    return te.pageLoaded(this.getClass(), btnLogin);
+	    return driver.pageLoaded(this.getClass(), btnLogin);
 	}
 	
 	// *****************************************
@@ -49,19 +44,12 @@ public class LoginPage {
 		String password = "";
 		final ResourceBundle userCredentialRepo = ResourceBundle.getBundle(Constants.USER_CREDENTIALS_PATH);
 
-		if (!role.toUpperCase().equals("SKIP_USER")) {
-		    username = userCredentialRepo.getString("BLUESOURCE_" + role.toUpperCase());
-		}
-		
-		if (!role.toUpperCase().equals("SKIP_PASSWORD")) {
-		    password = userCredentialRepo.getString("BLUESOURCE_ENCODED_PASSWORD");			
-		}
-				
-		te.getDriver().switchTo().defaultContent();
+		if (!role.toUpperCase().equals("SKIP_USER")) username = userCredentialRepo.getString("BLUESOURCE_" + role.toUpperCase());
+		if (!role.toUpperCase().equals("SKIP_PASSWORD")) password = userCredentialRepo.getString("BLUESOURCE_ENCODED_PASSWORD");			
 		
 		txtUsername.set(username);
 		txtPassword.setSecure(password);
-		btnLogin.click();
+		btnLogin.submit();
 	}
 	
 	@Step("Then I did not log in successfully")

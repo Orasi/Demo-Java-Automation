@@ -12,19 +12,17 @@ import com.orasi.core.interfaces.Label;
 import com.orasi.core.interfaces.Link;
 import com.orasi.core.interfaces.Webtable;
 import com.orasi.core.interfaces.impl.internal.ElementFactory;
+import com.orasi.utils.OrasiDriver;
 import com.orasi.utils.TestEnvironment;
 import com.orasi.utils.TestReporter;
 import com.orasi.utils.date.DateTimeConversion;
 
 public class ProjectSummaryPage {
-	private TestEnvironment te;
+	private OrasiDriver driver;
 	
 	//All the page elements
-	@FindBy(xpath = "//table")
-	private Webtable tabProjectInfoTable;
-	
-	@FindBy(xpath = "//h4[text()='Project Info']/../button")
-	private Button btnManageProjectInfo;
+	@FindBy(xpath = "//table") private Webtable tabProjectInfoTable;	
+	@FindBy(xpath = "//h4[text()='Project Info']/../button") private Button btnManageProjectInfo;
 	
 	
 	/*
@@ -39,13 +37,13 @@ public class ProjectSummaryPage {
 	// *********************
 	// ** Build page area **
 	// *********************
-	public ProjectSummaryPage(TestEnvironment te){
-		this.te = te;
-		ElementFactory.initElements(te.getDriver(), this);
+	public ProjectSummaryPage(OrasiDriver driver){
+		this.driver = driver;
+		ElementFactory.initElements(driver, this);
 	}
 		
 	public boolean pageLoaded(){
-		return te.pageLoaded(this.getClass(), tabProjectInfoTable); 	    
+		return driver.pageLoaded(this.getClass(), tabProjectInfoTable); 	    
 	}
 	// *****************************************
 	// ***Page Interactions ***

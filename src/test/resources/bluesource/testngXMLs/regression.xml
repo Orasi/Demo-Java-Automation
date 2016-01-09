@@ -1,18 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="Bluesource_Regression" parallel= "instances" thread-count="8">
+<suite name="Bluesource_Regression" parallel= "classes" thread-count="5">
 	<listeners>
 		<listener class-name="com.orasi.utils.Screenshot" />
 	</listeners>
-	<parameter name="browserUnderTest" value="firefox" />
-	<parameter name="environment" value="staging" />
-	<parameter name="runLocation" value="sauce" />
-	<parameter name="browserVersion" value="35" />
-	<parameter name="operatingSystem" value="XP" />
-	<test name="Test">
+	
+	<!-- <test name="QA Only Tests">
+		<parameter name="browserUnderTest" value="chrome" />
+		<parameter name="environment" value="qa" />
+		<parameter name="runLocation" value="sauce" />
+		<parameter name="browserVersion" value="" />
+		<parameter name="operatingSystem" value="windows" />
 		<groups>
 			<run>
+				<include name="qaOnly" />		
+			</run>
+		</groups>
+		<packages>
+			<package name="com.orasi.bluesource.features.*">
+			</package>
+		</packages>
+		
+	</test> Test
+	 -->
+	<test name="Staging tests">
+		<parameter name="browserUnderTest" value="firefox" />
+		<parameter name="environment" value="staging" />
+		<parameter name="runLocation" value="local" />
+		<parameter name="browserVersion" value="" />
+		<parameter name="operatingSystem" value="windows" />
+		<groups>
+			<run>
+				
 				<include name="regression" />
+				<exclude name="qaOnly" />		
 			</run>
 		</groups>
 		<packages>

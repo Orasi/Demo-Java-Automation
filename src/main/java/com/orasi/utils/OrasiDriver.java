@@ -17,6 +17,7 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.safari.SafariDriver;
@@ -463,6 +464,9 @@ public class OrasiDriver implements WebDriver,   JavaScriptExecutor, TakesScreen
 	case "microsoftedge":
 	    driver = new EdgeDriver(caps);
 	    break;    
+	case "phantom":
+	case "phantomjs":
+	    driver = new PhantomJSDriver(caps);
 	default:
 	    break;
 	}
@@ -478,7 +482,7 @@ public class OrasiDriver implements WebDriver,   JavaScriptExecutor, TakesScreen
 	return ((TakesScreenshot) driver).getScreenshotAs(target);
     }
     
-    class Capabilities{
+   public class Capabilities{
     	
     	public String browserName(){
     		return ((RemoteWebDriver) driver).getCapabilities().getBrowserName();
@@ -506,6 +510,24 @@ public class OrasiDriver implements WebDriver,   JavaScriptExecutor, TakesScreen
     	if(by instanceof ByNGRepeater) return new ByAngular(getDriver()).repeater(text);
     	if(by instanceof ByNGShow) return new ByAngular(getDriver()).show(text);
     	return null;
-    }
+    }    
     
+    public boolean pageLoaded() {
+   	return new PageLoaded().isDomComplete(this);
+       }
+
+       /**
+        * @summary loops for a predetermined amount of time (defined by
+        *          WebDriverSetup.getDefaultTestTimeout()) to determine if the
+        *          Element is not null
+        * @return boolean: true is the DOM is completely loaded, false otherwise
+        * @param clazz
+        *            - page class that is calling this method
+        * @param element
+        *            - element with which to determine if a page is loaded
+        */
+       public boolean pageLoaded(Class<?> clazz, Element element) {
+
+   	return new PageLoaded(this).isElementLoaded(clazz, element);
+       }
 }

@@ -30,7 +30,7 @@ public class LinkImpl extends ElementImpl implements Link {
     public void jsClick() {
 
     	try{
-    	    driver.executeJavaScript("if( document.createEvent ) {var click_ev = document.createEvent('MouseEvents'); click_ev.initEvent('click', true , true )"
+    	getWrappedDriver().executeJavaScript("if( document.createEvent ) {var click_ev = document.createEvent('MouseEvents'); click_ev.initEvent('click', true , true )"
     	    	+ ";arguments[0].dispatchEvent(click_ev);} else { arguments[0].click();}", element);
     	}catch(RuntimeException rte){
     	    TestReporter.interfaceLog(" Click Link [ <b>@FindBy: " + getElementLocatorInfo()  + " </b> ]", true);
@@ -43,7 +43,8 @@ public class LinkImpl extends ElementImpl implements Link {
     @Override
     public void click() {    	
         try{
-            getWrappedElement().click();
+            ((ElementImpl)getWrappedElement()).clickNoLog();
+        }catch(ClassCastException cce) {getWrappedElement().click();
         }catch(RuntimeException rte){
             TestReporter.interfaceLog(" Click Link [ <b>@FindBy: " + getElementLocatorInfo()  + " </b> ]", true);
             throw rte;

@@ -6,6 +6,7 @@ import java.util.concurrent.TimeUnit;
 import javax.naming.directory.NoSuchAttributeException;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
@@ -98,9 +99,10 @@ public class WebtableImpl extends ElementImpl implements Webtable {
      */
     @Override
     public Element getCell( int row, int column) {
-	getWrappedDriver().setElementTimeout(1, TimeUnit.SECONDS);
+	int timeout = getWrappedDriver().getElementTimeout();
+	getWrappedDriver().setElementTimeout(1, TimeUnit.MILLISECONDS);
 	Element cell = new ElementImpl(getWrappedElement().findElement(By.xpath("tbody/tr[" + row + "]/td[" + column + "]|tbody/tr["+ row + "]/th[" + column + "]|tr[" + row + "]/td["+ column + "]|tr[" + row + "]/th[" + column + "]")));
-	getWrappedDriver().setElementTimeout(getWrappedDriver().getElementTimeout(), TimeUnit.SECONDS);
+	getWrappedDriver().setElementTimeout(timeout);
 	return cell;
     }
 

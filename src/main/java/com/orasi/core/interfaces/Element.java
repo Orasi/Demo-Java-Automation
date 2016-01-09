@@ -15,6 +15,7 @@ import org.openqa.selenium.internal.WrapsElement;
 import org.openqa.selenium.support.FindBy;
 
 import com.orasi.core.Beta;
+import com.orasi.core.by.angular.ByNG;
 import com.orasi.core.interfaces.impl.ElementImpl;
 import com.orasi.core.interfaces.impl.internal.ImplementedBy;
 import com.orasi.utils.OrasiDriver;
@@ -86,8 +87,8 @@ public interface Element extends WebElement, WrapsElement, Locatable {
      * @see main.java.com.orasi.core.interfaces.impl.ElementImpl#findElement()
      */
     @Override
-    WebElement findElement(By by);
-
+    public WebElement findElement(By by);
+    //public Element findElement(ByNG by) ;
     /**
      * @author Justin
      * @param by - Search for specified {@link By} location and return all elements found in a {@link List}
@@ -96,8 +97,30 @@ public interface Element extends WebElement, WrapsElement, Locatable {
      */
     @Override
     List<WebElement> findElements(By by);
+    /*
+    public Textbox findTextbox(By by);
+    public Textbox findTextbox(ByNG by);
     
-
+    public Button findButton(By by);
+    public Button findButton(ByNG by);
+    
+    public Checkbox findCheckbox(By by);
+    public Checkbox findCheckbox(ByNG by);
+    
+    public Label findLabel(By by);
+    public Label findLabel(ByNG by);
+    
+    public Link findLink(By by); 
+    public Link findLink(ByNG by);
+    
+    public Listbox findListbox(By by);
+    public Listbox findListbox(ByNG by);
+    
+    public RadioGroup findRadioGroup(By by);
+    public RadioGroup findRadioGroup(ByNG by);
+    
+    public Webtable findWebtable(By by);
+    public Webtable findWebtable(ByNG by);*/
     /**
      * @author Justin
      * @param name - Search for specified attribute and return it's value

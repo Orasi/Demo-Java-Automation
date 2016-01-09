@@ -10,76 +10,44 @@ import com.orasi.core.interfaces.Label;
 import com.orasi.core.interfaces.Listbox;
 import com.orasi.core.interfaces.Textbox;
 import com.orasi.core.interfaces.impl.internal.ElementFactory;
+import com.orasi.utils.OrasiDriver;
 import com.orasi.utils.TestEnvironment;
 
 public class ManageEmployeeModal {
 
-	private TestEnvironment te;
+	private OrasiDriver driver;
 	private StringBuffer verificationErrors = new StringBuffer();
 
 	//All the page elements:
 	
-	@FindBy(id = "modal_label_1")
-	private Label lblAddEmployeePopup;
-	
-	@FindBy(id = "employee_username")	
-	private Textbox txtUsername;
-	
-	@FindBy(id = "employee_first_name")
-	private Textbox txtFirstName;
-	
-	@FindBy(id = "employee_last_name")
-	private Textbox txtLastName;
-	
-	@FindBy(id = "employee_title_id")
-	private Listbox lstTitle;
-	
-	@FindBy(id = "employee_role")
-	private Listbox lstRole;
-	
-	@FindBy(id = "employee_manager_id")
-	private Listbox lstManager;
-	
-	@FindBy(id = "employee_status")
-	private Listbox lstStatus;
-	
-	@FindBy(id = "employee_location")
-	private Listbox lstLocation;
-	
-	@FindBy(id = "employee_start_date")
-	private Textbox txtStartDate;
-	
-	@FindBy(id = "employee_cell_phone")
-	private Textbox txtCellPhone;
-	
-	@FindBy(id = "employee_office_phone")
-	private Textbox txtOfficePhone;
-	
-	@FindBy(id = "employee_email")
-	private Textbox txtEmail;
-	
-	@FindBy(id = "employee_im_name")
-	private Textbox txtImName;
-	
-	@FindBy(id = "employee_im_client")
-	private Listbox lstImClient;
-	
-	@FindBy(id = "employee_department_id")
-	private Listbox lstDept;
-	
-	@FindBy(name = "commit")
-	private Button btnSave;
+	@FindBy(id = "modal_label_1") private Label lblAddEmployeePopup;	
+	@FindBy(id = "employee_username") private Textbox txtUsername;	
+	@FindBy(id = "employee_first_name") private Textbox txtFirstName;	
+	@FindBy(id = "employee_last_name") private Textbox txtLastName;	
+	@FindBy(id = "employee_title_id") private Listbox lstTitle;	
+	@FindBy(id = "employee_role") private Listbox lstRole;	
+	@FindBy(id = "employee_manager_id") private Listbox lstManager;	
+	@FindBy(id = "employee_status")	private Listbox lstStatus;	
+	@FindBy(id = "employee_location") private Listbox lstLocation;	
+	@FindBy(id = "employee_start_date") private Textbox txtStartDate;	
+	@FindBy(id = "employee_cell_phone") private Textbox txtCellPhone;	
+	@FindBy(id = "employee_office_phone") private Textbox txtOfficePhone;	
+	@FindBy(id = "employee_email") private Textbox txtEmail;	
+	@FindBy(id = "employee_im_name") private Textbox txtImName;	
+	@FindBy(id = "employee_im_client") private Listbox lstImClient;	
+	@FindBy(id = "employee_department_id")private Listbox lstDept;	
+	@FindBy(name = "commit") private Button btnSave;
 
 	// *********************
 	// ** Build page area **
 	// *********************
-	public ManageEmployeeModal(TestEnvironment te){
-		this.te = te;
-		ElementFactory.initElements(te.getDriver(), this);
+	public ManageEmployeeModal(OrasiDriver driver){
+		this.driver = driver;
+		ElementFactory.initElements(driver, this);
 	}
 	
 	public boolean pageLoaded(){
-		return te.pageLoaded(this.getClass(), txtUsername); 		  
+		return driver.pageLoaded(this.getClass(), txtUsername); 		  
 	}
 	
 	// *****************************************
@@ -92,34 +60,27 @@ public class ManageEmployeeModal {
 							String status, String location, String startDate, String cellPhone, String officePhone, 
 							String email, String imName, String imClient, String dept)  {
 	    lblAddEmployeePopup.syncEnabled();
-		  //Fill in the details
-		  try {
-			  txtUsername.set(username);
-			  txtFirstName.set(firstName);
-			  txtLastName.set(lastName);
-			  lstTitle.select(title);
-			  lstRole.select(role);
-			  lstManager.select(manager);
-			  lstStatus.select(status);
-			  lstLocation.select(location);
-			  txtStartDate.set(startDate);
-			  txtCellPhone.set(cellPhone);
-			  txtOfficePhone.set(officePhone);
-			  txtEmail.set(email);
-			  txtImName.set(imName);
-			  lstImClient.select(imClient);
-			  lstDept.select(dept);
+
+	    //Fill in the details
+	    txtUsername.set(username);
+	    txtFirstName.set(firstName);
+	    txtLastName.set(lastName);
+	    lstTitle.select(title);
+	    lstRole.select(role);
+	    lstManager.select(manager);
+	    lstStatus.select(status);
+	    lstLocation.select(location);
+	    txtStartDate.sendKeys(startDate);
+	    txtCellPhone.set(cellPhone);
+	    txtOfficePhone.set(officePhone);
+	    txtEmail.set(email);
+	    txtImName.set(imName);
+	    lstImClient.select(imClient);
+	    lstDept.select(dept);
 		  
-			  //submit
-			  btnSave.syncEnabled();
-			  btnSave.click();
-			  
-		  }catch (Exception e){
-			  verificationErrors.append(e.toString());
-			  Reporter.log("Element not found on the add employee frame: " + e);
-			  throw new RuntimeException(e);
-		  }
-		  
+	    //submit
+	    btnSave.syncEnabled();
+	    btnSave.submit();		  
 	  }
 	
 	public void addEmployee(Employee employee){
@@ -152,7 +113,7 @@ public class ManageEmployeeModal {
 		  
 	    //submit
 	    btnSave.syncEnabled();
-	    btnSave.click();
+	    btnSave.submit();
 
 	  }
 	
