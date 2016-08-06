@@ -36,7 +36,7 @@ public class ShowEmployeesPerPage  extends TestEnvironment {
 
     @AfterTest( alwaysRun=true)
     public void closeSession(ITestContext test) {
-	endTest(testName, test, driver);
+	endTest(testName, test);
     }    
 
     @Features("Manage Employees")

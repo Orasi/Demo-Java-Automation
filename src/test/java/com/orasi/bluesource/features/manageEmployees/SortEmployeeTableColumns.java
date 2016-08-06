@@ -46,7 +46,7 @@ public class SortEmployeeTableColumns  extends TestEnvironment {
 
     @AfterMethod(alwaysRun=true)
     public void closeSession(ITestContext test) {
-	endTest(testName, test, driver);
+	endTest(testName, test);
     }    
 
     @Features("Manage Employees")

@@ -48,7 +48,7 @@ public class ListingTitlesPage {
 	}	
 	
 	public boolean pageLoaded(){
-	    return driver.pageLoaded(this.getClass(), lnkNewTitle);
+	    return driver.page().pageLoaded(this.getClass(), lnkNewTitle);
 	}
 
 	// *****************************************
@@ -66,7 +66,7 @@ public class ListingTitlesPage {
 	
 	@Step("And I click the \"Edit Title\" icon on the row for title \"{0}\"")
 	public void clickModifyTitle(String title){	    
-	    getTitleRowElement(title).findElement(By.className("glyphicon-pencil")).click();
+		driver.findElement(By.xpath("//table/tbody/tr/td[contains(text(),'"+title+"')]/div/a/span[contains(@class,'glyphicon-pencil')]")).click();
 	}
 	
 	@Step("Then an alert should appear for confirmation")
@@ -82,8 +82,7 @@ public class ListingTitlesPage {
 	
 	@Step("And I can delete the title from the table")
 	public void deleteTitle(String title){
-	    WebElement titleCell = getTitleRowElement(title);
-	    new ElementImpl(titleCell.findElement(deleteIcon)).click();
+		driver.findElement(By.xpath("//table/tbody/tr/td[contains(text(),'"+title+"')]/div/a/span[contains(@class,'glyphicon-trash')]")).click();
 	    
 	    AlertHandler.handleAllAlerts(driver, 2);
 	}

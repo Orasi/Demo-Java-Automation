@@ -45,7 +45,7 @@ public class Login  extends TestEnvironment {
 
     @AfterMethod( alwaysRun=true)
     public void closeSession(ITestContext test) {
-	endTest(testName, test, driver);
+	endTest(testName, test);
     }    
 
     @Features("Login")

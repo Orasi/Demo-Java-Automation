@@ -16,7 +16,7 @@ public class FrameHandler {
 	
 	public static String getCurrentFrameName(WebDriver driver){
 	    if(driver instanceof OrasiDriver){
-		driver = ((OrasiDriver) driver).getDriver();
+		driver = ((OrasiDriver) driver).getWebDriver();
 	    }
 	    
 	    String frameName =  ((JavascriptExecutor) driver).executeScript("return self.name").toString();

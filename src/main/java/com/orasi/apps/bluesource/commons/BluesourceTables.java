@@ -40,7 +40,7 @@ public class BluesourceTables {
     public BluesourceTables (OrasiDriver driver){
 	this.driver = driver;	
     	ElementFactory.initElements(driver, this);    	
-    	driver.pageLoaded();
+    	driver.page().pageLoaded();
     }
     
     /**
@@ -108,7 +108,7 @@ public class BluesourceTables {
 	Link cellLink = new LinkImpl(cell.findElement(By.xpath("a")));
 	
 	cellLink.click();
-	driver.pageLoaded();
+	driver.page().pageLoaded();
 	
 	String currentOrder = cell.findElement(By.cssSelector("span.glyphicon-sort-by-alphabet")).getAttribute("ng-show");
 	if(order == SortOrder.ASCENDING){
@@ -151,7 +151,7 @@ public class BluesourceTables {
 	    if(currentRow==numberRows+1) {
 		currentRow = 2;
 		movedPage = new Pagination(driver).moveNext();
-		driver.pageLoaded();
+		driver.page().pageLoaded();
 		numberRows = table.getRowCount();
 	    }
 	} while (movedPage);	

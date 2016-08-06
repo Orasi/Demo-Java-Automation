@@ -43,13 +43,13 @@ public class ListingDepartmentsPage {
 	}
 	
 	public boolean pageLoaded(){
-	    return driver.pageLoaded(this.getClass(), lnkAddDept);
+	    return driver.page().pageLoaded(this.getClass(), lnkAddDept);
 	}
 	
 
 	public boolean pageLoaded(OrasiDriver driver){
 	    ElementFactory.initElements(driver, this);
-	    return driver.pageLoaded(this.getClass(), lnkAddDept);
+	    return driver.page().pageLoaded(this.getClass(), lnkAddDept);
 	}
 	//Methods
 	
@@ -135,7 +135,7 @@ public class ListingDepartmentsPage {
 	  //Get all the rows in the table by CSS
 	  List<WebElement> elementList = driver.findElements(By.cssSelector(".list-group-item"));
 	  for(WebElement element:elementList){
-	      if(element.getText().replace("Add Subdepartment","").trim().equals(departmentName)) return new ElementImpl(element,driver);
+	      if(element.getText().replace("Add Subdepartment","").trim().equals(departmentName)) return new ElementImpl(element);
 	  }
 	  return null;
 	}

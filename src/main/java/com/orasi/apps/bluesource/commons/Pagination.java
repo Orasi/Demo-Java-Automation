@@ -36,7 +36,7 @@ public class Pagination {
     public Pagination(OrasiDriver driver){
 	this.driver = driver;
  	ElementFactory.initElements(driver, this);
- 	driver.pageLoaded(this.getClass(), pagination);
+ 	driver.page().pageLoaded(this.getClass(), pagination);
     } 	
   
     /**
@@ -58,7 +58,7 @@ public class Pagination {
      * @doc.description WebElement pagination will be converted to Element for additional low-level reports
      */
     public Pagination (OrasiDriver driver, WebElement pagination){
-	this(driver, new ElementImpl(pagination,driver));
+	this(driver, new ElementImpl(driver, By.className("pageination")));
     }
     
 
@@ -96,7 +96,7 @@ public class Pagination {
     public boolean movePrevious(){
 	if(!pagination.isDisplayed()) return false;
 	String currentPage = getCurrentPage();
-	new ButtonImpl(pagination.findElement(By.cssSelector("li:last-child > a")),(OrasiDriver)pagination.getWrappedDriver()).click();
+	new ButtonImpl(driver, By.cssSelector("li:last-child > a")).click();
 	String nextPage = getCurrentPage();
 	if (currentPage.equals(nextPage)) return false;
 	return true;	

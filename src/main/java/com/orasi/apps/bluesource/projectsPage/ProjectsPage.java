@@ -47,7 +47,7 @@ public class ProjectsPage {
 	public ProjectsPage(){}
 	
 	public boolean pageLoaded(){
-	    return driver.pageLoaded(this.getClass(), txtSearch); 	    
+	    return driver.page().pageLoaded(this.getClass(), txtSearch); 	    
 	}
 	
 	// *****************************************
@@ -116,14 +116,14 @@ public class ProjectsPage {
 	public void clickAddProjectButton(){
 	    loadingModal.syncHidden();
 	    btnAdd.jsClick();
-	    driver.pageLoaded();
+	    driver.page().pageLoaded();
 	}
 	
 	@Step("When I click the Show Inactive Button on the Projects Page")
 	public void clickInactiveButton(){
 	    loadingModal.syncHidden();
 	    btnShowInactive.jsClick();
-	    driver.pageLoaded();
+	    driver.page().pageLoaded();
 	} 
 	
 	@Step("Then the Projects table should update the projects displayed")

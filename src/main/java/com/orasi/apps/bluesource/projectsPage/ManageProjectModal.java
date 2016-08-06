@@ -44,7 +44,7 @@ public class ManageProjectModal {
     }
     	
     public boolean pageLoaded(){
-    	return driver.pageLoaded(this.getClass(), txtName); 		  
+    	return driver.page().pageLoaded(this.getClass(), txtName); 		  
     }
     	
     // *****************************************

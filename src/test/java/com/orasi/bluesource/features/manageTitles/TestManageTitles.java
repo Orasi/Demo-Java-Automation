@@ -1,6 +1,7 @@
 package com.orasi.bluesource.features.manageTitles;
 
 import org.testng.ITestContext;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeTest;
@@ -27,7 +28,7 @@ import ru.yandex.qatools.allure.model.SeverityLevel;
 
 public class TestManageTitles extends TestEnvironment{
 
-    private OrasiDriver driver = null;
+   // private OrasiDriver driver = null;
     private String title = "";
     
     @DataProvider(name = "dataScenario")
@@ -35,7 +36,7 @@ public class TestManageTitles extends TestEnvironment{
 	return new ExcelDataProvider(Constants.BLUESOURCE_DATAPROVIDER_PATH + "TestAddNewTitle.xlsx", "TestAddNewTitle").getTestData();
     }
     
-    @BeforeTest(alwaysRun=true)
+    @BeforeClass(alwaysRun=true)
     @Parameters({ "runLocation", "browserUnderTest", "browserVersion", "operatingSystem", "environment" })
     public void setup(String runLocation, String browserUnderTest, String browserVersion, String operatingSystem, String environment) {
 	setApplicationUnderTest("Bluesource");
@@ -44,12 +45,12 @@ public class TestManageTitles extends TestEnvironment{
 	setOperatingSystem(operatingSystem);
 	setRunLocation(runLocation);
 	setTestEnvironment(environment);
-	setThreadDriver(true);
+	//setThreadDriver(true);
     }
 
-    @AfterTest(alwaysRun=true)
+    @AfterClass(alwaysRun=true)
     public void closeSession(ITestContext test) {
-	endTest(testName, test, driver);
+	endTest(testName, test);
     }    
 
     @Features("Manage Titles")
@@ -62,15 +63,15 @@ public class TestManageTitles extends TestEnvironment{
 	testName = new Object() {
 	}.getClass().getEnclosingMethod().getName();
 	testStart(testName);
-	driver = getDriver();
+	//driver = getDriver();
 	title = newTitle;
 	// Login
-	LoginPage loginPage = new LoginPage(driver);
+	LoginPage loginPage = new LoginPage( getDriver());
 	TestReporter.assertTrue(loginPage.pageLoaded(), "Verify login page is displayed");
 	loginPage.login(role);
 
 	// Verify user is logged in
-	TopNavigationBar topNavigationBar = new TopNavigationBar(driver);
+	TopNavigationBar topNavigationBar = new TopNavigationBar( getDriver());
 	TestReporter.assertTrue(topNavigationBar.isLoggedIn(), "Validate the user logged in successfully");
 
 	// Navigate to the title page
@@ -85,7 +86,7 @@ public class TestManageTitles extends TestEnvironment{
 	listingTitlesPage.clickNewTitle();
 
 	// Instantiate the Manage titles page and create a new title
-	ManageTitlePage manageTitlePage = new ManageTitlePage(driver);
+	ManageTitlePage manageTitlePage = new ManageTitlePage( getDriver());
 	TestReporter.assertTrue(manageTitlePage.pageLoaded(),"Verify manage title page is displayed");
 	manageTitlePage.createNewTitle(title);
 
@@ -109,7 +110,7 @@ public class TestManageTitles extends TestEnvironment{
 	title += "_modified";
 
 	// Instantiate the Manage titles page and modify the new title
-	ManageTitlePage manageTitlePage = new ManageTitlePage(driver);
+	ManageTitlePage manageTitlePage = new ManageTitlePage( getDriver());
 	TestReporter.assertTrue(manageTitlePage.pageLoaded(),"Verify manage title page is displayed");
 	manageTitlePage.modifyTitle(title);
 	
@@ -128,15 +129,15 @@ public class TestManageTitles extends TestEnvironment{
     public void testDeleteTitle() {
 	
 	// Delete the new title
-	ListingTitlesPage listingTitlesPage = new ListingTitlesPage(driver);
+	ListingTitlesPage listingTitlesPage = new ListingTitlesPage( getDriver());
 	listingTitlesPage.deleteTitle(title);
 
 	// Verify the title is deleted
-	ListingTitlesPage refreshedPage = new ListingTitlesPage(driver);
+	ListingTitlesPage refreshedPage = new ListingTitlesPage( getDriver());
 	TestReporter.assertTrue(refreshedPage.isSuccessMsgDisplayed(), "Validate success message appears");
 	
 	// logout
-	TopNavigationBar topNavigationBar = new TopNavigationBar(driver);
+	TopNavigationBar topNavigationBar = new TopNavigationBar( getDriver());
 	topNavigationBar.clickLogout();
     }
 }

@@ -3,19 +3,14 @@ package com.orasi.core.interfaces.impl;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
-import org.apache.commons.lang.time.StopWatch;
 import org.openqa.selenium.By;
-import org.openqa.selenium.By.ByClassName;
 import org.openqa.selenium.Dimension;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
@@ -23,30 +18,16 @@ import org.openqa.selenium.htmlunit.HtmlUnitWebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.interactions.internal.Coordinates;
 import org.openqa.selenium.internal.Locatable;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Wait;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.internal.WrapsElement;
 
 import com.orasi.core.Beta;
 import com.orasi.core.by.angular.ByNG;
-import com.orasi.core.by.angular.ByNG.ByNGButton;
-import com.orasi.core.by.angular.ByNG.ByNGController;
-import com.orasi.core.by.angular.ByNG.ByNGModel;
-import com.orasi.core.by.angular.ByNG.ByNGRepeater;
-import com.orasi.core.by.angular.ByNG.ByNGShow;
-import com.orasi.core.by.angular.internal.ByAngular;
-import com.orasi.core.interfaces.Button;
-import com.orasi.core.interfaces.Checkbox;
 import com.orasi.core.interfaces.Element;
-import com.orasi.core.interfaces.Label;
-import com.orasi.core.interfaces.Link;
-import com.orasi.core.interfaces.Listbox;
-import com.orasi.core.interfaces.RadioGroup;
-import com.orasi.core.interfaces.Textbox;
-import com.orasi.core.interfaces.Webtable;
-import com.orasi.utils.Constants;
+import com.orasi.exception.AutomationException;
 import com.orasi.utils.OrasiDriver;
+import com.orasi.utils.PageLoaded;
 import com.orasi.utils.TestReporter;
+import com.orasi.utils.debugging.Highlight;
 
 /**
  * An implementation of the Element interface. Delegates its work to an
@@ -54,1175 +35,778 @@ import com.orasi.utils.TestReporter;
  */
 public class ElementImpl implements Element {
 
-    protected WebElement element;
-    protected OrasiDriver driver;
-    protected String elementType = "Element";
-    private java.util.Date date = new java.util.Date();
-    private java.util.Date dateAfter = new java.util.Date();
-    private StopWatch stopwatch = new StopWatch();
-    private long syncLoopTime = 250; // Milliseconds
-    private long syncLoopTimeout = 5000; // Milliseconds
+	protected WebElement element;
+	protected By by;
+	protected ByNG byNG;
+	protected OrasiDriver driver;
 
-    public ElementImpl(final WebElement element) {
-    	this.element = element;
-    }
-    
-    public ElementImpl(final WebElement element, final OrasiDriver driver) {
-    	this.element = element;
-    	this.driver = driver;
-    }
-    
-    protected ElementImpl(final WebElement element,  String elementType) {
-    	this.element = element;
-    	this.elementType = elementType;
-    }
-    
-    protected ElementImpl(final WebElement element, final OrasiDriver driver, String elementType) {
-    	this.element = element;
-    	this.driver = driver;
-    	this.elementType = elementType;
-    }
-protected void setElementType(String elementType) {this.elementType = elementType;}
-    /**
-     * @see org.openqa.selenium.WebElement#click()
-     */
-    @Override
-    public void click() {
-	try {
-		getWrappedElement().click();
-	} catch (RuntimeException rte) {
-	    if(elementType.equals("Element")) TestReporter.interfaceLog("Clicked [ <font size = 2 color=\"red\"><b>@FindBy: " + getElementLocatorInfo() + " </font></b>]");
-	}
-	if(elementType.equals("Element")&&!element.toString().contains("ElementImpl")) TestReporter.interfaceLog("Clicked [ <b>@FindBy: "+ getElementLocatorInfo() + " </b>]");
-    }
-    protected void clickNoLog() {
-  	element.click();
-      }
-
-    @Override
-    public void jsClick() {
-	getWrappedDriver().executeJavaScript(
-		"arguments[0].scrollIntoView(true);arguments[0].click();",
-		element);
-	TestReporter.interfaceLog("Clicked [ <b>@FindBy: "
-		+ getElementLocatorInfo() + " </b>]");
-    }
-
-    @Override
-    public void focus() {
-	new Actions(getWrappedDriver()).moveToElement(element).click().perform();
-    }
-
-    @Override
-    public void focusClick() {
-	new Actions(getWrappedDriver()).moveToElement(element).click().perform();
-	TestReporter.interfaceLog("Focus Clicked [ <b>@FindBy: "
-		+ getElementLocatorInfo() + " </b>]");
-    }
-
-    /**
-     * @see org.openqa.selenium.WebElement#getLocation()
-     */
-    @Override
-    public Point getLocation() {
-	return element.getLocation();
-    }
-
-    /**
-     * @see org.openqa.selenium.WebElement#submit()
-     */
-    @Override
-    public void submit() {
-	element.submit();
-    }
-
-    /**
-     * @see org.openqa.selenium.WebElement#getAttribute()
-     */
-    @Override
-    public String getAttribute(String name) {
-	return element.getAttribute(name);
-    }
-
-    /**
-     * @see org.openqa.selenium.WebElement#getCssValue()
-     */
-    @Override
-    public String getCssValue(String propertyName) {
-	return element.getCssValue(propertyName);
-    }
-
-    /**
-     * @see org.openqa.selenium.WebElement#getSize()
-     */
-    @Override
-    public Dimension getSize() {
-	try {
-	    return element.getSize();
-	} catch (WebDriverException wde) {
-	    if (wde.getMessage().toLowerCase().contains("not implemented")) {
-		TestReporter
-			.logFailure("getSize has not been implemented by EdgeDriver");
-	    }
-	}
-	return null;
-    }
-
-    /**
-     * @see org.openqa.selenium.WebElement#findElements()
-     */
-    @Override
-    public List<WebElement> findElements(By by) {
-	return element.findElements(by);
-    }
-
-    /**
-     * @see org.openqa.selenium.WebElement#getText()
-     */
-    @Override
-    public String getText() {
-	return element.getText();
-    }
-
-    /**
-     * @see org.openqa.selenium.WebElement#getTagName()
-     */
-    @Override
-    public String getTagName() {
-	return element.getTagName();
-    }
-
-    /**
-     * @see org.openqa.selenium.WebElement#findElement()
-     */
-    @Override
-    public WebElement findElement(By by) {
-	return element.findElement(by);
-    }
-
-    /**
-     * @see org.openqa.selenium.WebElement#isEnabled()
-     */
-    @Override
-    public boolean isEnabled() {
-	return element.isEnabled();
-    }
-
-    /**
-     * @see org.openqa.selenium.WebElement#isDisplayed()
-     */
-    @Override
-    public boolean isDisplayed() {
-	return element.isDisplayed();
-    }
-
-    /**
-     * @see org.openqa.selenium.WebElement.isSelected()
-     */
-    @Override
-    public boolean isSelected() {
-	try {
-	    return element.isSelected();
-	} catch (WebDriverException wde) {
-	    if (wde.getMessage().toLowerCase().contains("not implemented")) {
-		TestReporter
-			.logFailure(" isSelected has not been implemented by EdgeDriver");
-	    }
-	}
-	return false;
-
-    }
-
-    /**
-     * @see org.openqa.selenium.WebElement#clear()
-     */
-    @Override
-    public void clear() {
-    	getWrappedElement().clear();
-	TestReporter.interfaceLog(" Clear text from Element [ <b>@FindBy: " + getElementLocatorInfo() + " </b> ]");
-    }
-
-    /**
-     * @see org.openqa.selenium.WebElement#sendKeys()
-     */
-    //@Override
-    public void sendKeys(CharSequence... keysToSend) {
-	if (keysToSend.toString() != "") {	    
-	    element.sendKeys(keysToSend);
-	    if(elementType.equals("Element")) TestReporter.interfaceLog(" Send Keys [ <b>" + keysToSend[0].toString() + "</b> ] to Element [ <b>@FindBy: " + getElementLocatorInfo() + " </b> ]");
-	}
-    }
-
-    protected void sendKeysNoLog(CharSequence... keysToSend) {
-   	if (keysToSend.toString() != "") {	    
-   	    element.sendKeys(keysToSend);
-   	    //if(elementType.equals("Element")) TestReporter.interfaceLog(" Send Keys [ <b>" + keysToSend[0].toString() + "</b> ] to Element [ <b>@FindBy: " + getElementLocatorInfo() + " </b> ]");
-   	}
-       }
-
-    /**
-     * @see org.openqa.selenium.WebElement#getWrappedElement()
-     */
-    @Override
-    public WebElement getWrappedElement() {
-	return element;
-    }
-
-    @Override
-    public OrasiDriver getWrappedDriver() {
-    	if (driver == null){
-    		Field privateStringField = null;
-    		 try {
-    	        	privateStringField = element.getClass().getDeclaredField("driver");
-    	        	privateStringField.setAccessible(true);
-    	        	this.driver = (OrasiDriver)privateStringField.get(element);
-    		 }catch(  NoSuchFieldException | IllegalArgumentException | IllegalAccessException | SecurityException e ){ e.printStackTrace();}
-    	}
-    	return driver;
-    }
-    /**
-     * @see org.openqa.selenium.internal.Locatable#getCoordinates();
-     */
-    @Override
-    public Coordinates getCoordinates() {
-	return ((Locatable) element).getCoordinates();
-    }
-
-    @Override
-    public boolean elementWired() {
-	return (element != null);
-    }
-
-    /**
-     * Used in conjunction with WebObjectPresent to determine if the desired
-     * element is present in the DOM Will loop for the time out listed in
-     * com.orasi.utils.Constants If object is not present within the time, throw
-     * an error
-     * 
-     * @author Justin
-     */
-    @Override
-    public boolean syncPresent() {
-	return syncPresent(getWrappedDriver().getElementTimeout());
-    }
-
-    /**
-     * Used in conjunction with WebObjectPresent to determine if the desired
-     * element is present in the DOM Will loop for the time out passed in
-     * parameter timeout If object is not present within the time, throw an
-     * error
-     * 
-     * @author Justin
-     */
-    public boolean syncPresent(int timeout) {
-	return syncPresent(timeout, true);
-    }
-
-    /**
-     * Used in conjunction with WebObjectPresent to determine if the desired
-     * element is present in the DOM Will loop for the time out passed in
-     * parameter timeout If object is not present within the time, handle error
-     * based on returnError
-     * 
-     * @author Justin
-     */
-    @Override
-    public boolean syncPresent(int timeout, boolean returnError) {
-	boolean found = false;
-	final OrasiDriver driver = getWrappedDriver();
-	By locator = getElementLocator();
-	TestReporter.interfaceLog("<i> Syncing to element [ <b>@FindBy: "
-		+ getElementLocatorInfo()
-		+ "</b> ] to be <b>PRESENT</b> in DOM within [ " + timeout
-		+ " ] seconds.</i>");
-	int currentTimeout = driver.getElementTimeout();
-	driver.setElementTimeout(1, TimeUnit.MILLISECONDS);
-	
-	stopwatch.start();
-	do {
-	    if (webElementPresent(driver, locator)) {
-		found = true;
-		break;
-	    }
-	   
-	} while (stopwatch.getTime() / 1000.0 < (long) timeout);
-	stopwatch.stop();
-	stopwatch.reset();
-	
-	driver.setElementTimeout(currentTimeout);
-	
-	if (!found && returnError) {
-	    dateAfter = new java.util.Date();
-	    TestReporter.interfaceLog("<i>Element [<b>@FindBy: "
-		    + getElementLocatorInfo()
-		    + " </b>] is not <b>PRESENT</b> on the page after [ "
-		    + (dateAfter.getTime() - date.getTime()) / 1000.0
-		    + " ] seconds.</i>");
-	    throw new RuntimeException("Element [ @FindBy: "
-		    + getElementLocatorInfo()
-		    + " ] is not PRESENT on the page after [ "
-		    + (dateAfter.getTime() - date.getTime()) / 1000.0
-		    + " ] seconds.");
-	}
-	return found;
-    }
-
-    /**
-     *
-     * Used in conjunction with WebObjectVisible to determine if the desired
-     * element is visible on the screen Will loop for the time out listed in
-     * org.orasi.chameleon.CONSTANT.TIMEOUT If object is not visible within the
-     * time, throw an error
-     * 
-     * @author Justin
-     */
-    @Override
-    public boolean syncVisible() {
-	return syncVisible(getWrappedDriver().getElementTimeout());
-    }
-
-    /**
-     * Used in conjunction with WebObjectVisible to determine if the desired
-     * element is visible on the screen Will loop for the time out passed in the
-     * variable timeout If object is not visible within the time, throw an error
-     * 
-     * @author Justin
-     * 
-     */
-    public boolean syncVisible(int timeout) {
-	return syncVisible(timeout, true);
-    }
-
-    /**
-     * Used in conjunction with WebObjectVisible to determine if the desired
-     * element is visible on the screen Will loop for the time out passed in the
-     * variable timeout If object is not visible within the time, handle the
-     * error based on the boolean
-     *
-     * @author Justin
-     *
-     */
-    @Override
-    public boolean syncVisible(int timeout,  boolean returnError) {
-    final OrasiDriver driver = getWrappedDriver();
-	boolean found = false;
-
-	TestReporter.interfaceLog("<i>Syncing to element [<b>@FindBy: "
-		+ getElementLocatorInfo()
-		+ "</b> ] to be <b>VISIBLE<b> within [ " + timeout
-		+ " ] seconds.</i>");
-	int currentTimeout = driver.getElementTimeout();
-	driver.setElementTimeout(1, TimeUnit.MILLISECONDS);
-	
-	stopwatch.start();
-	do {
-	    if (webElementVisible(driver, element)) {
-		found = true;
-		break;
-	    }
-	   
-	} while (stopwatch.getTime() / 1000.0 < (long) timeout);
-	stopwatch.stop();
-	stopwatch.reset();
-	
-	driver.setElementTimeout(currentTimeout, TimeUnit.SECONDS);
-	if (!found && returnError) {
-	    dateAfter = new java.util.Date();
-	    TestReporter.interfaceLog("<i>Element [<b>@FindBy: "
-		    + getElementLocatorInfo()
-		    + " </b>] is not <b>VISIBLE</b> on the page after [ "
-		    + (dateAfter.getTime() - date.getTime()) / 1000.0
-		    + " ] seconds.</i>");
-	    throw new RuntimeException("Element [ @FindBy: "
-		    + getElementLocatorInfo()
-		    + " ] is not VISIBLE on the page after [ "
-		    + (dateAfter.getTime() - date.getTime()) / 1000.0
-		    + " ] seconds.");
-	}
-	return found;
-    }
-
-    /**
-     * Used in conjunction with WebObjectVisible to determine if the desired
-     * element is hidden from the screen Will loop for the time out listed in
-     * org.orasi.chameleon.CONSTANT.TIMEOUT If object is not visible within the
-     * time, throw an error
-     * 
-     * @author Justin
-     * */
-    @Override
-    public boolean syncHidden() {
-	return syncHidden( getWrappedDriver().getElementTimeout());
-    }
-
-    /**
-     * Used in conjunction with WebObjectVisible to determine if the desired
-     * element is hidden from the screen Will loop for the time out listed in
-     * org.orasi.chameleon.CONSTANT.TIMEOUT If object is not visible within the
-     * time, throw an error
-     * 
-     * @author Justin
-     */
-    public boolean syncHidden( int timeout) {
-	return syncHidden(timeout, true);
-    }
-
-    /**
-     * Used in conjunction with WebObjectVisible to determine if the desired
-     * element is visible on the screen Will loop for the time out passed in the
-     * variable timeout If object is not visible within the time, handle the
-     * error based on the boolean
-     * 
-     * @author Justin
-     */
-    @Override
-    public boolean syncHidden(int timeout, boolean returnError) {
-	boolean found = false;
-	final OrasiDriver driver = getWrappedDriver();
-	TestReporter.interfaceLog("<i>Syncing to element [<b>@FindBy: "
-		+ getElementLocatorInfo()
-		+ "</b> ] to be <b>HIDDEN</b> within [ <b>" + timeout
-		+ "</b> ] seconds.</i>");
-	int currentTimeout = driver.getElementTimeout();
-	driver.setElementTimeout(1, TimeUnit.MILLISECONDS);
-	stopwatch.start();
-	do {
-	    if (!webElementVisible(driver, element)) {
-		found = true;
-		break;
-	    }
-	} while (stopwatch.getTime() / 1000.0 < (long) timeout);
-	stopwatch.stop();
-	stopwatch.reset();
-	
-	driver.setElementTimeout(currentTimeout, TimeUnit.SECONDS);
-	if (!found && returnError) {
-	    dateAfter = new java.util.Date();
-	    TestReporter.interfaceLog("<i>Element [<b>@FindBy: "
-		    + getElementLocatorInfo()
-		    + " </b>] is not <b>HIDDEN</b> on the page after [ "
-		    + (dateAfter.getTime() - date.getTime()) / 1000.0
-		    + " ] seconds.</i>");
-	    throw new RuntimeException("Element [ @FindBy: "
-		    + getElementLocatorInfo()
-		    + " ] is not HIDDEN on the page after [ "
-		    + (dateAfter.getTime() - date.getTime()) / 1000.0
-		    + " ] seconds.");
-	}
-	return found;
-    }
-
-    /**
-     *
-     * Used in conjunction with WebObjectEnabled to determine if the desired
-     * element is enabled on the screen Will loop for the time out listed in
-     * org.orasi.chameleon.CONSTANT.TIMEOUT If object is not enabled within the
-     * time, throw an error
-     * 
-     * @author Justin
-     */
-    @Override
-    public boolean syncEnabled() {
-	return syncEnabled(getWrappedDriver().getElementTimeout());
-    }
-
-    /**
-     * 
-     * Used in conjunction with WebObjectEnabled to determine if the desired
-     * element is enabled on the screen Will loop for the time out passed in the
-     * variable timeout If object is not enabled within the time, throw an error
-     * 
-     * @author Justin
-     * 
-     */
-    public boolean syncEnabled(int timeout) {
-	return syncEnabled(timeout, true);
-    }
-
-    /**
-     * Used in conjunction with WebObjectEnabled to determine if the desired
-     * element is enabled on the screen Will loop for the time out passed in the
-     * variable timeout If object is not enabled within the time, handle the
-     * error based on the boolean
-     *
-     * @author Justin
-     *
-     */
-    @Override
-    public boolean syncEnabled(int timeout, boolean returnError) {
-	boolean found = false;
-	final OrasiDriver driver = getWrappedDriver();
-	
-	TestReporter.interfaceLog("<i>Syncing to element [<b>@FindBy: "
-		+ getElementLocatorInfo()
-		+ "</b> ] to be <b>ENABLED</b> within [ <b>" + timeout
-		+ "</b> ] seconds.</i>");
-	int currentTimeout = driver.getElementTimeout();
-	driver.setElementTimeout(1, TimeUnit.MILLISECONDS);
-
-	stopwatch.start();
-	do {
-	    if (webElementEnabled(driver, element)) {
-		found = true;
-		break;
-	    }
-	   
-	} while (stopwatch.getTime() / 1000.0 < (long) timeout);
-	stopwatch.stop();
-	stopwatch.reset();
-	
-	driver.setElementTimeout(currentTimeout, TimeUnit.SECONDS);
-	if (!found && returnError) {
-	    dateAfter = new java.util.Date();
-	    TestReporter.interfaceLog("<i>Element [<b>@FindBy: "
-		    + getElementLocatorInfo()
-		    + " </b>] is not <b>ENABLED</b> on the page after [ "
-		    + (dateAfter.getTime() - date.getTime()) / 1000.0
-		    + " ] seconds.</i>");
-	    throw new RuntimeException("Element [ @FindBy: "
-		    + getElementLocatorInfo()
-		    + " ] is not ENABLED on the page after [ "
-		    + (dateAfter.getTime() - date.getTime()) / 1000.0
-		    + " ] seconds.");
-	}
-	return found;
-    }
-
-    /**
-     *
-     * Used in conjunction with WebObjectEnabled to determine if the desired
-     * element is disabled on the screen Will loop for the time out listed in
-     * org.orasi.chameleon.CONSTANT.TIMEOUT If object is not disabled within the
-     * time, throw an error
-     * 
-     * @author Justin
-     */
-    @Override
-    public boolean syncDisabled() {
-	return syncDisabled(getWrappedDriver().getElementTimeout());
-    }
-
-    /**
-     * 
-     * Used in conjunction with WebObjectDisabled to determine if the desired
-     * element is disabled on the screen Will loop for the time out passed in
-     * the variable timeout If object is not disabled within the time, throw an
-     * error
-     * 
-     * @author Justin
-     * 
-     */
-    public boolean syncDisabled( int timeout) {
-	return syncDisabled(timeout, true);
-    }
-
-    /**
-     * Used in conjunction with WebObjectDisabled to determine if the desired
-     * element is disabled on the screen Will loop for the time out passed in
-     * the variable timeout If object is not disabled within the time, handle
-     * the error based on the boolean
-     *
-     * @author Justin
-     *
-     */
-    @Override
-    public boolean syncDisabled(int timeout, boolean returnError) {
-	boolean found = false;
-	final OrasiDriver driver = getWrappedDriver();
-	TestReporter.interfaceLog("<i>Syncing to element [<b>@FindBy: "
-		+ getElementLocatorInfo()
-		+ "</b> ] to be <b>DISABLED</b> within [ <b>" + timeout
-		+ "</b> ] seconds.</i>");
-	int currentTimeout = driver.getElementTimeout();
-	driver.setElementTimeout(1, TimeUnit.MILLISECONDS);
-	
-	stopwatch.start();
-	do {
-	    if (!webElementEnabled(driver, element)) {
-		found = true;
-		break;
-	    }
-	} while (stopwatch.getTime() / 1000.0 < (long) timeout);
-	stopwatch.stop();
-	stopwatch.reset();
-	
-	driver.setElementTimeout(currentTimeout, TimeUnit.SECONDS);
-	if (!found && returnError) {
-	    dateAfter = new java.util.Date();
-	    TestReporter.interfaceLog("<i>Element [<b>@FindBy: "
-		    + getElementLocatorInfo()
-		    + " </b>] is not <b>DISABLED</b> on the page after [ "
-		    + (dateAfter.getTime() - date.getTime()) / 1000.0
-		    + " ] seconds.</i>");
-	    throw new RuntimeException("Element [ @FindBy: "
-		    + getElementLocatorInfo()
-		    + " ] is not DISABLED on the page after [ "
-		    + (dateAfter.getTime() - date.getTime()) / 1000.0
-		    + " ] seconds.");
-	}
-	return found;
-    }
-
-    /**
-     *
-     * Used in conjunction with WebObjectText Present to determine if the
-     * desired text is present in the desired element Will loop for the time out
-     * listed in org.orasi.chameleon.CONSTANT.TIMEOUT If text is not present
-     * within the time, throw an error
-     * 
-     * @author Justin
-     */
-    @Override
-    public boolean syncTextInElement(String text) {
-	return syncTextInElement( text, getWrappedDriver().getElementTimeout());
-    }
-
-    /**
-     * 
-     * Used in conjunction with WebObjectText Present to determine if the
-     * desired text is present in the desired element Will loop for the time out
-     * passed in the variable timeout If text is not present within the time,
-     * throw an error
-     * 
-     * @author Justin
-     * 
-     */
-    public boolean syncTextInElement( String text, int timeout) {
-	return syncTextInElement(text, Constants.ELEMENT_TIMEOUT, true);
-    }
-
-    /**
-     * Used in conjunction with WebObjectText Present to determine if the
-     * desired text is present in the desired element Will loop for the time out
-     * passed in the variable timeout If text is not present within the time,
-     * handle the error based on the boolean
-     *
-     * @author Justin
-     *
-     */
-    @Override
-    public boolean syncTextInElement( String text, int timeout, boolean returnError) {
-    final OrasiDriver driver = getWrappedDriver();
-	boolean found = false;
-	TestReporter.interfaceLog("<i>Syncing to text [<b>" + text
-		+ "</b> ] in element [<b>@FindBy: " + getElementLocatorInfo()
-		+ "</b> ] to be displayed within [ <b>" + timeout
-		+ "</b> ] seconds.</i>");
-	int currentTimeout = driver.getElementTimeout();
-	driver.setElementTimeout(1, TimeUnit.MILLISECONDS);
-	stopwatch.start();
-	do {
-	    if (webElementTextPresent(driver, element, text)) {
-		found = true;
-		break;
-	    }
-	   
-	} while (stopwatch.getTime() / 1000.0 < (long) timeout);
-	stopwatch.stop();
-	stopwatch.reset();
-	
-	driver.setElementTimeout(currentTimeout, TimeUnit.SECONDS);
-	if (!found && returnError) {
-	    dateAfter = new java.util.Date();
-	    TestReporter.interfaceLog("<i>Element [<b>@FindBy: "
-		    + getElementLocatorInfo()
-		    + " </b>] did not contain the text [ " + text
-		    + " ] after [ " + (dateAfter.getTime() - date.getTime())
-		    / 1000.0 + " ] seconds.</i>");
-	    throw new RuntimeException("Element [ @FindBy: "
-		    + getElementLocatorInfo()
-		    + " ] did not contain the text [ " + text + " ] after [ "
-		    + (dateAfter.getTime() - date.getTime()) / 1000.0
-		    + " ] seconds.");
-	}
-	return found;
-    }
-
-    /**
-     * Use WebDriver Wait to determine if object is present in the DOM or not
-     * 
-     * @author Justin
-     * @param driver
-     *            Main WebDriver
-     * @param locator
-     *            {@link By} object to search for
-     * @return TRUE if element is currently present in the DOM, FALSE if the
-     *         element is not present in the DOM
-     */
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    private boolean webElementPresent(WebDriver driver, By locator) {
-	Wait wait = new WebDriverWait(driver, 0);
-
-	try {
-	    return wait.until(ExpectedConditions
-		    .presenceOfElementLocated(locator)) != null;
-	} catch (NoSuchElementException | ClassCastException
-		| StaleElementReferenceException | TimeoutException e) {
-	    return false;
-	}
-
-    }
-
-    /**
-     * Use WebDriver Wait to determine if object is visible on the screen or not
-     * 
-     * @author Justin
-     * @param driver
-     *            Main WebDriver
-     * @param element
-     *            Element to search for
-     * @return TRUE if element is currently visible on the screen, FALSE if the
-     *         element is not visible on the screen
-     */
-    private boolean webElementVisible(WebDriver driver, WebElement element) {
-	try {
-	    Point location = element.getLocation();
-
-	    Dimension size = element.getSize();
-	    if ((location.getX() > 0 & location.getY() > 0)
-		    | (size.getHeight() > 0 & size.getWidth() > 0)) {
-		if (element.getAttribute("hidden") != null)
-		    return false;
-		if (element.getAttribute("type") != null) {
-		    if (element.getAttribute("type").equals("hidden"))
-			return false;
-		}
-		return true;
-	    } else {
-		return false;
-	    }
-
-	} catch (WebDriverException | ClassCastException e) {
-	    return false;
-	}
-    }
-
-    /**
-     * Use WebDriver Wait to determine if object is enabled on the screen or not
-     * 
-     * @author Justin
-     * @param driver
-     *            Main WebDriver
-     * @param element
-     *            Element to search for
-     * @return TRUE if element is currently enabled on the screen, FALSE if the
-     *         element is not enabled on the screen
-     */
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    private boolean webElementEnabled(WebDriver driver, WebElement element) {
-	Wait wait = new WebDriverWait(driver, 0);
-
-	try {
-	    return wait.until(ExpectedConditions.elementToBeClickable(element)) != null;
-	    // return element.isEnabled();
-	} catch (NoSuchElementException | ClassCastException
-		| StaleElementReferenceException | TimeoutException e) {
-	    return false;
-	}
-
-    }
-
-    /**
-     * Use WebDriver Wait to determine if object contains the expected text
-     * 
-     * @author Justin
-     * @param driver
-     *            Main WebDriver
-     * @param element
-     *            Element to search for
-     * @param text
-     *            The text to search for
-     * @return TRUE if element is currently visible on the screen, FALSE if the
-     *         element is not visible on the screen
-     */
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    private boolean webElementTextPresent(WebDriver driver, WebElement element,
-	    String text) {
-	Wait wait = new WebDriverWait(driver, 0);
-	try {
-
-	    if (wait.until(ExpectedConditions.textToBePresentInElement(element,
-		    text)) != null) {
-		return true;
-	    } else if (wait.until(ExpectedConditions
-		    .textToBePresentInElementValue(element, text)) != null) {
-		return true;
-	    } else {
-		return false;
-	    }
-
-	} catch (NoSuchElementException | ClassCastException
-		| StaleElementReferenceException | TimeoutException e) {
-	    try {
-		if (wait.until(ExpectedConditions
-			.textToBePresentInElementValue(element, text)) != null) {
-		    return true;
-		} else {
-		    return false;
-		}
-	    } catch (NoSuchElementException | ClassCastException
-		    | StaleElementReferenceException | TimeoutException e2) {
-		return false;
-	    } catch (WebDriverException wde) {
-		/*
-		 * if(driver instanceof EdgeDriver){ TestReporter.logFailure(
-		 * "ExpectedConditions.textToBePresentInElementValue has not been implemented by Edge Driver"
-		 * ); }
-		 */
-		return false;
-	    }
-
-	}
-    }
-
-    /**
-     * Get the By Locator object used to create this element
-     * 
-     * @author Justin
-     * @return {@link By} Return the By object to reuse
-     */
-    @Override
-    public By getElementLocator() {
-	By by = null;
-	String locator = "";
-	int startPosition = 0;
-	try {
-	    locator = getElementLocatorAsString();
-	    switch (locator) {
-	    case "className":
-		by = new ByClassName(getElementIdentifier());
-		break;
-	    case "cssSelector":
-		by = By.cssSelector(getElementIdentifier());
-		break;
-	    case "id":
-		by = By.id(getElementIdentifier());
-		break;
-	    case "linkText":
-		by = By.linkText(getElementIdentifier());
-		break;
-	    case "name":
-		by = By.name(getElementIdentifier());
-		break;
-	    case "tagName":
-		by = By.tagName(getElementIdentifier());
-		break;
-	    case "xpath":
-		by = By.xpath(getElementIdentifier());
-		break;
-	    }
-	    return by;
-	} catch (Exception e) {
-	    e.printStackTrace();
-	    return null;
-	}
-    }
-
-    @Override
-    public String getElementIdentifier() {
-	String locator = "";
-	int startPosition = 0;
-	int endPosition = 0;
-	if (element instanceof HtmlUnitWebElement) {
-	    startPosition = element.toString().indexOf("=\"") + 2;
-	    endPosition = element.toString().indexOf("\"",
-		    element.toString().indexOf("=\"") + 3);
-	    if (startPosition == -1 | endPosition == -1)
-		locator = element.toString();
-	    else
-		locator = element.toString().substring(startPosition,
-			endPosition);
-	} else if (element instanceof ElementImpl){
-	    Field elementField = null;
-	    try {
-		elementField = element.getClass().getDeclaredField("element");
-		elementField.setAccessible(true);
+	public ElementImpl(final WebElement element) {
+		this.element = element;
+		driver = getWrappedDriver();
+		by = getElementLocator();
 		
-		startPosition = elementField.get(element).toString().lastIndexOf(": ") + 2;
-		locator = elementField.get(element).toString().substring(startPosition,
-			elementField.get(element).toString().lastIndexOf("]"));
-	    }catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e){
-		e.printStackTrace();	    
-	    }
-	    
-	} else {
-	    startPosition = element.toString().lastIndexOf(": ") + 2;
-	    locator = element.toString().substring(startPosition,
-		    element.toString().lastIndexOf("]"));
 	}
-	return locator.trim();
-    }
 
-    /**
-     * Get the By Locator object used to create this element
-     * 
-     * @author Justin
-     * @return {@link By} Return the By object to reuse
-     */
-    private String getElementLocatorAsString() {
-	int startPosition = 0;
-	String locator = "";
-
-	if (element instanceof HtmlUnitWebElement) {
-	    startPosition = element.toString().indexOf(" ");
-	    if (startPosition == -1)
-		locator = element.toString();
-	    else
-		locator = element.toString().substring(startPosition,
-			element.toString().indexOf("="));
-	} else if (element instanceof ElementImpl){
-	    Field elementField = null;
-	    try {
-		elementField = element.getClass().getDeclaredField("element");
-		elementField.setAccessible(true);
-		startPosition = elementField.get(element).toString().lastIndexOf("->") + 3;
-		locator = elementField.get(element).toString().substring(startPosition, elementField.get(element).toString().lastIndexOf(":"));
-	    }catch (IllegalAccessException | NoSuchFieldException | SecurityException e){
-		//e.printStackTrace();	    
-	    }
-
-	}else {
-	
-	    // if (element instanceof HtmlUnitWebElement)
-	    startPosition = element.toString().lastIndexOf("->") + 3;
-	    locator = element.toString().substring(startPosition,
-		    element.toString().lastIndexOf(":"));
+	public ElementImpl( final OrasiDriver driver, final By by) {
+		this.by= by;
+		this.driver = driver;
+		try{
+			element = driver.getWebDriver().findElement(by);
+		}catch(NoSuchElementException throwAway){}
 	}
-	locator = locator.trim();
-	return locator;
 
-    }
 
-    @Override
-    public String getElementLocatorInfo() {
-	return getElementLocatorAsString() + " = " + getElementIdentifier();
-    }
 
-    @Override
-    public void highlight() {
+	/**
+	 * @see org.openqa.selenium.WebElement#click()
+	 */
+	public void click() {
+		try {
+			getWrappedElement().click();
+		} catch (RuntimeException rte) {
+			TestReporter.interfaceLog("Clicked [ <font size = 2 color=\"red\"><b> " + getElementLocatorInfo() + " </font></b>]");
+			throw rte;
+		}
+		TestReporter.interfaceLog("Clicked [ <b>" + getElementLocatorInfo() + " </b>]");
+	}
+
+	public void jsClick() {
+		getWrappedDriver().executeJavaScript("arguments[0].scrollIntoView(true);arguments[0].click();", getWrappedElement());
+		TestReporter.interfaceLog("Clicked [ <b>" + getElementLocatorInfo() + " </b>]");
+	}
+
+	@Override
+	public void focus() {
+		new Actions(getWrappedDriver()).moveToElement(getWrappedElement()).perform();
+		TestReporter.interfaceLog("Focus on  [ <b>" + getElementLocatorInfo() + " </b>]");
+	}
+
+	@Override
+	public void focusClick() {
+		new Actions(getWrappedDriver()).moveToElement(getWrappedElement()).click().perform();
+		TestReporter.interfaceLog("Focus Clicked [ <b>" + getElementLocatorInfo() + " </b>]");
+	}
+
+	@Override
+	public void onBlur(){
+	    String jsFireEvent = "if ('createEvent' in document) { " +
+		    " var evt = document.createEvent('HTMLEvents'); " +
+		    " evt.initEvent('change', false, true); " +
+		    " arguments[0].dispatchEvent(evt); " +
+		    " } else arguments[0].fireEvent('onblur');";
+
+	    try{
+		getWrappedDriver().executeJavaScript(jsFireEvent, getWrappedElement());
+	    }catch(WebDriverException wde){}		
+	}
 	
-	getWrappedDriver().executeJavaScript("arguments[0].style.border='3px solid red'",this);
-    }
+	/**
+	 * @see org.openqa.selenium.WebElement#getLocation()
+	 */
+	@Override
+	public Point getLocation() {
+		return getWrappedElement().getLocation();
+	}
 
-    @Override
-    public void scrollIntoView() {
-	
-	getWrappedDriver().executeJavaScript("arguments[0].scrollIntoView(true);", element);
-    }
+	/**
+	 * @see org.openqa.selenium.WebElement#submit()
+	 */
+	@Override
+	public void submit() {
+	    getWrappedElement().submit();
+	}
 
-    @Override
-    public ArrayList getAllAttributes() {
-	
-	return (ArrayList)  getWrappedDriver().executeJavaScript("var s = []; var attrs = arguments[0].attributes; for (var l = 0; l < attrs.length; ++l) { var a = attrs[l]; s.push(a.name + ':' + a.value); } ; return s;",
-			getWrappedElement());
-    }
-    
-    @Beta
+	/**
+	 * @see org.openqa.selenium.WebElement#getAttribute(String)
+	 */
+	@Override
+	public String getAttribute(String name) {
+		return getWrappedElement().getAttribute(name);
+	}
+
+	/**
+	 * @see org.openqa.selenium.WebElement#getCssValue(String)
+	 */
+	@Override
+	public String getCssValue(String propertyName) {
+		return getWrappedElement().getCssValue(propertyName);
+	}
+
+	/**
+	 * @see org.openqa.selenium.WebElement#getSize()
+	 */
+	@Override
+	public Dimension getSize() {
+		try {
+			return getWrappedElement().getSize();
+		} catch (WebDriverException wde) {
+			if (wde.getMessage().toLowerCase().contains("not implemented")) {
+				TestReporter.logFailure("getSize has not been implemented by EdgeDriver");
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * @see org.openqa.selenium.WebElement#findElement(By)
+	 */
+	@Override
+	public List<WebElement> findElements(By by) {
+		return getWrappedElement().findElements(by);
+	}
+
+	/**
+	 * @see org.openqa.selenium.WebElement#getText()
+	 */
+	@Override
+	public String getText() {
+		return getWrappedElement().getText();
+	}
+
+	/**
+	 * @see org.openqa.selenium.WebElement#getTagName()
+	 */
+	@Override
+	public String getTagName() {
+		return getWrappedElement().getTagName();
+	}
+
+	/**
+	 * @see org.openqa.selenium.WebElement#findElement(By)
+	 */
+	@Override
+	public WebElement findElement(By by) {
+		return getWrappedElement().findElement(by);
+	}
+
+	/**
+	 * @see org.openqa.selenium.WebElement#isEnabled()
+	 */
+	@Override
+	public boolean isEnabled() {
+		return getWrappedElement().isEnabled();
+	}
+
+	/**
+	 * @see org.openqa.selenium.WebElement#isDisplayed()
+	 */
+	@Override
+	public boolean isDisplayed() {
+		return getWrappedElement().isDisplayed();
+	}
+
+	/**
+	 * @see org.openqa.selenium.WebElement#isSelected()
+	 */
+	@Override
+	public boolean isSelected() {
+		try {
+			return getWrappedElement().isSelected();
+		} catch (WebDriverException wde) {
+			if (wde.getMessage().toLowerCase().contains("not implemented")) {
+				TestReporter.logFailure(" isSelected has not been implemented by EdgeDriver");
+			}
+		}
+		return false;
+
+	}
+
+	/**
+	 * @see org.openqa.selenium.WebElement#clear()
+	 */
+	@Override
+	public void clear() {
+		getWrappedElement().clear();
+		TestReporter.interfaceLog(" Clear text from Element [ <b>" + getElementLocatorInfo() + " </b> ]");
+	}
+
+	/**
+	 * @see org.openqa.selenium.WebElement#sendKeys(CharSequence...)
+	 */
+	@Override
+	public void sendKeys(CharSequence... keysToSend) {
+		if (keysToSend.toString() != "") {
+			getWrappedElement().sendKeys(keysToSend);
+			TestReporter.interfaceLog(" Send Keys [ <b>" + keysToSend[0].toString() + "</b> ] to Textbox [ <b>"
+					+ getElementIdentifier() + " </b> ]");
+		}
+	}
+
+	@Override
+	public WebElement getWrappedElement() {
+	    WebElement tempElement = null;
+	    try{
+			if(element == null) tempElement = reload();
+			else tempElement = element;
+			tempElement.isEnabled();
+			return tempElement;
+	    }catch(NoSuchElementException |  StaleElementReferenceException| NullPointerException e){
+
+			try{
+				tempElement=reload();
+				return tempElement;
+			 }catch(NullPointerException sere){
+				 return element;
+			 }
+	    }
+	}
+
+	@Override
+	public OrasiDriver getWrappedDriver() {
+	    if(driver != null) return driver;
+		WebDriver ldriver = null;
+		Field privateStringField = null;
+		if(element == null) getWrappedElement();
+		if (driver == null) {
+		   if (element instanceof ElementImpl) {
+			try {
+				WebElement wrappedElement = ((WrapsElement) element).getWrappedElement();
+				
+				privateStringField = wrappedElement.getClass().getDeclaredField("parent");
+				privateStringField.setAccessible(true);
+				ldriver =  (WebDriver)privateStringField.get(wrappedElement);
+				OrasiDriver oDriver = new OrasiDriver();
+				oDriver.setDriver(ldriver);
+				return oDriver;
+				
+			}catch(NoSuchFieldException | IllegalArgumentException | IllegalAccessException | SecurityException e){
+			}	    
+		}else{
+			
+			try {
+				privateStringField = element.getClass().getDeclaredField("parent");
+				privateStringField.setAccessible(true);
+				ldriver =  (WebDriver)privateStringField.get(element);
+				OrasiDriver oDriver = new OrasiDriver();
+				oDriver.setDriver(ldriver);
+				return oDriver;
+			} catch (NoSuchFieldException | IllegalArgumentException | IllegalAccessException | SecurityException e) {
+				e.printStackTrace();
+			}
+		   }
+		}
+		return driver;
+	}
+
+	/**
+	 * @see org.openqa.selenium.internal.Locatable#getCoordinates();
+	 */
+	@Override
+	public Coordinates getCoordinates() {
+		return ((Locatable) getWrappedElement()).getCoordinates();
+	}
+
+	@Override
+	public boolean elementWired() {
+		return (getWrappedElement() != null);
+	}
+
+	/**
+	 * Get the By Locator object used to create this element
+	 * 
+	 * @author Justin
+	 * @return {@link By} Return the By object to reuse
+	 */
+	@Override
+	public By getElementLocator() {
+	    if(by != null) return this.by;
+		By by = null;
+		String locator = "";
+		try {
+			locator = getElementLocatorAsString();
+			try{
+				locator = locator.substring(0, locator.indexOf(":"));
+			}catch(StringIndexOutOfBoundsException e){}
+			switch (locator.toLowerCase().replace(" ", "")) {
+			case "classname":
+				by = By.className(getElementIdentifier());
+				break;
+			case "cssselector":
+				by = By.cssSelector(getElementIdentifier());
+				break;
+			case "id":
+				by = By.id(getElementIdentifier());
+				break;
+			case "linktext":
+				by = By.linkText(getElementIdentifier());
+				break;
+			case "name":
+				by = By.name(getElementIdentifier());
+				break;
+			case "tagname":
+				by = By.tagName(getElementIdentifier());
+				break;
+			case "xpath":
+				by = By.xpath(getElementIdentifier());
+				break;
+			case "ng-modal":
+			case "buttontext":	
+			case "ng-controller":	
+			case "ng-repeater":
+				return null;
+			default:
+			    throw new AutomationException("Unknown Element Locator sent in: " + locator, getWrappedDriver());
+			}
+			return by;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+
+	@Override
+	public String getElementIdentifier() {
+		String locator = "";
+		int startPosition = 0;
+		int endPosition = 0;
+		if(by == null){
+        		if (element instanceof HtmlUnitWebElement) {
+        			startPosition = element.toString().indexOf("=\"") + 2;
+        			endPosition = element.toString().indexOf("\"", element.toString().indexOf("=\"") + 3);
+        			if (startPosition == -1 | endPosition == -1)
+        				locator = element.toString();
+        			else
+        				locator = element.toString().substring(startPosition, endPosition);
+        		} else if (element instanceof ElementImpl) {
+        			
+        		
+        				WebElement wrappedElement = ((WrapsElement) element).getWrappedElement(); 
+        				startPosition = wrappedElement.toString().lastIndexOf(": ") + 2;
+        				if(startPosition==1){
+        					startPosition = wrappedElement.toString().indexOf("=\"") + 2;
+        					endPosition = wrappedElement.toString().indexOf("\"", wrappedElement.toString().indexOf("=\"") + 3);
+        					if (startPosition == -1 | endPosition == -1)
+        						locator = wrappedElement.toString();
+        					else
+        						locator = wrappedElement.toString().substring(startPosition, endPosition);
+        				}else{
+        					locator = wrappedElement.toString().substring(startPosition,wrappedElement.toString().lastIndexOf("]"));
+        				}
+        			
+        
+        		} else {
+        			startPosition = element.toString().lastIndexOf(": ") + 2;
+        			locator = element.toString().substring(startPosition, element.toString().lastIndexOf("]"));
+        		}
+		}else{
+			startPosition = by.toString().lastIndexOf(": ") + 2;
+			locator = by.toString().substring(startPosition, by.toString().length());
+		    return locator.trim();
+		}
+		    
+		return locator.trim();
+	}
+
+	/**
+	 * Get the By Locator object used to create this element
+	 * 
+	 * @author Justin
+	 * @return {@link By} Return the By object to reuse
+	 */
+	private String getElementLocatorAsString() {
+		int startPosition = 0;
+		String locator = "";
+		if (by ==  null){
+        		if (element instanceof HtmlUnitWebElement) {
+        			startPosition = element.toString().indexOf(" ");
+        			if (startPosition == -1)locator = element.toString();
+        			else locator = element.toString().substring(startPosition, element.toString().indexOf("="));
+        		} else if (element instanceof ElementImpl) {
+        			//Field elementField = null;
+        			//try {
+        				WebElement wrappedElement = ((WrapsElement) element).getWrappedElement(); 
+        
+        				startPosition = wrappedElement.toString().lastIndexOf("->") + 3;
+        				if(startPosition==2){
+        					startPosition = wrappedElement.toString().indexOf(" ");
+        					if (startPosition == -1)
+        						locator = wrappedElement.toString();
+        					else
+        						locator = wrappedElement.toString().substring(startPosition, wrappedElement.toString().indexOf("="));
+        				}else{
+        				locator = wrappedElement.toString().substring(startPosition,
+        						wrappedElement.toString().lastIndexOf(":"));
+        				}
+        			//} catch (IllegalAccessException |  SecurityException e) {
+        			//	e.printStackTrace();
+        			//}
+        
+        		} else {
+        
+        			// if (element instanceof HtmlUnitWebElement)
+        			startPosition = getWrappedElement().toString().lastIndexOf("->") + 3;
+        			locator = element.toString().substring(startPosition, element.toString().lastIndexOf(":"));
+        		}
+		}else{
+			locator = by.toString().substring(3, by.toString().lastIndexOf(":"));
+		    return locator.trim();
+		}
+		locator = locator.trim();
+		return locator;
+
+	}
+
+
+	@Override
+	public String getElementLocatorInfo() {
+		if (by != null) return by.toString();
+		//else return getElementLocatorAsString() + " = " + getElementIdentifier();
+		return getElementLocatorAsString() + " = " + getElementIdentifier();
+	}
+
+	@Override
+	public void highlight() {
+	    Highlight.highlight(getWrappedDriver(), getWrappedElement());
+	}
+
+	@Override
+	public void scrollIntoView() {
+
+	    getWrappedDriver().executeJavaScript("arguments[0].scrollIntoView(true);", element);
+	}
+
+	@SuppressWarnings("rawtypes")
+	@Override
+	public ArrayList getAllAttributes() {
+
+		return (ArrayList) driver.executeJavaScript(
+				"var s = []; var attrs = arguments[0].attributes; for (var l = 0; l < attrs.length; ++l) { var a = attrs[l]; s.push(a.name + ':' + a.value); } ; return s;",
+				getWrappedElement());
+	}
+
+	@Beta
 	@Override
 	public <X> X getScreenshotAs(OutputType<X> target) {
 		// TODO Auto-generated method stub
-		return ((TakesScreenshot)getWrappedDriver().getDriver()).getScreenshotAs(target);
+		return ((TakesScreenshot) driver.getWebDriver()).getScreenshotAs(target);
+	}
+
+	/*
+	 * @Override public <X> X getScreenshotAs(OutputType<X> target) throws
+	 * WebDriverException { getScreenshotAs(target); // String base64 = //
+	 * execute(DriverCommand.SCREENSHOT).getValue().toString(); // ... and
+	 * convert it.
+	 * 
+	 * System.out.println("getScreenShotAs is unimplemented"); return null; //
+	 * target.convertFromBase64Png(base64); }
+	 */
+
+	/**
+	 * Used in conjunction with WebObjectPresent to determine if the desired
+	 * element is present in the DOM Will loop for the time out passed in
+	 * parameter timeout If object is not present within the time, handle error
+	 * based on returnError
+	 * 
+	 * @author Justin
+	 * @param args
+	 *  		Optional arguments </br>
+	 *  		&nbsp;&nbsp;&nbsp;&nbsp;<b>timeout</b> - the maximum time in seconds the method should try to sync. Called 
+	 *  							 with syncPresent("text", 10)</br>
+	 *  		&nbsp;&nbsp;&nbsp;&nbsp;<b>failTestOnSyncFailure </b>- if TRUE, the test will throw an exception and 
+	 *  					fail the script. If FALSE, the script will 
+	 *  					not fail, instead a FALSE will be returned 
+	 *  					to the calling function. Called with 
+	 *  					syncPresent("text", 10, false)
+	 */
+	public boolean syncPresent(Object... args) {
+	    int timeout = getWrappedDriver().getElementTimeout();
+	    boolean failTestOnSync = PageLoaded.getSyncToFailTest();
+	    try{
+    	    if(args[0] != null) timeout = Integer.valueOf(args[0].toString());
+    	    if(args[1] != null) failTestOnSync = Boolean.parseBoolean(args[1].toString());
+	    }catch(ArrayIndexOutOfBoundsException aiobe){}
+	    return PageLoaded.syncPresent(getWrappedDriver(), new ElementImpl(getWrappedDriver(), by), timeout, failTestOnSync);
+	}
+
+	/**
+	 * Used in conjunction with WebObjectVisible to determine if the desired
+	 * element is visible on the screen Will loop for the time out passed in the
+	 * variable timeout If object is not visible within the time, handle the
+	 * error based on the boolean
+	 *
+	 * @author Justin
+	 * @param args
+	 *  		Optional arguments </br>
+	 *  		&nbsp;&nbsp;&nbsp;&nbsp;<b>timeout</b> - the maximum time in seconds the method should try to sync. Called 
+	 *  							 with syncVisible("text", 10)</br>
+	 *  		&nbsp;&nbsp;&nbsp;&nbsp;<b>failTestOnSyncFailure </b>- if TRUE, the test will throw an exception and 
+	 *  					fail the script. If FALSE, the script will 
+	 *  					not fail, instead a FALSE will be returned 
+	 *  					to the calling function. Called with 
+	 *  					syncVisible("text", 10, false)
+	 */
+	public boolean syncVisible(Object... args) {
+	    int timeout = getWrappedDriver().getElementTimeout();
+	    boolean failTestOnSync = PageLoaded.getSyncToFailTest();
+	    try{
+    	    if(args[0] != null) timeout = Integer.valueOf(args[0].toString());
+    	    if(args[1] != null) failTestOnSync = Boolean.parseBoolean(args[1].toString());
+	    }catch(ArrayIndexOutOfBoundsException aiobe){}
+		return PageLoaded.syncVisible(getWrappedDriver(), new ElementImpl(getWrappedDriver(), by), timeout, failTestOnSync);
+	}
+
+	/**
+	 * Used in conjunction with WebObjectVisible to determine if the desired
+	 * element is visible on the screen Will loop for the time out passed in the
+	 * variable timeout If object is not visible within the time, handle the
+	 * error based on the boolean
+	 * 
+	 * @author Justin
+	 * @param args
+	 *  		Optional arguments </br>
+	 *  		&nbsp;&nbsp;&nbsp;&nbsp;<b>timeout</b> - the maximum time in seconds the method should try to sync. Called 
+	 *  							 with syncHidden("text", 10)</br>
+	 *  		&nbsp;&nbsp;&nbsp;&nbsp;<b>failTestOnSyncFailure </b>- if TRUE, the test will throw an exception and 
+	 *  					fail the script. If FALSE, the script will 
+	 *  					not fail, instead a FALSE will be returned 
+	 *  					to the calling function. Called with 
+	 *  					syncHidden("text", 10, false)
+	 */
+	public boolean syncHidden(Object... args) {
+	    int timeout = getWrappedDriver().getElementTimeout();
+	    boolean failTestOnSync = PageLoaded.getSyncToFailTest();
+	    try{
+        	    if(args[0] != null) timeout = Integer.valueOf(args[0].toString());
+        	    if(args[1] != null) failTestOnSync = Boolean.parseBoolean(args[1].toString());
+	    }catch(ArrayIndexOutOfBoundsException aiobe){}
+	    return PageLoaded.syncHidden(getWrappedDriver(), new ElementImpl(getWrappedDriver(), by), timeout, failTestOnSync);
+	}
+
+	/**
+	 * Used in conjunction with WebObjectEnabled to determine if the desired
+	 * element is enabled on the screen Will loop for the time out passed in the
+	 * variable timeout If object is not enabled within the time, handle the
+	 * error based on the boolean
+	 *
+	 * @author Justin
+	 * @param args
+	 *  		Optional arguments </br>
+	 *  		&nbsp;&nbsp;&nbsp;&nbsp;<b>timeout</b> - the maximum time in seconds the method should try to sync. Called 
+	 *  							 with syncEnabled("text", 10)</br>
+	 *  		&nbsp;&nbsp;&nbsp;&nbsp;<b>failTestOnSyncFailure </b>- if TRUE, the test will throw an exception and 
+	 *  					fail the script. If FALSE, the script will 
+	 *  					not fail, instead a FALSE will be returned 
+	 *  					to the calling function. Called with 
+	 *  					syncEnabled("text", 10, false)
+	 */
+	public boolean syncEnabled(Object... args) {
+	    int timeout = getWrappedDriver().getElementTimeout();
+	    boolean failTestOnSync = PageLoaded.getSyncToFailTest();
+	    try{
+    	    if(args[0] != null) timeout = Integer.valueOf(args[0].toString());
+    	    if(args[1] != null) failTestOnSync = Boolean.parseBoolean(args[1].toString());
+	    }catch(ArrayIndexOutOfBoundsException aiobe){}
+		return PageLoaded.syncEnabled(getWrappedDriver(), new ElementImpl(getWrappedDriver(), by), timeout, failTestOnSync);
+	}
+	/**
+	 * Used in conjunction with WebObjectDisabled to determine if the desired
+	 * element is disabled on the screen Will loop for the time out passed in
+	 * the variable timeout If object is not disabled within the time, handle
+	 * the error based on the boolean
+	 *
+	 * @author Justin
+	 * @param args
+	 *  		Optional arguments </br>
+	 *  		&nbsp;&nbsp;&nbsp;&nbsp;<b>timeout</b> - the maximum time in seconds the method should try to sync. Called 
+	 *  							 with syncDisabled("text", 10)</br>
+	 *  		&nbsp;&nbsp;&nbsp;&nbsp;<b>failTestOnSyncFailure </b>- if TRUE, the test will throw an exception and 
+	 *  					fail the script. If FALSE, the script will 
+	 *  					not fail, instead a FALSE will be returned 
+	 *  					to the calling function. Called with 
+	 *  					syncDisabled("text", 10, false)
+	 */
+	public boolean syncDisabled(Object... args) {
+	    int timeout = getWrappedDriver().getElementTimeout();
+	    boolean failTestOnSync = PageLoaded.getSyncToFailTest();
+	    try{
+    	    if(args[0] != null) timeout = Integer.valueOf(args[0].toString());
+    	    if(args[1] != null) failTestOnSync = Boolean.parseBoolean(args[1].toString());
+	    }catch(ArrayIndexOutOfBoundsException aiobe){}
+		return PageLoaded.syncDisabled(getWrappedDriver(), new ElementImpl(getWrappedDriver(), by), timeout, failTestOnSync);
+	}
+	 
+	    
+	/**
+	 * Sync for the Element's text or it's value attribute contains the desired text.
+	 * Additional parameters can be added to override the default timeout and if the 
+	 * test should fail if the sync fails
+	 * 
+	 * @param text
+	 *  		(Required) The text the element should contain in either its text or value attribute
+	 * @param args
+	 *  		Optional arguments </br>
+	 *  		&nbsp;&nbsp;&nbsp;&nbsp;<b>timeout</b> - the maximum time in seconds the method should try to sync. Called 
+	 *  							 with syncTextInElement("text", 10)</br>
+	 *  		&nbsp;&nbsp;&nbsp;&nbsp;<b>failTestOnSyncFailure </b>- if TRUE, the test will throw an exception and 
+	 *  					fail the script. If FALSE, the script will 
+	 *  					not fail, instead a FALSE will be returned 
+	 *  					to the calling function. Called with 
+	 *  					syncTextInElement("text", 10, false)
+	 */
+	public boolean syncTextInElement(String text, Object... args) {
+	    int timeout = getWrappedDriver().getElementTimeout();
+	    boolean failTestOnSync = PageLoaded.getSyncToFailTest();
+	    try{
+        	    if(args[0] != null) timeout = Integer.valueOf(args[0].toString());
+        	    if(args[1] != null) failTestOnSync = Boolean.parseBoolean(args[1].toString());
+	    }catch(ArrayIndexOutOfBoundsException aiobe){}
+	    
+		return PageLoaded.syncTextInElement(getWrappedDriver(), text,  new ElementImpl(getWrappedDriver(), by), timeout, failTestOnSync);
+	}    
+	
+	/**
+	 * Sync for the Element's text or it's value attribute contains the desired text.
+	 * Additional parameters can be added to override the default timeout and if the 
+	 * test should fail if the sync fails
+	 * 
+	 * @param regex
+	 *  		(Required) The text the element should contain in either its text or value attribute
+	 * @param args
+	 *  		Optional arguments </br>
+	 *  		&nbsp;&nbsp;&nbsp;&nbsp;<b>timeout</b> - the maximum time in seconds the method should try to sync. Called 
+	 *  							 with syncTextMatchesInElement("text", 10)</br>
+	 *  		&nbsp;&nbsp;&nbsp;&nbsp;<b>failTestOnSyncFailure </b>- if TRUE, the test will throw an exception and 
+	 *  					fail the script. If FALSE, the script will 
+	 *  					not fail, instead a FALSE will be returned 
+	 *  					to the calling function. Called with 
+	 *  					syncTextMatchesInElement("text", 10, false)
+	 */
+	public boolean syncTextMatchesInElement(String regex, Object... args) {
+	    int timeout = getWrappedDriver().getElementTimeout();
+	    boolean failTestOnSync = PageLoaded.getSyncToFailTest();
+	    try{
+        	    if(args[0] != null) timeout = Integer.valueOf(args[0].toString());
+        	    if(args[1] != null) failTestOnSync = Boolean.parseBoolean(args[1].toString());
+	    }catch(ArrayIndexOutOfBoundsException aiobe){}
+	    
+		return PageLoaded.syncTextMatchesInElement(getWrappedDriver(), regex,  new ElementImpl(getWrappedElement()), timeout, failTestOnSync);
 	}
 	
- /*   @Override
-    public <X> X getScreenshotAs(OutputType<X> target)
-	    throws WebDriverException {
-    	getScreenshotAs(target);
-	// String base64 =
-	// execute(DriverCommand.SCREENSHOT).getValue().toString();
-	// ... and convert it.
 
-	System.out.println("getScreenShotAs is unimplemented");
-	return null; // target.convertFromBase64Png(base64);
-    }*/
-   /* @Override
-    public Element findElement(By by) {
-		try{
-		    return new ElementImpl(getWrappedDriver().findElement(by), getWrappedDriver());
-		}catch(NoSuchElementException nse){	  
-		    TestReporter.logFailure("No such Element with context: " + by.toString());
-		    throw new NoSuchElementException(nse.getMessage());
-		}
-    }
-    
-    public Element findElement(ByNG by) {
-    	try{
-    	    return new ElementImpl(getWrappedDriver().findElement(getByNGType(by)), getWrappedDriver());
-    	}catch(NoSuchElementException nse){	  
-    	    TestReporter.logFailure("No such Element with context: " + by.toString());
-    	    throw new NoSuchElementException(nse.getMessage());
-    	}
-    }
+	/**
+	 * Sync for the Element's text or it's value attribute contains the desired text.
+	 * Additional parameters can be added to override the default timeout and if the 
+	 * test should fail if the sync fails
+	 * 
+	 * @param attribute (Required) - Element attribute to view
+	 * @param value	(Required) - The text the element attribute should contain in either its text or value attribute
+	 * @param args
+	 *  		Optional arguments </br>
+	 *  		&nbsp;&nbsp;&nbsp;&nbsp;<b>timeout</b> - the maximum time in seconds the method should try to sync. Called 
+	 *  							 with syncAttributeContainsValue("text", 10)</br>
+	 *  		&nbsp;&nbsp;&nbsp;&nbsp;<b>failTestOnSyncFailure </b>- if TRUE, the test will throw an exception and 
+	 *  					fail the script. If FALSE, the script will 
+	 *  					not fail, instead a FALSE will be returned 
+	 *  					to the calling function. Called with 
+	 *  					syncAttributeContainsValue("text", 10, false)
+	 */
+	public boolean syncAttributeContainsValue(String attribute, String value, Object... args) {
+	    int timeout = getWrappedDriver().getElementTimeout();
+	    boolean failTestOnSync = PageLoaded.getSyncToFailTest();
+	    try{
+        	    if(args[0] != null) timeout = Integer.valueOf(args[0].toString());
+        	    if(args[1] != null) failTestOnSync = Boolean.parseBoolean(args[1].toString());
+	    }catch(ArrayIndexOutOfBoundsException aiobe){}
+	    
+		return PageLoaded.syncAttributeContainsValue(getWrappedDriver(), attribute, value,  new ElementImpl(getWrappedDriver(), by), timeout, failTestOnSync);
+	}
 
-    public Textbox findTextbox(By by) {
-		try{
-		    return new TextboxImpl(getWrappedDriver().findElement(by), getWrappedDriver());
-		}catch(NoSuchElementException nse){	  
-		    TestReporter.logFailure("No such Textbox with context: " + by.toString());
-		    throw new NoSuchElementException(nse.getMessage());
-		}
-    }
+	/**
+	 * Sync for the Element's text or it's value attribute contains the desired text.
+	 * Additional parameters can be added to override the default timeout and if the 
+	 * test should fail if the sync fails
+	 * 
+	 * @param attribute (Required) - Element attribute to view
+	 * @param regex	(Required) - The regular expression that should match the text of the element attribute 
+	 * @param args
+	 *  		Optional arguments </br>
+	 *  		&nbsp;&nbsp;&nbsp;&nbsp;<b>timeout</b> - the maximum time in seconds the method should try to sync. Called 
+	 *  							 with syncAttributeMatchesValue("text", 10)</br>
+	 *  		&nbsp;&nbsp;&nbsp;&nbsp;<b>failTestOnSyncFailure </b>- if TRUE, the test will throw an exception and 
+	 *  					fail the script. If FALSE, the script will 
+	 *  					not fail, instead a FALSE will be returned 
+	 *  					to the calling function. Called with 
+	 *  					syncAttributeMatchesValue("text", 10, false)
+	 */
+	public boolean syncAttributeMatchesValue(String attribute, String value, Object... args) {
+	    int timeout = getWrappedDriver().getElementTimeout();
+	    boolean failTestOnSync = PageLoaded.getSyncToFailTest();
+	    try{
+        	    if(args[0] != null) timeout = Integer.valueOf(args[0].toString());
+        	    if(args[1] != null) failTestOnSync = Boolean.parseBoolean(args[1].toString());
+	    }catch(ArrayIndexOutOfBoundsException aiobe){}
+	    
+		return PageLoaded.syncAttributeMatchesValue(getWrappedDriver(), attribute, value,  new ElementImpl(getWrappedDriver(), by), timeout, failTestOnSync);
+	}
+	
+	/**
+	 * Sync for the Element's text or it's value attribute contains the desired text.
+	 * Additional parameters can be added to override the default timeout and if the 
+	 * test should fail if the sync fails
+	 * 
+	 * @param cssProperty (Required) - Element CSS Property to view
+	 * @param value	(Required) - The text the element attribute should contain in either its text or value attribute
+	 * @param args
+	 *  		Optional arguments </br>
+	 *  		&nbsp;&nbsp;&nbsp;&nbsp;<b>timeout</b> - the maximum time in seconds the method should try to sync. Called 
+	 *  							 with syncCssContainsValue("text", 10)</br>
+	 *  		&nbsp;&nbsp;&nbsp;&nbsp;<b>failTestOnSyncFailure </b>- if TRUE, the test will throw an exception and 
+	 *  					fail the script. If FALSE, the script will 
+	 *  					not fail, instead a FALSE will be returned 
+	 *  					to the calling function. Called with 
+	 *  					syncCssContainsValue("text", 10, false)
+	 */
+	public boolean syncCssPropertyContainsValue(String cssProperty, String value, Object... args) {
+	    int timeout = getWrappedDriver().getElementTimeout();
+	    boolean failTestOnSync = PageLoaded.getSyncToFailTest();
+	    try{
+        	    if(args[0] != null) timeout = Integer.valueOf(args[0].toString());
+        	    if(args[1] != null) failTestOnSync = Boolean.parseBoolean(args[1].toString());
+	    }catch(ArrayIndexOutOfBoundsException aiobe){}
+	    
+		return PageLoaded.syncCssContainsValue(getWrappedDriver(), cssProperty, value,  new ElementImpl(getWrappedDriver(), by), timeout, failTestOnSync);
+	}
 
-    public Textbox findTextbox(ByNG by) {
-		try{
-		    return new TextboxImpl(getWrappedDriver().findElement(getByNGType(by)), getWrappedDriver());
-		}catch(NoSuchElementException nse){	  
-		    TestReporter.logFailure("No such Textbox with context: " + by.toString());
-		    throw new NoSuchElementException(nse.getMessage());
-		}
-    }
-    
-    public Button findButton(By by) {
-		try{
-		    return new ButtonImpl(getWrappedDriver().findElement(by), getWrappedDriver());
-		}catch(NoSuchElementException nse){	  
-		    TestReporter.logFailure("No such Button with context: " + by.toString());
-		    throw new NoSuchElementException(nse.getMessage());
-		}
-    }
+	/**
+	 * Sync for the Element's text or it's value attribute contains the desired text.
+	 * Additional parameters can be added to override the default timeout and if the 
+	 * test should fail if the sync fails
+	 * 
+	 * @param cssProperty (Required) - Element CSS Property to match
+	 * @param regex	(Required) - The regular expression that should match the text of the element CSS Property 
+	 * @param args	Optional arguments </br>
+	 *  		&nbsp;&nbsp;&nbsp;&nbsp;<b>timeout</b> - the maximum time in seconds the method should try to sync. Called 
+	 *  							 with syncCssMatchesValue("text", 10)</br>
+	 *  		&nbsp;&nbsp;&nbsp;&nbsp;<b>failTestOnSyncFailure </b>- if TRUE, the test will throw an exception and 
+	 *  					fail the script. If FALSE, the script will 
+	 *  					not fail, instead a FALSE will be returned 
+	 *  					to the calling function. Called with 
+	 *  					syncCssMatchesValue("text", 10, false)
+	 */
+	public boolean syncCssPropertyMatchesValue(String cssProperty, String value, Object... args) {
+	    int timeout = getWrappedDriver().getElementTimeout();
+	    boolean failTestOnSync = PageLoaded.getSyncToFailTest();
+	    try{
+        	    if(args[0] != null) timeout = Integer.valueOf(args[0].toString());
+        	    if(args[1] != null) failTestOnSync = Boolean.parseBoolean(args[1].toString());
+	    }catch(ArrayIndexOutOfBoundsException aiobe){}
+	    
+		return PageLoaded.syncCssMatchesValue(getWrappedDriver(), cssProperty, value,  new ElementImpl(getWrappedDriver(), by), timeout, failTestOnSync);
+	}
 
-	public Button findButton(ByNG by) {
-    	try{
-    	    return new ButtonImpl(getWrappedDriver().findElement(getByNGType(by)), getWrappedDriver());
-    	}catch(NoSuchElementException nse){	  
-    	    TestReporter.logFailure("No such Button with context: " + by.toString());
-    	    throw new NoSuchElementException(nse.getMessage());
-    	}
-    }
-    
-    public Checkbox findCheckbox(By by) {
-		try{
-		    return new CheckboxImpl(getWrappedDriver().findElement(by), getWrappedDriver());
-		}catch(NoSuchElementException nse){	  
-		    TestReporter.logFailure("No such Checkbox with context: " + by.toString());
-		    throw new NoSuchElementException(nse.getMessage());
-		}
-    }
-    
-    public Checkbox findCheckbox(ByNG by) {
-		try{
-		    return new CheckboxImpl(getWrappedDriver().findElement(getByNGType(by)), getWrappedDriver());
-		}catch(NoSuchElementException nse){	  
-		    TestReporter.logFailure("No such Checkbox with context: " + by.toString());
-		    throw new NoSuchElementException(nse.getMessage());
-		}
-    }
-    
-    public Label findLabel(By by) {
-		try{
-		    return new LabelImpl(getWrappedDriver().findElement(by), getWrappedDriver());
-		}catch(NoSuchElementException nse){	  
-		    TestReporter.logFailure("No such Label with context: " + by.toString());
-		    throw new NoSuchElementException(nse.getMessage());
-		}
-    }
-    
-    public Label findLabel(ByNG by) {
-		try{
-		    return new LabelImpl(getWrappedDriver().findElement(getByNGType(by)), getWrappedDriver());
-		}catch(NoSuchElementException nse){	  
-		    TestReporter.logFailure("No such Label with context: " + by.toString());
-		    throw new NoSuchElementException(nse.getMessage());
-		}
-    }
-    
-    public Link findLink(By by) {
-		try{
-		    return new LinkImpl(getWrappedDriver().findElement(by), getWrappedDriver());
-		}catch(NoSuchElementException nse){	  
-		    TestReporter.logFailure("No such Link with context: " + by.toString());
-		    throw new NoSuchElementException(nse.getMessage());
-		}
-    }    
-    
-    public Link findLink(ByNG by) {
-		try{
-		    return new LinkImpl(getWrappedDriver().findElement(getByNGType(by)), getWrappedDriver());
-		}catch(NoSuchElementException nse){	  
-		    TestReporter.logFailure("No such Link with context: " + by.toString());
-		    throw new NoSuchElementException(nse.getMessage());
-		}
-    }    
-    
-    public Listbox findListbox(By by) {
-		try{	
-		    return new ListboxImpl(getWrappedDriver().findElement(by), getWrappedDriver());
-		}catch(NoSuchElementException nse){	  
-		    TestReporter.logFailure("No such Listbox with context: " + by.toString());
-		    throw new NoSuchElementException(nse.getMessage());
-		}
-    }    
-    
-    public Listbox findListbox(ByNG by) {
-		try{	
-		    return new ListboxImpl(getWrappedDriver().findElement(getByNGType(by)), getWrappedDriver());
-		}catch(NoSuchElementException nse){	  
-		    TestReporter.logFailure("No such Listbox with context: " + by.toString());
-		    throw new NoSuchElementException(nse.getMessage());
-		}
-    }
-    
-    public RadioGroup findRadioGroup(By by) {
-		try{
-		    return new RadioGroupImpl(getWrappedDriver().findElement(by), getWrappedDriver());
-		}catch(NoSuchElementException nse){	  
-		    TestReporter.logFailure("No such RadioGroup with context: " + by.toString());
-		    throw new NoSuchElementException(nse.getMessage());
-		}
-    }
-    
-    public RadioGroup findRadioGroup(ByNG by) {
-		try{
-		    return new RadioGroupImpl(getWrappedDriver().findElement(getByNGType(by)), getWrappedDriver());
-		}catch(NoSuchElementException nse){	  
-		    TestReporter.logFailure("No such RadioGroup with context: " + by.toString());
-		    throw new NoSuchElementException(nse.getMessage());
-		}
-    }
-    
-    public Webtable findWebtable(By by) {
-		try{
-		    return new WebtableImpl(getWrappedDriver().findElement(by), getWrappedDriver());
-		}catch(NoSuchElementException nse){	  
-		    TestReporter.logFailure("No such Webtable with context: " + by.toString());
-		    throw new NoSuchElementException(nse.getMessage());
-		}
-    }
-    
-    public Webtable findWebtable(ByNG by) {
-		try{
-		    return new WebtableImpl(getWrappedDriver().findElement(getByNGType(by)), getWrappedDriver());
-		}catch(NoSuchElementException nse){	  
-		    TestReporter.logFailure("No such Webtable with context: " + by.toString());
-		    throw new NoSuchElementException(nse.getMessage());
-		}
-    }
-    
-    public WebElement findWebElement(By by) {
-		try{return driver.findElement(by);
-		}catch(NoSuchElementException nse){	  
-		    TestReporter.logFailure("No such WebElement with context: " + by.toString());
-		    throw new NoSuchElementException(nse.getMessage());
-		}
-    }
-    
-    public WebElement findWebElement(ByNG by) {
-		try{return driver.findElement(getByNGType(by));
-		}catch(NoSuchElementException nse){	  
-		    TestReporter.logFailure("No such WebElement with context: " + by.toString());
-		    throw new NoSuchElementException(nse.getMessage());
-		}
-    }
-    
-    @SuppressWarnings("static-access")
-	private ByAngular.BaseBy getByNGType(ByNG by){
-    	String text = by.toString().replace("By.buttonText:", "").trim();
-    	if(by instanceof ByNGButton) return new ByAngular(getWrappedDriver()).buttonText(text);
-    	if(by instanceof ByNGController) return new ByAngular(getWrappedDriver()).controller(text);
-    	if(by instanceof ByNGModel) return new ByAngular(getWrappedDriver()).model(text);
-    	if(by instanceof ByNGRepeater) return new ByAngular(getWrappedDriver()).repeater(text);
-    	if(by instanceof ByNGShow) return new ByAngular(getWrappedDriver()).show(text);
-    	return null;
-    }    
-  */  
+
+/*
+	@Override
+	public Rectangle getRect() {
+	    // TODO Auto-generated method stub
+	    return null;
+	}*/
+	
+	@Beta
+	protected WebElement reload(){
+	    return getWrappedDriver().findWebElement(by);
+	}
+
+	
 }

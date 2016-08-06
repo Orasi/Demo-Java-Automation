@@ -45,7 +45,7 @@ public class TopNavigationBar {
 	}
 	
 	public boolean pageLoaded(){
-	    return driver.pageLoaded(this.getClass(), lnkLogout); 
+	    return driver.page().pageLoaded(this.getClass(), lnkLogout); 
 	}
 	// *****************************************
 	// ***Page Interactions ***

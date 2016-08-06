@@ -8,6 +8,7 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.pagefactory.FieldDecorator;
 
 import com.orasi.exception.automation.PageInitialization;
+import com.orasi.utils.OrasiDriver;
 
 /**
  * Element factory for wrapped elements. Similar to {@link org.openqa.selenium.support.PageFactory}
@@ -17,19 +18,19 @@ public class ElementFactory {
     /**
      *  See {@link org.openqa.selenium.support.PageFactory#initElements(org.openqa.selenium.WebDriver driver, Class)}
      */
-    public static <T> T initElements(WebDriver driver, Class<T> pageClassToProxy) {
+    public static <T> T initElements(OrasiDriver driver, Class<T> pageClassToProxy) {
         T page = instantiatePage(driver, pageClassToProxy);
-        final WebDriver driverRef = driver;
-        PageFactory.initElements(new ElementDecorator(new CustomElementLocatorFactory(driverRef),driverRef), page);
+        final OrasiDriver driverRef = driver;
+        PageFactory.initElements(new ElementDecorator(new CustomElementLocatorFactory(driverRef)), page);
         return page;
     }
 
     /**
      *  See {@link org.openqa.selenium.support.PageFactory#initElements(org.openqa.selenium.support.pagefactory.FieldDecorator, Object)}
      */
-    public static void initElements(WebDriver driver, Object page) {
-        final WebDriver driverRef = driver;
-        PageFactory.initElements(new ElementDecorator(new CustomElementLocatorFactory(driverRef),driverRef), page);
+    public static void initElements(OrasiDriver driver, Object page) {
+        final OrasiDriver driverRef = driver;
+        PageFactory.initElements(new ElementDecorator(new CustomElementLocatorFactory(driverRef), driverRef), page);
     }
 
     /**
@@ -51,23 +52,23 @@ public class ElementFactory {
      * Copy of {@link org.openqa.selenium.support.PageFactory#instantiatePage(org.openqa.selenium.WebDriver, Class)}
      */
     private static <T> T instantiatePage(WebDriver driver, Class<T> pageClassToProxy) {
-	     try {
-	            try {
-	                Constructor<T> constructor = pageClassToProxy.getConstructor(WebDriver.class);
-	                return constructor.newInstance(driver);
-	            } catch (NoSuchMethodException e) {
-	        	try{            		
-	        		return pageClassToProxy.newInstance();
-	        	}catch(InstantiationException ie){ 
-	        		throw new PageInitialization("Failed to create instance of: " + pageClassToProxy.getName(), ie);
-	        	}
-	            }
-	        } catch (InstantiationException e) {
-	            throw new PageInitialization("Failed to create instance of: " + pageClassToProxy.getName(), e);
-	        } catch (IllegalAccessException e) {
-	            throw new RuntimeException(e);
-	        } catch (InvocationTargetException e) {
-	            throw new RuntimeException(e);
-	        }
+        try {
+            try {
+                Constructor<T> constructor = pageClassToProxy.getConstructor(WebDriver.class);
+                return constructor.newInstance(driver);
+            } catch (NoSuchMethodException e) {
+        	try{            		
+        		return pageClassToProxy.newInstance();
+        	}catch(InstantiationException ie){ 
+        		throw new PageInitialization("Failed to create instance of: " + pageClassToProxy.getName(), driver);
+        	}
+            }
+        } catch (InstantiationException e) {
+            throw new PageInitialization("Failed to create instance of: " + pageClassToProxy.getName(), driver);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        } catch (InvocationTargetException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

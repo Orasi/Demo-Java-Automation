@@ -28,7 +28,7 @@ public class TestManageDepartments  extends TestEnvironment {
 
     private String departmentName = "";
     private String subDepartment = "";
-    private String mainDepartment = "HR";
+    private String mainDepartment = "Rural Testing";
     private OrasiDriver driver = null;
     @DataProvider(name = "dataScenario")
     public Object[][] scenarios() {
@@ -44,12 +44,12 @@ public class TestManageDepartments  extends TestEnvironment {
 	setOperatingSystem(operatingSystem);
 	setRunLocation(runLocation);
 	setTestEnvironment(environment);
-	setThreadDriver(true);
+	//setThreadDriver(true);
     }
 
     @AfterTest( alwaysRun=true)
     public void closeSession(ITestContext test) {
-	endTest(testName, test, driver);
+	endTest(testName, test);
     }    
 
     @Features("Manage Departments")
@@ -154,7 +154,7 @@ public class TestManageDepartments  extends TestEnvironment {
 	TestReporter.log("Verify new department's parent was associated");
 	TestReporter.assertTrue(deptPage.isSubdepartment(departmentName, mainDepartment), "Verify new department is a direct Subdepartment");
 	deptPage.clickModifyDepartment(departmentName);
-	TestReporter.assertTrue(manageDepartmentPage.validateCorrectParentDepartment("HR"), "Verify correct Parent department is displayed");
+	TestReporter.assertTrue(manageDepartmentPage.validateCorrectParentDepartment("Rural Testing"), "Verify correct Parent department is displayed");
 	
 	manageDepartmentPage.clickUpdateButton();
     }

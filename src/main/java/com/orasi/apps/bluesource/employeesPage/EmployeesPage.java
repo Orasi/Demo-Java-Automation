@@ -31,7 +31,7 @@ public class EmployeesPage {
 	@FindBy(xpath="//a[text()='Direct']")
 	private Label lblDirect;
 	
-	@FindBy(id= "preference_show_inactives")	
+	@FindBy(xpath= "//input[@id='preference_show_inactives'][@type='checkbox']")	
 	private Checkbox chkShowInactive;
 	
 	@FindBy(xpath= "//button[@data-target='#modal_1' and text()='Add']")	
@@ -62,7 +62,7 @@ public class EmployeesPage {
 	public EmployeesPage(){}
 	
 	public boolean pageLoaded(){
-	    return driver.pageLoaded(this.getClass(), txtSearch); 	    
+	    return driver.page().pageLoaded(this.getClass(), txtSearch); 	    
 	}
 	
 	// *****************************************
@@ -80,7 +80,7 @@ public class EmployeesPage {
 	
 	@Step("When I search for \"{0}\" on the Employees Page")
 	public void enterSearchText(String text){
-	    loadingModal.syncHidden(10000, true);
+	    loadingModal.syncHidden(10);
 	    txtSearch.syncVisible();
 	    txtSearch.set(text);    
 	}
@@ -129,14 +129,14 @@ public class EmployeesPage {
 	public void clickAllButton(){
 	    loadingModal.syncHidden();
 	    btnAll.click();
-	    driver.pageLoaded();
+	    driver.page().pageLoaded();
 	}
 	
 	@Step("When I click the Add Button on the Employees Page")
 	public void clickAddEmployeeButton(){
-	    loadingModal.syncHidden();
+	    loadingModal.syncHidden(10);
 	    btnAdd.jsClick();
-	    driver.pageLoaded();
+	    driver.page().pageLoaded();
 	}
 
 	@Step("When I click the Show All Label on the Employees Page")
@@ -145,7 +145,7 @@ public class EmployeesPage {
 	    btnAll.click();
 	    lblAll.syncVisible();
 	    lblAll.click();
-	    driver.pageLoaded();
+	    driver.page().pageLoaded();
 	} 
 
 	@Step("When I click the Show Direct Label on the Employees Page")
@@ -154,7 +154,7 @@ public class EmployeesPage {
 	    btnAll.click();
 	    lblDirect.syncVisible();
 	    lblDirect.click();
-	    driver.pageLoaded();
+	    driver.page().pageLoaded();
 	} 
 	
 	@Step("When I check the Show Inactive Checkbox on the Employees Page")
@@ -163,7 +163,7 @@ public class EmployeesPage {
 	    btnAll.click();
 	    chkShowInactive.syncVisible();
 	    chkShowInactive.check();
-	    driver.pageLoaded();
+	    driver.page().pageLoaded();
 	} 
 
 	@Step("When I check the Show Inactive Checkbox on the Employees Page")
@@ -172,7 +172,7 @@ public class EmployeesPage {
 	    btnAll.click();
 	    chkShowInactive.syncVisible();
 	    chkShowInactive.uncheck();
-	    driver.pageLoaded();
+	    driver.page().pageLoaded();
 	} 
 	@Step("Then the Employees table should update the employees displayed")
 	public boolean validateEmployeeTableResultsUpdated(int previousCount){

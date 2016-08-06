@@ -27,7 +27,7 @@ public class ManageTitlePage {
 	}
 	
 	public boolean pageLoaded(){
-	    return driver.pageLoaded(this.getClass(), txtTitle);
+	    return driver.page().pageLoaded(this.getClass(), txtTitle);
 	}
 
 	// *****************************************

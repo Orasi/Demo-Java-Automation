@@ -1,5 +1,6 @@
 package com.orasi.core.interfaces.impl;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import com.orasi.core.interfaces.Checkbox;
@@ -20,18 +21,19 @@ public class CheckboxImpl extends ElementImpl implements Checkbox {
         super(element);
     }
 
-    public CheckboxImpl(WebElement element, OrasiDriver driver) {
-        super(element, driver);
-    }
+    public CheckboxImpl(OrasiDriver driver, By by) {
+		super(driver, by);
+	//	element = driver.findWebElement(by);
+	}
     
     @Override
     public void toggle() {
-	 ((ElementImpl)getWrappedElement()).clickNoLog();
+        getWrappedElement().click();
     }
 
     @Override
     public void jsToggle() {
-    	driver.executeJavaScript("arguments[0].click();", element);
+    	getWrappedDriver().executeJavaScript("arguments[0].click();", element);
     }
 
     @Override
@@ -40,10 +42,10 @@ public class CheckboxImpl extends ElementImpl implements Checkbox {
             try{
         	toggle();
             }catch(RuntimeException rte){
-        	TestReporter.interfaceLog(" Checking the Checkbox [ <b>@FindBy: " + getElementLocatorInfo()  + " </b>]", true);
+        	TestReporter.interfaceLog(" Checking the Checkbox [ <b>" + getElementLocatorInfo()  + " </b>]", true);
          	throw rte;
             }
-            	TestReporter.interfaceLog(" Checking the Checkbox [ <b>@FindBy: " + getElementLocatorInfo()  + " </b>]");
+            	TestReporter.interfaceLog(" Checking the Checkbox [ <b>" + getElementLocatorInfo()  + " </b>]");
         }
     }
 
@@ -53,11 +55,11 @@ public class CheckboxImpl extends ElementImpl implements Checkbox {
             try{
         	toggle();
             }catch(RuntimeException rte){
-                TestReporter.interfaceLog(" Unchecking the Checkbox [ <b>@FindBy: " + getElementLocatorInfo()  + " </b>]", true);
+                TestReporter.interfaceLog(" Unchecking the Checkbox [ <b>" + getElementLocatorInfo()  + " </b>]", true);
                 throw rte;
             }
       	
-            TestReporter.interfaceLog(" Unchecking the Checkbox [ <b>@FindBy: " + getElementLocatorInfo()  + " </b>]");
+            TestReporter.interfaceLog(" Unchecking the Checkbox [ <b>" + getElementLocatorInfo()  + " </b>]");
           
         }
     }

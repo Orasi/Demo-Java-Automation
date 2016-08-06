@@ -31,7 +31,7 @@ public class LoginPage {
 	}
 	
 	public boolean pageLoaded(){
-	    return driver.pageLoaded(this.getClass(), btnLogin);
+	    return driver.page().pageLoaded(this.getClass(), btnLogin);
 	}
 	
 	// *****************************************

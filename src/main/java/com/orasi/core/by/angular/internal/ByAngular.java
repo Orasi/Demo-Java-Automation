@@ -14,7 +14,7 @@ public class ByAngular {
     protected static JavascriptExecutor jse = null;
 
     public ByAngular(WebDriver jse) {
-    	if (jse instanceof OrasiDriver) ByAngular.jse = (JavascriptExecutor) ((OrasiDriver) jse).getDriver();
+    	if (jse instanceof OrasiDriver) ByAngular.jse = (JavascriptExecutor) ((OrasiDriver) jse).getWebDriver();
     	else ByAngular.jse = (JavascriptExecutor)jse;
     }
 

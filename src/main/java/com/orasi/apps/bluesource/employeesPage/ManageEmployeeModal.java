@@ -47,7 +47,7 @@ public class ManageEmployeeModal {
 	}
 	
 	public boolean pageLoaded(){
-		return driver.pageLoaded(this.getClass(), txtUsername); 		  
+		return driver.page().pageLoaded(this.getClass(), txtUsername); 		  
 	}
 	
 	// *****************************************

@@ -30,7 +30,7 @@ import ru.yandex.qatools.allure.model.SeverityLevel;
 public class EmployeeCRUD  extends TestEnvironment {
 
     private Employee employee = new Employee();
-    private OrasiDriver driver = null;
+    //private OrasiDriver driver = null;
     
     @DataProvider(name = "dataScenario")
     public Object[][] scenarios() {
@@ -51,7 +51,7 @@ public class EmployeeCRUD  extends TestEnvironment {
 
     @AfterTest( alwaysRun=true)
     public void closeSession(ITestContext test) {
-	endTest(testName, test, driver);
+	endTest(testName, test);
     }    
 
     @Features("Manage Employees")
@@ -62,24 +62,24 @@ public class EmployeeCRUD  extends TestEnvironment {
     public void testAddEmployee(@Parameter String testScenario, @Parameter String role) {
 
 	testStart("testAddEmployee");
-	driver = getDriver();
+	//driver = getDriver();
 	// Login
-	LoginPage loginPage = new LoginPage(driver);
+	LoginPage loginPage = new LoginPage( getDriver());
 	TestReporter.assertTrue(loginPage.pageLoaded(),"Verify login page is displayed");
 	loginPage.login(role);
 
 	// Verify user is logged in
-	TopNavigationBar topNavigationBar = new TopNavigationBar(driver);
+	TopNavigationBar topNavigationBar = new TopNavigationBar( getDriver());
 	TestReporter.assertTrue(topNavigationBar.isLoggedIn(), "Validate the user logged in successfully");
 
 	//Navigate to Employees Page
 	topNavigationBar.clickEmployeesLink();
-	EmployeesPage employeesPage = new EmployeesPage(driver);
+	EmployeesPage employeesPage = new EmployeesPage( getDriver());
 	TestReporter.assertTrue(employeesPage.pageLoaded(),"Verify Employees page is displayed");
 
 	// Open New Employee Modal 
 	employeesPage.clickAddEmployeeButton();
-	ManageEmployeeModal newEmployee = new ManageEmployeeModal(driver);	
+	ManageEmployeeModal newEmployee = new ManageEmployeeModal( getDriver());	
 	TestReporter.assertTrue(newEmployee.pageLoaded(),"Verify New Employee Popup Modal is displayed");
 	
 	//Enter Employee Info
@@ -100,7 +100,7 @@ public class EmployeeCRUD  extends TestEnvironment {
     @Test(groups = { "regression", "manageEmployees", "employeeCRUD", "qaOnly" },
     	  dependsOnMethods = {"testAddEmployee"})
     public void testViewEmployeeGeneralInfo() {
-	EmployeesPage employeesPage = new EmployeesPage(driver);
+	EmployeesPage employeesPage = new EmployeesPage( getDriver());
 	employeesPage.selectEmployeeName(employee.getLastName());
 	
 	EmployeeSummaryPage summary = new EmployeeSummaryPage(driver);
@@ -117,10 +117,10 @@ public class EmployeeCRUD  extends TestEnvironment {
     @Test(groups = { "regression", "manageEmployees", "employeeCRUD", "qaOnly" },
     	  dependsOnMethods = {"testViewEmployeeGeneralInfo"})
     public void testModifyEmployeeGeneralInfo() {
-	EmployeeSummaryPage summary = new EmployeeSummaryPage(driver);
+	EmployeeSummaryPage summary = new EmployeeSummaryPage( getDriver());
 	summary.clickManageGeneralInfo();
 	
-	ManageEmployeeModal modifyEmployee = new ManageEmployeeModal(driver);
+	ManageEmployeeModal modifyEmployee = new ManageEmployeeModal( getDriver());
 	TestReporter.assertTrue(modifyEmployee.pageLoaded(),"Verify Manage Employee Popup Modal is displayed");
 	
 	employee.setLastName(Randomness.randomAlphaNumeric(8));
@@ -137,22 +137,22 @@ public class EmployeeCRUD  extends TestEnvironment {
     @Test(groups = { "regression", "manageEmployees", "employeeCRUD" , "qaOnly"},
     	  dependsOnMethods = {"testModifyEmployeeGeneralInfo"})
     public void testDeactivateEmployee() {
-	EmployeeSummaryPage summary = new EmployeeSummaryPage(driver);
+	EmployeeSummaryPage summary = new EmployeeSummaryPage( getDriver());
 	summary.clickManageGeneralInfo();
 	
-	ManageEmployeeModal modifyEmployee = new ManageEmployeeModal(driver);
+	ManageEmployeeModal modifyEmployee = new ManageEmployeeModal( getDriver());
 	TestReporter.assertTrue(modifyEmployee.pageLoaded(),"Verify Manage Employee Popup Modal is displayed");
 	
 	employee.setStatus("Inactive");
 	modifyEmployee.modifyEmployee(employee);
 	TestReporter.assertTrue(summary.validateGeneralInfo(employee), "Verify Employee's General Information is correct");
 	
-	TopNavigationBar topNavigationBar = new TopNavigationBar(driver);
+	TopNavigationBar topNavigationBar = new TopNavigationBar( getDriver());
 	topNavigationBar.clickEmployeesLink();
 	
-	EmployeesPage employeesPage = new EmployeesPage(driver);
+	EmployeesPage employeesPage = new EmployeesPage( getDriver());
 	TestReporter.assertTrue(employeesPage.pageLoaded(),"Verify Employees page is displayed");
-	employeesPage.checkInactiveCheckbox();
+	employeesPage.uncheckInactiveCheckbox();
 	employeesPage.enterSearchText(employee.getLastName());
 	TestReporter.assertTrue(employeesPage.validateNoRowsFound(),"Verify Employees Table does not have Employee as inactive");
 	topNavigationBar.clickLogout();

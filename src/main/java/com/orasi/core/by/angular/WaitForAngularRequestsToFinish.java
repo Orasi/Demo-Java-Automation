@@ -19,7 +19,7 @@ public class WaitForAngularRequestsToFinish extends TestEnvironment {
 
 	public static void waitForAngularRequestsToFinish(WebDriver driver) {
 		if(driver instanceof OrasiDriver) {
-			driver = ((OrasiDriver)driver).getDriver();
+			driver = ((OrasiDriver)driver).getWebDriver();
 		} 		    	
     	
 		((JavascriptExecutor) driver).executeAsyncScript("var callback = arguments[arguments.length - 1];" +

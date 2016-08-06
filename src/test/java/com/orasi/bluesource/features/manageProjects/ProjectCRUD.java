@@ -45,7 +45,7 @@ public class ProjectCRUD  extends TestEnvironment {
 
     @AfterTest(alwaysRun=true)
     public void closeSession(ITestContext test) {
-	endTest(testName, test, driver);
+	endTest(testName, test);
     }    
 
     @DataProvider(name = "dataScenario")

@@ -29,7 +29,7 @@ public class ManageDepartmentPage {
 	}
 	
 	public boolean pageLoaded(){
-	    return driver.pageLoaded(this.getClass(), btnCreateDept);
+	    return driver.page().pageLoaded(this.getClass(), btnCreateDept);
 	}
 	
 	// *****************************************

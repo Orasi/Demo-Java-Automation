@@ -2,7 +2,7 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="Suite" parallel="tests"  data-provider-thread-count="10">
 	<parameter name="browserUnderTest" value="firefox" />
-	<parameter name="environment" value="staging" />
+	<parameter name="environment" value="qa" />
 	<parameter name="runLocation" value="local" />
 	<parameter name="browserVersion" value="" />
 	<parameter name="operatingSystem" value="windows" />

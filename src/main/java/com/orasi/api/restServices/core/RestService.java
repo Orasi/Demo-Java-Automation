@@ -14,6 +14,7 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpVersion;
 import org.apache.http.NameValuePair;
+import org.apache.http.ParseException;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.CookieStore;
 import org.apache.http.client.HttpClient;
@@ -167,7 +168,34 @@ public class RestService {
 
 		return responseAsString;
 	}
-	
+	public String sendPostRequest(String URL, HttpEntity entity){
+		
+		 HttpClient httpClient = HttpClientBuilder.create().build(); //Use this instead 
+		 HttpPost httppost = new HttpPost(URL);
+		
+		httppost.setEntity(entity);
+		//httppost.addHeader("content-type","application/json");
+		//httppost.addHeader("content-type","application/json");
+		HttpResponse httpResponse = null;
+		try {
+			httpResponse = httpClient.execute(httppost);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		setStatusCode(httpResponse);		
+		setResponseFormat(httpResponse);
+		
+		try {
+			responseAsString = EntityUtils.toString(httpResponse.getEntity());
+		} catch (ParseException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	//	System.out.println("String response: " + responseAsString);		
+		
+		return responseAsString;
+	}
 	/**
 	 * Sends a post (update) request, pass in the parameters for the json arguments to update
 	 * 

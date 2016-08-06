@@ -45,12 +45,12 @@ public class TimeOffDetailsPage {
 	}
 	
 	public boolean pageLoaded(){
-	    return driver.pageLoaded(this.getClass(), txtDateRequested); 
+	    return driver.page().pageLoaded(this.getClass(), txtDateRequested); 
 		  
 	}
 	
 	public TimeOffDetailsPage initialize() {
-	    return ElementFactory.initElements(driver.getDriver(), this.getClass());       
+	    return ElementFactory.initElements(driver, this.getClass());       
 	 }
 
 	// *****************************************

@@ -62,7 +62,7 @@ public class EmployeeSummaryPage {
 	}
 		
 	public boolean pageLoaded(){
-		return driver.pageLoaded(this.getClass(), lnkViewTimeOff); 	    
+		return driver.page().pageLoaded(this.getClass(), lnkViewTimeOff); 	    
 	}
 	// *****************************************
 	// ***Page Interactions ***

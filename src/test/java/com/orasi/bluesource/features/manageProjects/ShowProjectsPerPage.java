@@ -36,7 +36,7 @@ public class ShowProjectsPerPage  extends TestEnvironment {
 
     @AfterTest(alwaysRun=true)
     public synchronized void closeSession(ITestContext test) {
-	endTest(testName, test, driver);
+	endTest(testName, test);
     }    
 
     @Features("Manage Projects")

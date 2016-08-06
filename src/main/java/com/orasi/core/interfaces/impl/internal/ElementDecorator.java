@@ -7,7 +7,6 @@ import java.lang.reflect.Proxy;
 import java.lang.reflect.Type;
 import java.util.List;
 
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.internal.Locatable;
 import org.openqa.selenium.internal.WrapsElement;
@@ -19,6 +18,7 @@ import org.openqa.selenium.support.pagefactory.internal.LocatingElementListHandl
 
 import com.orasi.core.by.angular.FindByNG;
 import com.orasi.core.interfaces.Element;
+import com.orasi.utils.OrasiDriver;
 
 /**
  * WrappedElementDecorator recognizes a few things that DefaultFieldDecorator does not.
@@ -30,7 +30,7 @@ public class ElementDecorator implements FieldDecorator {
      * factory to use when generating ElementLocator.
      */
     protected CustomElementLocatorFactory factory;
-    protected WebDriver driver;
+    protected OrasiDriver driver;
 
     /**
      * Constructor for an ElementLocatorFactory. This class is designed to replace DefaultFieldDecorator.
@@ -42,14 +42,14 @@ public class ElementDecorator implements FieldDecorator {
         this.factory = factory;
     }
     
-    public ElementDecorator(CustomElementLocatorFactory factory, WebDriver driver) {
+    public ElementDecorator(CustomElementLocatorFactory factory, OrasiDriver driver) {
         this.factory = factory;
         this.driver = driver;
     }
 
     @Override
     public Object decorate(ClassLoader loader, Field field) {
-    	final WebDriver driverRef = driver;
+    	final OrasiDriver driverRef = driver;
         if (!(WebElement.class.isAssignableFrom(field.getType()) || isDecoratableList(field))) {
             return null;
         }
@@ -107,11 +107,11 @@ public class ElementDecorator implements FieldDecorator {
 
         return true;
     }
-    protected <T> T proxyForLocator(ClassLoader loader, Class<T> interfaceType, ElementLocator locator, WebDriver driver) {
+    protected <T> T proxyForLocator(ClassLoader loader, Class<T> interfaceType, ElementLocator locator, OrasiDriver driver) {
       //  InvocationHandler handler = new ElementHandler(interfaceType, locator);
-    	final WebDriver driverRef = driver;
+    	final OrasiDriver driverRef = driver;
         
-    	  InvocationHandler handler = new ElementHandler(interfaceType, locator,driverRef);
+    	  InvocationHandler handler = new ElementHandler(interfaceType, locator, driverRef);
 
         T proxy;
         proxy = interfaceType.cast(Proxy.newProxyInstance(
