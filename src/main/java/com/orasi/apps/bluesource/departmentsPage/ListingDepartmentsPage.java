@@ -18,21 +18,16 @@ import com.orasi.core.interfaces.impl.ElementImpl;
 import com.orasi.core.interfaces.impl.internal.ElementFactory;
 import com.orasi.utils.AlertHandler;
 import com.orasi.utils.Constants;
+import com.orasi.utils.OrasiDriver;
 import com.orasi.utils.TestEnvironment;
 public class ListingDepartmentsPage {
 	
-    	private TestEnvironment te = null;
+    	private OrasiDriver  driver = null;
 	
 	//All the page elements
-	@FindBy(linkText = "Add Department")
-	private Link lnkAddDept;
-	
-	@FindBy(xpath = "//h1[text() = 'Departments']")
-	private Label lblTitle;
-
-	@FindBy(css = ".alert-success.alert-dismissable")
-	private Label lblSuccessMsg;
-	
+	@FindBy(linkText = "Add Department") private Link lnkAddDept;	
+	@FindBy(xpath = "//h1[text() = 'Departments']")	private Label lblTitle;
+	@FindBy(css = ".alert-success.alert-dismissable") private Label lblSuccessMsg;	
 	private By addSubDepartment = By.cssSelector("a");
 	private By editIcon = By.cssSelector("div > a:nth-child(1)");
 	private By deleteIcon = By.cssSelector("div > a:nth-child(2)");
@@ -42,15 +37,20 @@ public class ListingDepartmentsPage {
 	// *********************
 	// ** Build page area **
 	// *********************
-	public ListingDepartmentsPage(TestEnvironment te){
-		this.te = te;
-		ElementFactory.initElements(te.getDriver(), this);
+	public ListingDepartmentsPage(OrasiDriver driver){
+		this.driver = driver;
+		ElementFactory.initElements(driver, this);
 	}
 	
 	public boolean pageLoaded(){
-	    return te.pageLoaded(this.getClass(), lnkAddDept);
+	    return driver.pageLoaded(this.getClass(), lnkAddDept);
 	}
 	
+
+	public boolean pageLoaded(OrasiDriver driver){
+	    ElementFactory.initElements(driver, this);
+	    return driver.pageLoaded(this.getClass(), lnkAddDept);
+	}
 	//Methods
 	
 	//click add dept link
@@ -61,7 +61,7 @@ public class ListingDepartmentsPage {
 	
 	@Step("And I click the \"Add Subdepartment\" link for Department \"{0}\"")
 	public void clickAddSubDepartment(String parentDepartment){
-	    new ElementImpl(getDepartmentElement(parentDepartment).findElement(addSubDepartment)).click();
+	    getDepartmentElement(parentDepartment).findElement(addSubDepartment).click();
 	}
 	
 	public boolean isTitleHeaderDisplayed(){
@@ -83,13 +83,13 @@ public class ListingDepartmentsPage {
 	
 	@Step("And I click the \"Edit\" icon on the row for department \"{0}\"")
 	public void clickModifyDepartment(String departmentName){
-	    new ElementImpl(getDepartmentElement(departmentName).findElement(editIcon)).click();
+	    getDepartmentElement(departmentName).findElement(editIcon).click();
 	}
 	
 	@Step("And I can delete the department from the table")
 	public void deleteDepartment(String departmentName){
-	    new ElementImpl(getDepartmentElement(departmentName).findElement(deleteIcon)).click();
-	    AlertHandler.handleAllAlerts(te.getDriver(), 1);
+	    getDepartmentElement(departmentName).findElement(deleteIcon).click();
+	    AlertHandler.handleAllAlerts(driver, 1);
 	}
 	
 	
@@ -108,7 +108,8 @@ public class ListingDepartmentsPage {
 	    
 	    boolean hasChildren = true;
 	    boolean isSubDepartment = false;
-	    te.getDriver().manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
+	    int currentTimeout = driver.getElementTimeout();
+	    driver.setElementTimeout(0);
 	    department = parentDepartment;
 	    while (hasChildren){
 		try{
@@ -125,16 +126,16 @@ public class ListingDepartmentsPage {
 		    hasChildren = false;
 		}
 	    }
-	    te.getDriver().manage().timeouts().implicitlyWait(Constants.DEFAULT_GLOBAL_DRIVER_TIMEOUT, TimeUnit.SECONDS);
+	    driver.setElementTimeout(currentTimeout);
 	    
 	    return isSubDepartment;
 	}
 	
 	private Element getDepartmentElement(String departmentName){
 	  //Get all the rows in the table by CSS
-	  List<WebElement> elementList = te.getDriver().findElements(By.cssSelector(".list-group-item"));
+	  List<WebElement> elementList = driver.findElements(By.cssSelector(".list-group-item"));
 	  for(WebElement element:elementList){
-	      if(element.getText().replace("Add Subdepartment","").trim().equals(departmentName)) return new ElementImpl(element,te.getDriver());
+	      if(element.getText().replace("Add Subdepartment","").trim().equals(departmentName)) return new ElementImpl(element,driver);
 	  }
 	  return null;
 	}

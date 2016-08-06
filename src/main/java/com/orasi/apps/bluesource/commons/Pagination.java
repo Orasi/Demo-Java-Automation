@@ -4,10 +4,12 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import com.orasi.core.interfaces.Button;
 import com.orasi.core.interfaces.Element;
 import com.orasi.core.interfaces.impl.ButtonImpl;
 import com.orasi.core.interfaces.impl.ElementImpl;
 import com.orasi.core.interfaces.impl.internal.ElementFactory;
+import com.orasi.utils.OrasiDriver;
 import com.orasi.utils.TestEnvironment;
 
 /**
@@ -21,7 +23,7 @@ public class Pagination {
     private Element pagination;
     
     @SuppressWarnings("unused")
-    private TestEnvironment te = null;
+    private OrasiDriver driver = null;
 
     // *********************
     // ** Build page area **
@@ -31,10 +33,10 @@ public class Pagination {
      * @param {@link TestEnvironment} te
      * @doc.description If only TestEnvironment is passed in, use PageFactory method to find the Pagination element
      */
-    public Pagination(TestEnvironment te){
-	this.te = te;
- 	ElementFactory.initElements(te.getDriver(), this);
- 	te.pageLoaded(this.getClass(), pagination);
+    public Pagination(OrasiDriver driver){
+	this.driver = driver;
+ 	ElementFactory.initElements(driver, this);
+ 	driver.pageLoaded(this.getClass(), pagination);
     } 	
   
     /**
@@ -43,8 +45,8 @@ public class Pagination {
      * @param Element pagination
      * @doc.description Element pagination passed in will be used for interactions
      */
-    public Pagination (TestEnvironment te, Element pagination){
-	this.te = te;
+    public Pagination (OrasiDriver driver, Element pagination){
+	this.driver = driver;
 	this.pagination = pagination;
     }
     
@@ -55,8 +57,8 @@ public class Pagination {
      * @param WebElement pagination
      * @doc.description WebElement pagination will be converted to Element for additional low-level reports
      */
-    public Pagination (TestEnvironment te, WebElement pagination){
-	this(te, new ElementImpl(pagination));
+    public Pagination (OrasiDriver driver, WebElement pagination){
+	this(driver, new ElementImpl(pagination,driver));
     }
     
 
@@ -79,8 +81,7 @@ public class Pagination {
     public boolean moveNext(){
 	if(!pagination.isDisplayed()) return false;
 	String currentPage = getCurrentPage();
-	
-	new ButtonImpl(pagination.findElement(By.cssSelector("li:last-child > a"))).click();		
+	pagination.findElement(By.cssSelector("li:last-child > a")).click();		
 	String nextPage = getCurrentPage();
 	if (currentPage.equals(nextPage)) return false;
 	return true;
@@ -95,7 +96,7 @@ public class Pagination {
     public boolean movePrevious(){
 	if(!pagination.isDisplayed()) return false;
 	String currentPage = getCurrentPage();
-	new ButtonImpl(pagination.findElement(By.cssSelector("li:first-child > a"))).click();
+	new ButtonImpl(pagination.findElement(By.cssSelector("li:last-child > a")),(OrasiDriver)pagination.getWrappedDriver()).click();
 	String nextPage = getCurrentPage();
 	if (currentPage.equals(nextPage)) return false;
 	return true;	

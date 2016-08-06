@@ -12,47 +12,27 @@ import com.orasi.core.interfaces.Label;
 import com.orasi.core.interfaces.Link;
 import com.orasi.core.interfaces.Webtable;
 import com.orasi.core.interfaces.impl.internal.ElementFactory;
+import com.orasi.utils.OrasiDriver;
 import com.orasi.utils.TestEnvironment;
 import com.orasi.utils.TestReporter;
 import com.orasi.utils.date.DateTimeConversion;
 
 public class EmployeeSummaryPage {
-	private TestEnvironment te;
+	private OrasiDriver driver;
 	
 	//All the page elements
 	
-	@FindBy( xpath= "//div[contains(@class, 'panel-heading') and contains(@data-target,'#panel_body_2')]")
-	private Label lblGeneralInfo;
-	
-	@FindBy(id = "panel_body_2")
-	private Label lblGeneralInfoBody;
-	
-	@FindBy(xpath = "//div[@id='panel_body_2']/div/table")
-	private Webtable tabGeneralInfoTable;
-	
-	@FindBy(xpath = "//h4[text()='General Info']/../button")
-	private Button btnManageGeneralInfo;
-	
-	@FindBy( xpath= "//div[contains(@class, 'panel-heading') and contains(@data-target,'#panel_body_3')]")
-	private Label lblProjectInfo;
-	
-	@FindBy(id = "panel_body_3")
-	private Label lblProjectInfoBody;
-	
-	@FindBy(xpath = "//h4[text()='Project Info']/../a" )
-	private Button btnManageProjectInfo;
-	
-	@FindBy( xpath= "//div[contains(@class, 'panel-heading') and contains(@data-target,'#panel_body_1')]")
-	private Label lblTimeOffInfo;
-	
-	@FindBy(id = "panel_body_1")
-	private Label lblTimeOffInfoBody;
-	
-	@FindBy(xpath = "//h4[text()='Time Off Info']/../a")
-	private Button lnkManageTimeOff;
-	
-	@FindBy(linkText = "Manage")
-	private Link lnkViewTimeOff;
+	@FindBy( xpath= "//div[contains(@class, 'panel-heading') and contains(@data-target,'#panel_body_2')]")	private Label lblGeneralInfo;	
+	@FindBy(id = "panel_body_2") private Label lblGeneralInfoBody;
+	@FindBy(xpath = "//div[@id='panel_body_2']/div/table")	private Webtable tabGeneralInfoTable;	
+	@FindBy(xpath = "//h4[text()='General Info']/../button") private Button btnManageGeneralInfo;	
+	@FindBy( xpath= "//div[contains(@class, 'panel-heading') and contains(@data-target,'#panel_body_3')]")	private Label lblProjectInfo;
+	@FindBy(id = "panel_body_3") private Label lblProjectInfoBody;	
+	@FindBy(xpath = "//h4[text()='Project Info']/../a" )private Button btnManageProjectInfo;	
+	@FindBy( xpath= "//div[contains(@class, 'panel-heading') and contains(@data-target,'#panel_body_1')]")	private Label lblTimeOffInfo;
+	@FindBy(id = "panel_body_1") private Label lblTimeOffInfoBody;	
+	@FindBy(xpath = "//h4[text()='Time Off Info']/../a") private Button lnkManageTimeOff;	
+	@FindBy(linkText = "Manage") private Link lnkViewTimeOff;
 	
 	
 	/*
@@ -76,13 +56,13 @@ public class EmployeeSummaryPage {
 	// *********************
 	// ** Build page area **
 	// *********************
-	public EmployeeSummaryPage(TestEnvironment te){
-		this.te = te;
-		ElementFactory.initElements(te.getDriver(), this);
+	public EmployeeSummaryPage(OrasiDriver driver){
+		this.driver = driver;
+		ElementFactory.initElements(driver, this);
 	}
 		
 	public boolean pageLoaded(){
-		return te.pageLoaded(this.getClass(), lnkViewTimeOff); 	    
+		return driver.pageLoaded(this.getClass(), lnkViewTimeOff); 	    
 	}
 	// *****************************************
 	// ***Page Interactions ***
@@ -112,7 +92,7 @@ public class EmployeeSummaryPage {
 	public boolean validateAPIGeneralInfo(Employee employee){
 		viewGeneralInfo();
 		BlueSource blueSource = new BlueSource("Company.admin");
-		String url = te.getDriver().getCurrentUrl();
+		String url = driver.getCurrentUrl();
 		int startTrim = url.lastIndexOf('/') + 1;
 		int employeeID = Integer.parseInt(url.substring(startTrim, url.length()));
 		EmployeeDetails apiEmployee = blueSource.employees().getEmployeeDetails(employeeID);
@@ -162,6 +142,6 @@ public class EmployeeSummaryPage {
 	
 	@Step("When I click Manage General Info")
 	public void clickManageGeneralInfo(){
-	    btnManageGeneralInfo.click();
+	    btnManageGeneralInfo.jsClick();
 	}
 }

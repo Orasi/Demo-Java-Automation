@@ -23,24 +23,18 @@ import com.orasi.core.interfaces.Webtable;
 import com.orasi.core.interfaces.impl.ElementImpl;
 import com.orasi.core.interfaces.impl.internal.ElementFactory;
 import com.orasi.utils.AlertHandler;
+import com.orasi.utils.OrasiDriver;
 import com.orasi.utils.TestEnvironment;
 import com.orasi.utils.TestReporter;
 
 public class ListingTitlesPage {
-    	private TestEnvironment te = null;
+    	private OrasiDriver driver = null;
 	
 	//All the page elements
-	@FindBy(linkText = "New Title")	
-	private Link lnkNewTitle;
-	
-	@FindBy(xpath = "//h1[text() = 'Listing titles']")
-	private Label lblTitle;
-
-	@FindBy(css = ".alert-success.alert-dismissable")
-	private Label lblSuccessMsg;
-	
-	@FindBy(className = "table")
-	private Webtable tabTitles;
+	@FindBy(linkText = "New Title")	private Link lnkNewTitle;	
+	@FindBy(xpath = "//h1[text() = 'Listing titles']") private Label lblTitle;
+	@FindBy(css = ".alert-success.alert-dismissable") private Label lblSuccessMsg;	
+	@FindBy(className = "table") private Webtable tabTitles;
 	
 	private By editIcon = By.cssSelector("div:nth-child(1) > a:nth-child(1)");
 	private By deleteIcon = By.cssSelector("div:nth-child(1) > a:nth-child(2)");
@@ -48,13 +42,13 @@ public class ListingTitlesPage {
 	// *********************
 	// ** Build page area **
 	// *********************
-	public ListingTitlesPage(TestEnvironment te){
-	    this.te = te;
-	    ElementFactory.initElements(te.getDriver(), this);
+	public ListingTitlesPage(OrasiDriver driver){
+	    this.driver = driver;
+	    ElementFactory.initElements(driver, this);
 	}	
 	
 	public boolean pageLoaded(){
-	    return te.pageLoaded(this.getClass(), lnkNewTitle);
+	    return driver.pageLoaded(this.getClass(), lnkNewTitle);
 	}
 
 	// *****************************************
@@ -72,8 +66,7 @@ public class ListingTitlesPage {
 	
 	@Step("And I click the \"Edit Title\" icon on the row for title \"{0}\"")
 	public void clickModifyTitle(String title){	    
-	    Element titleCell = getTitleRowElement(title);
-	    new ElementImpl(titleCell.findElement(editIcon)).click();
+	    getTitleRowElement(title).findElement(By.className("glyphicon-pencil")).click();
 	}
 	
 	@Step("Then an alert should appear for confirmation")
@@ -89,10 +82,10 @@ public class ListingTitlesPage {
 	
 	@Step("And I can delete the title from the table")
 	public void deleteTitle(String title){
-	    Element titleCell = getTitleRowElement(title);
+	    WebElement titleCell = getTitleRowElement(title);
 	    new ElementImpl(titleCell.findElement(deleteIcon)).click();
 	    
-	    AlertHandler.handleAllAlerts(te.getDriver(), 2);
+	    AlertHandler.handleAllAlerts(driver, 2);
 	}
 
 	public void ensureNoExistingTitle(String title){
@@ -110,9 +103,9 @@ public class ListingTitlesPage {
 	    }
 	}
 	
-	private Element getTitleRowElement(String title){
+	private WebElement getTitleRowElement(String title){
 	    int titleRow = getTitleRowPosition(title);
-	    return new ElementImpl(tabTitles.getCell( titleRow, 1));
+	    return tabTitles.getCell( titleRow, 1);
 	}
 	
 	private int getTitleRowPosition(String title){

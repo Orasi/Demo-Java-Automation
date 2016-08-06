@@ -20,10 +20,14 @@ public class ButtonImpl extends ElementImpl implements Button {
      */
     public ButtonImpl(WebElement element) {
         super(element);
+        super.elementType = "Button";
+        setElementType("Button");
     }
     
     public ButtonImpl(WebElement element, OrasiDriver driver) {
         super(element, driver);
+        super.elementType = "Button";
+        setElementType("Button");
     }
     
     
@@ -31,7 +35,8 @@ public class ButtonImpl extends ElementImpl implements Button {
     public void click() {
 
     	try{
- 	   getWrappedElement().click(); 
+    	if(getWrappedDriver().getDriverCapability().browserName().toLowerCase().equals("android")) getWrappedElement().click();
+	//else ((ElementImpl)getWrappedElement()).clickNoLog(); 
     	}catch(RuntimeException rte){
     	    TestReporter.interfaceLog("Clicked Button [ <b>@FindBy: " + getElementLocatorInfo() + "</b>]", true);
     	    throw rte;

@@ -7,10 +7,11 @@ import ru.yandex.qatools.allure.annotations.Step;
 
 import com.orasi.core.interfaces.Link;
 import com.orasi.core.interfaces.impl.internal.ElementFactory;
+import com.orasi.utils.OrasiDriver;
 import com.orasi.utils.TestEnvironment;
 
 public class TopNavigationBar {
-    	private TestEnvironment te = null;
+    	private OrasiDriver driver = null;
 	
 	//All the page elements:
 	@FindBy(xpath = "//a[text() = 'Logout']")
@@ -38,13 +39,13 @@ public class TopNavigationBar {
 	// *********************
 	// ** Build page area **
 	// *********************
-	public TopNavigationBar(TestEnvironment te){
-	    this.te = te;
-	    ElementFactory.initElements(te.getDriver(), this);
+	public TopNavigationBar(OrasiDriver driver){
+	    this.driver = driver;
+	    ElementFactory.initElements(driver, this);
 	}
 	
 	public boolean pageLoaded(){
-	    return te.pageLoaded(this.getClass(), lnkLogout); 
+	    return driver.pageLoaded(this.getClass(), lnkLogout); 
 	}
 	// *****************************************
 	// ***Page Interactions ***

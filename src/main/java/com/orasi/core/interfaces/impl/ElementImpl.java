@@ -28,7 +28,22 @@ import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.orasi.core.Beta;
+import com.orasi.core.by.angular.ByNG;
+import com.orasi.core.by.angular.ByNG.ByNGButton;
+import com.orasi.core.by.angular.ByNG.ByNGController;
+import com.orasi.core.by.angular.ByNG.ByNGModel;
+import com.orasi.core.by.angular.ByNG.ByNGRepeater;
+import com.orasi.core.by.angular.ByNG.ByNGShow;
+import com.orasi.core.by.angular.internal.ByAngular;
+import com.orasi.core.interfaces.Button;
+import com.orasi.core.interfaces.Checkbox;
 import com.orasi.core.interfaces.Element;
+import com.orasi.core.interfaces.Label;
+import com.orasi.core.interfaces.Link;
+import com.orasi.core.interfaces.Listbox;
+import com.orasi.core.interfaces.RadioGroup;
+import com.orasi.core.interfaces.Textbox;
+import com.orasi.core.interfaces.Webtable;
 import com.orasi.utils.Constants;
 import com.orasi.utils.OrasiDriver;
 import com.orasi.utils.TestReporter;
@@ -41,6 +56,7 @@ public class ElementImpl implements Element {
 
     protected WebElement element;
     protected OrasiDriver driver;
+    protected String elementType = "Element";
     private java.util.Date date = new java.util.Date();
     private java.util.Date dateAfter = new java.util.Date();
     private StopWatch stopwatch = new StopWatch();
@@ -55,8 +71,18 @@ public class ElementImpl implements Element {
     	this.element = element;
     	this.driver = driver;
     }
-
-
+    
+    protected ElementImpl(final WebElement element,  String elementType) {
+    	this.element = element;
+    	this.elementType = elementType;
+    }
+    
+    protected ElementImpl(final WebElement element, final OrasiDriver driver, String elementType) {
+    	this.element = element;
+    	this.driver = driver;
+    	this.elementType = elementType;
+    }
+protected void setElementType(String elementType) {this.elementType = elementType;}
     /**
      * @see org.openqa.selenium.WebElement#click()
      */
@@ -65,13 +91,13 @@ public class ElementImpl implements Element {
 	try {
 		getWrappedElement().click();
 	} catch (RuntimeException rte) {
-	    TestReporter
-		    .interfaceLog("Clicked [ <font size = 2 color=\"red\"><b>@FindBy: "
-			    + getElementLocatorInfo() + " </font></b>]");
+	    if(elementType.equals("Element")) TestReporter.interfaceLog("Clicked [ <font size = 2 color=\"red\"><b>@FindBy: " + getElementLocatorInfo() + " </font></b>]");
 	}
-	/*TestReporter.interfaceLog("Clicked [ <b>@FindBy: "
-		+ getElementLocatorInfo() + " </b>]");*/
+	if(elementType.equals("Element")&&!element.toString().contains("ElementImpl")) TestReporter.interfaceLog("Clicked [ <b>@FindBy: "+ getElementLocatorInfo() + " </b>]");
     }
+    protected void clickNoLog() {
+  	element.click();
+      }
 
     @Override
     public void jsClick() {
@@ -221,14 +247,18 @@ public class ElementImpl implements Element {
      */
     //@Override
     public void sendKeys(CharSequence... keysToSend) {
-	if (keysToSend.toString() != "") {
-		getWrappedElement().sendKeys(keysToSend);
-	    TestReporter.interfaceLog(" Send Keys [ <b>"
-		    + keysToSend[0].toString()
-		    + "</b> ] to Textbox [ <b>@FindBy: "
-		    + getElementLocatorInfo() + " </b> ]");
+	if (keysToSend.toString() != "") {	    
+	    element.sendKeys(keysToSend);
+	    if(elementType.equals("Element")) TestReporter.interfaceLog(" Send Keys [ <b>" + keysToSend[0].toString() + "</b> ] to Element [ <b>@FindBy: " + getElementLocatorInfo() + " </b> ]");
 	}
     }
+
+    protected void sendKeysNoLog(CharSequence... keysToSend) {
+   	if (keysToSend.toString() != "") {	    
+   	    element.sendKeys(keysToSend);
+   	    //if(elementType.equals("Element")) TestReporter.interfaceLog(" Send Keys [ <b>" + keysToSend[0].toString() + "</b> ] to Element [ <b>@FindBy: " + getElementLocatorInfo() + " </b> ]");
+   	}
+       }
 
     /**
      * @see org.openqa.selenium.WebElement#getWrappedElement()
@@ -245,7 +275,7 @@ public class ElementImpl implements Element {
     		 try {
     	        	privateStringField = element.getClass().getDeclaredField("driver");
     	        	privateStringField.setAccessible(true);
-    	        	 return (OrasiDriver)privateStringField.get(element);
+    	        	this.driver = (OrasiDriver)privateStringField.get(element);
     		 }catch(  NoSuchFieldException | IllegalArgumentException | IllegalAccessException | SecurityException e ){ e.printStackTrace();}
     	}
     	return driver;
@@ -945,12 +975,10 @@ public class ElementImpl implements Element {
 	    try {
 		elementField = element.getClass().getDeclaredField("element");
 		elementField.setAccessible(true);
-		
-		  startPosition = elementField.get(element).toString().lastIndexOf("->") + 3;
-		  locator = elementField.get(element).toString().substring(startPosition,
-			  elementField.get(element).toString().lastIndexOf(":"));
+		startPosition = elementField.get(element).toString().lastIndexOf("->") + 3;
+		locator = elementField.get(element).toString().substring(startPosition, elementField.get(element).toString().lastIndexOf(":"));
 	    }catch (IllegalAccessException | NoSuchFieldException | SecurityException e){
-		e.printStackTrace();	    
+		//e.printStackTrace();	    
 	    }
 
 	}else {
@@ -973,19 +1001,19 @@ public class ElementImpl implements Element {
     @Override
     public void highlight() {
 	
-	driver.executeJavaScript("arguments[0].style.border='3px solid red'",this);
+	getWrappedDriver().executeJavaScript("arguments[0].style.border='3px solid red'",this);
     }
 
     @Override
     public void scrollIntoView() {
 	
-	driver.executeJavaScript("arguments[0].scrollIntoView(true);", element);
+	getWrappedDriver().executeJavaScript("arguments[0].scrollIntoView(true);", element);
     }
 
     @Override
     public ArrayList getAllAttributes() {
 	
-	return (ArrayList)  driver.executeJavaScript("var s = []; var attrs = arguments[0].attributes; for (var l = 0; l < attrs.length; ++l) { var a = attrs[l]; s.push(a.name + ':' + a.value); } ; return s;",
+	return (ArrayList)  getWrappedDriver().executeJavaScript("var s = []; var attrs = arguments[0].attributes; for (var l = 0; l < attrs.length; ++l) { var a = attrs[l]; s.push(a.name + ':' + a.value); } ; return s;",
 			getWrappedElement());
     }
     
@@ -993,7 +1021,7 @@ public class ElementImpl implements Element {
 	@Override
 	public <X> X getScreenshotAs(OutputType<X> target) {
 		// TODO Auto-generated method stub
-		return ((TakesScreenshot)driver.getDriver()).getScreenshotAs(target);
+		return ((TakesScreenshot)getWrappedDriver().getDriver()).getScreenshotAs(target);
 	}
 	
  /*   @Override
@@ -1007,4 +1035,194 @@ public class ElementImpl implements Element {
 	System.out.println("getScreenShotAs is unimplemented");
 	return null; // target.convertFromBase64Png(base64);
     }*/
+   /* @Override
+    public Element findElement(By by) {
+		try{
+		    return new ElementImpl(getWrappedDriver().findElement(by), getWrappedDriver());
+		}catch(NoSuchElementException nse){	  
+		    TestReporter.logFailure("No such Element with context: " + by.toString());
+		    throw new NoSuchElementException(nse.getMessage());
+		}
+    }
+    
+    public Element findElement(ByNG by) {
+    	try{
+    	    return new ElementImpl(getWrappedDriver().findElement(getByNGType(by)), getWrappedDriver());
+    	}catch(NoSuchElementException nse){	  
+    	    TestReporter.logFailure("No such Element with context: " + by.toString());
+    	    throw new NoSuchElementException(nse.getMessage());
+    	}
+    }
+
+    public Textbox findTextbox(By by) {
+		try{
+		    return new TextboxImpl(getWrappedDriver().findElement(by), getWrappedDriver());
+		}catch(NoSuchElementException nse){	  
+		    TestReporter.logFailure("No such Textbox with context: " + by.toString());
+		    throw new NoSuchElementException(nse.getMessage());
+		}
+    }
+
+    public Textbox findTextbox(ByNG by) {
+		try{
+		    return new TextboxImpl(getWrappedDriver().findElement(getByNGType(by)), getWrappedDriver());
+		}catch(NoSuchElementException nse){	  
+		    TestReporter.logFailure("No such Textbox with context: " + by.toString());
+		    throw new NoSuchElementException(nse.getMessage());
+		}
+    }
+    
+    public Button findButton(By by) {
+		try{
+		    return new ButtonImpl(getWrappedDriver().findElement(by), getWrappedDriver());
+		}catch(NoSuchElementException nse){	  
+		    TestReporter.logFailure("No such Button with context: " + by.toString());
+		    throw new NoSuchElementException(nse.getMessage());
+		}
+    }
+
+	public Button findButton(ByNG by) {
+    	try{
+    	    return new ButtonImpl(getWrappedDriver().findElement(getByNGType(by)), getWrappedDriver());
+    	}catch(NoSuchElementException nse){	  
+    	    TestReporter.logFailure("No such Button with context: " + by.toString());
+    	    throw new NoSuchElementException(nse.getMessage());
+    	}
+    }
+    
+    public Checkbox findCheckbox(By by) {
+		try{
+		    return new CheckboxImpl(getWrappedDriver().findElement(by), getWrappedDriver());
+		}catch(NoSuchElementException nse){	  
+		    TestReporter.logFailure("No such Checkbox with context: " + by.toString());
+		    throw new NoSuchElementException(nse.getMessage());
+		}
+    }
+    
+    public Checkbox findCheckbox(ByNG by) {
+		try{
+		    return new CheckboxImpl(getWrappedDriver().findElement(getByNGType(by)), getWrappedDriver());
+		}catch(NoSuchElementException nse){	  
+		    TestReporter.logFailure("No such Checkbox with context: " + by.toString());
+		    throw new NoSuchElementException(nse.getMessage());
+		}
+    }
+    
+    public Label findLabel(By by) {
+		try{
+		    return new LabelImpl(getWrappedDriver().findElement(by), getWrappedDriver());
+		}catch(NoSuchElementException nse){	  
+		    TestReporter.logFailure("No such Label with context: " + by.toString());
+		    throw new NoSuchElementException(nse.getMessage());
+		}
+    }
+    
+    public Label findLabel(ByNG by) {
+		try{
+		    return new LabelImpl(getWrappedDriver().findElement(getByNGType(by)), getWrappedDriver());
+		}catch(NoSuchElementException nse){	  
+		    TestReporter.logFailure("No such Label with context: " + by.toString());
+		    throw new NoSuchElementException(nse.getMessage());
+		}
+    }
+    
+    public Link findLink(By by) {
+		try{
+		    return new LinkImpl(getWrappedDriver().findElement(by), getWrappedDriver());
+		}catch(NoSuchElementException nse){	  
+		    TestReporter.logFailure("No such Link with context: " + by.toString());
+		    throw new NoSuchElementException(nse.getMessage());
+		}
+    }    
+    
+    public Link findLink(ByNG by) {
+		try{
+		    return new LinkImpl(getWrappedDriver().findElement(getByNGType(by)), getWrappedDriver());
+		}catch(NoSuchElementException nse){	  
+		    TestReporter.logFailure("No such Link with context: " + by.toString());
+		    throw new NoSuchElementException(nse.getMessage());
+		}
+    }    
+    
+    public Listbox findListbox(By by) {
+		try{	
+		    return new ListboxImpl(getWrappedDriver().findElement(by), getWrappedDriver());
+		}catch(NoSuchElementException nse){	  
+		    TestReporter.logFailure("No such Listbox with context: " + by.toString());
+		    throw new NoSuchElementException(nse.getMessage());
+		}
+    }    
+    
+    public Listbox findListbox(ByNG by) {
+		try{	
+		    return new ListboxImpl(getWrappedDriver().findElement(getByNGType(by)), getWrappedDriver());
+		}catch(NoSuchElementException nse){	  
+		    TestReporter.logFailure("No such Listbox with context: " + by.toString());
+		    throw new NoSuchElementException(nse.getMessage());
+		}
+    }
+    
+    public RadioGroup findRadioGroup(By by) {
+		try{
+		    return new RadioGroupImpl(getWrappedDriver().findElement(by), getWrappedDriver());
+		}catch(NoSuchElementException nse){	  
+		    TestReporter.logFailure("No such RadioGroup with context: " + by.toString());
+		    throw new NoSuchElementException(nse.getMessage());
+		}
+    }
+    
+    public RadioGroup findRadioGroup(ByNG by) {
+		try{
+		    return new RadioGroupImpl(getWrappedDriver().findElement(getByNGType(by)), getWrappedDriver());
+		}catch(NoSuchElementException nse){	  
+		    TestReporter.logFailure("No such RadioGroup with context: " + by.toString());
+		    throw new NoSuchElementException(nse.getMessage());
+		}
+    }
+    
+    public Webtable findWebtable(By by) {
+		try{
+		    return new WebtableImpl(getWrappedDriver().findElement(by), getWrappedDriver());
+		}catch(NoSuchElementException nse){	  
+		    TestReporter.logFailure("No such Webtable with context: " + by.toString());
+		    throw new NoSuchElementException(nse.getMessage());
+		}
+    }
+    
+    public Webtable findWebtable(ByNG by) {
+		try{
+		    return new WebtableImpl(getWrappedDriver().findElement(getByNGType(by)), getWrappedDriver());
+		}catch(NoSuchElementException nse){	  
+		    TestReporter.logFailure("No such Webtable with context: " + by.toString());
+		    throw new NoSuchElementException(nse.getMessage());
+		}
+    }
+    
+    public WebElement findWebElement(By by) {
+		try{return driver.findElement(by);
+		}catch(NoSuchElementException nse){	  
+		    TestReporter.logFailure("No such WebElement with context: " + by.toString());
+		    throw new NoSuchElementException(nse.getMessage());
+		}
+    }
+    
+    public WebElement findWebElement(ByNG by) {
+		try{return driver.findElement(getByNGType(by));
+		}catch(NoSuchElementException nse){	  
+		    TestReporter.logFailure("No such WebElement with context: " + by.toString());
+		    throw new NoSuchElementException(nse.getMessage());
+		}
+    }
+    
+    @SuppressWarnings("static-access")
+	private ByAngular.BaseBy getByNGType(ByNG by){
+    	String text = by.toString().replace("By.buttonText:", "").trim();
+    	if(by instanceof ByNGButton) return new ByAngular(getWrappedDriver()).buttonText(text);
+    	if(by instanceof ByNGController) return new ByAngular(getWrappedDriver()).controller(text);
+    	if(by instanceof ByNGModel) return new ByAngular(getWrappedDriver()).model(text);
+    	if(by instanceof ByNGRepeater) return new ByAngular(getWrappedDriver()).repeater(text);
+    	if(by instanceof ByNGShow) return new ByAngular(getWrappedDriver()).show(text);
+    	return null;
+    }    
+  */  
 }

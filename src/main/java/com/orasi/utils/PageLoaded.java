@@ -10,6 +10,7 @@ import org.openqa.selenium.WebDriverException;
 
 import com.orasi.core.interfaces.Element;
 import com.orasi.core.interfaces.impl.internal.ElementFactory;
+import com.orasi.exception.automation.PageInitialization;
 
 /**
  * Several different methods of waiting for a page to finish loading.  
@@ -55,7 +56,7 @@ public class PageLoaded {
 		int count = 0;
 		
 		//set the timeout for looking for an element to 1 second as we are doing a loop and then refreshing the elements
-		driver.manage().timeouts().implicitlyWait(1, TimeUnit.SECONDS);
+		driver.manage().timeouts().implicitlyWait(1, TimeUnit.MILLISECONDS);
 
 		try{
 			
@@ -67,7 +68,7 @@ public class PageLoaded {
 					initialize();
 				}
 			}
-		}catch( NullPointerException | NoSuchElementException |StaleElementReferenceException e){
+		}catch( NullPointerException | NoSuchElementException |StaleElementReferenceException  | PageInitialization e){
 			// do nothing
 		}
 		

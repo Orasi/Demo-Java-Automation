@@ -1,10 +1,10 @@
 package com.orasi.bluesource.features.login;
 
-import org.testng.ITestResult;
+import org.testng.ITestContext;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.DataProvider;
-import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
@@ -17,47 +17,36 @@ import ru.yandex.qatools.allure.model.SeverityLevel;
 
 import com.orasi.apps.bluesource.LoginPage;
 import com.orasi.utils.Constants;
+import com.orasi.utils.OrasiDriver;
 import com.orasi.utils.TestEnvironment;
 import com.orasi.utils.TestReporter;
 import com.orasi.utils.dataProviders.ExcelDataProvider;
 
 public class NegativeLogin  extends TestEnvironment {
 
-    private String application = "Bluesource";
-    
+    private OrasiDriver driver = null;
     @DataProvider(name = "negativeDataScenario")
     public Object[][] negativeScenarios() {
-	return new ExcelDataProvider(Constants.BLUESOURCE_DATAPROVIDER_PATH
-		+ "Login.xlsx", "LoginNegative").getTestData();
+	return new ExcelDataProvider(Constants.BLUESOURCE_DATAPROVIDER_PATH + "Login.xlsx", "LoginNegative").getTestData();
     }
-
-    @BeforeTest(groups = { "regression", "login"  })
-    @Parameters({ "runLocation", "browserUnderTest", "browserVersion",
-	    "operatingSystem", "environment" })
-    public void setup(@Optional String runLocation, String browserUnderTest,
-	    String browserVersion, String operatingSystem, String environment) {
-	setApplicationUnderTest(application);
+    
+    @BeforeTest( alwaysRun=true)
+    @Parameters({ "runLocation", "browserUnderTest", "browserVersion", "operatingSystem", "environment" })
+    public void setup(String runLocation, String browserUnderTest, String browserVersion, String operatingSystem, String environment) {
+	setApplicationUnderTest("Bluesource");
 	setBrowserUnderTest(browserUnderTest);
 	setBrowserVersion(browserVersion);
 	setOperatingSystem(operatingSystem);
 	setRunLocation(runLocation);
 	setTestEnvironment(environment);
+	setThreadDriver(true);
     }
 
-    @AfterMethod(groups = { "regression", "login" })
-    public synchronized void closeSession(ITestResult test) {
-	endTest(testName);
-    }
+    @AfterMethod(  alwaysRun=true)
+    public void closeSession(ITestContext test) {
+	endTest(testName, test, driver);
+    }    
 
-    
-    /**
-     * @throws Exception
-     * @Summary: Adds a housekeeper to the schedule
-     * @Precondition:NA
-     * @Author: Jessica Marshall
-     * @Version: 10/6/2014
-     * @Return: N/A
-     */
     @Features("Login")
     @Stories("Failing to login will not let me leave the Login page")
     @Severity(SeverityLevel.BLOCKER)
@@ -69,9 +58,10 @@ public class NegativeLogin  extends TestEnvironment {
 	}.getClass().getEnclosingMethod().getName();
 
 	testStart(testName);
-	
+	driver = getDriver();
 	// Login
-	LoginPage loginPage = new LoginPage(this);
+	TestReporter.log("Login to Bluesource with incorrect information");
+	LoginPage loginPage = new LoginPage(getDriver());
 	TestReporter.assertTrue(loginPage.pageLoaded(),"Verify login page is displayed");
 	loginPage.login(role);
 	TestReporter.assertTrue(loginPage.isNotLoggedIn(), "Validate the user did not log in successfully");

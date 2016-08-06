@@ -16,57 +16,41 @@ import com.orasi.core.interfaces.Label;
 import com.orasi.core.interfaces.Listbox;
 import com.orasi.core.interfaces.Textbox;
 import com.orasi.core.interfaces.impl.internal.ElementFactory;
+import com.orasi.utils.AlertHandler;
+import com.orasi.utils.OrasiDriver;
 import com.orasi.utils.PageLoaded;
 import com.orasi.utils.TestEnvironment;
 
 public class TimeOffDetailsPage {
 	
-	private TestEnvironment te;
+	private OrasiDriver driver;
 	
 	//All the page elements
-	@FindBy(id = "new_vacation_date_requested")
-	private Textbox txtDateRequested;
-	
-	@FindBy(id = "new_vacation_start_date")
-	private Textbox txtStartDate;
-	
-	@FindBy(id = "new_vacation_end_date")
-	private Textbox txtEndDate;
-	
-	@FindBy(className = "business-days")
-	private Label lblTotalDays;
-	
-	@FindBy(id = "new_vacation_vacation_type")
-	private Listbox lstVacationType;
-	
-	@FindBy(css = "input[class = 'half-day']")
-	private Button btnHalfDay;
-	
-	@FindBy(css = "input[value = 'Save Time Off']")
-	private Button btnSave;
-	
-	@FindBy(css = ".alert-success.alert-dismissable")
-	private Label lblSuccessMsg;
-	
-	@FindBy(name = "new[vacation][reason]")
-	private Textbox txtReason;
+	@FindBy(id = "new_vacation_date_requested") private Textbox txtDateRequested;	
+	@FindBy(id = "new_vacation_start_date")	private Textbox txtStartDate;	
+	@FindBy(id = "new_vacation_end_date") private Textbox txtEndDate;	
+	@FindBy(className = "business-days") private Label lblTotalDays;	
+	@FindBy(id = "new_vacation_vacation_type") private Listbox lstVacationType;	
+	@FindBy(css = "input[class = 'half-day']") private Button btnHalfDay;	
+	@FindBy(css = "input[value = 'Save Time Off']")	private Button btnSave;	
+	@FindBy(css = ".alert-success.alert-dismissable") private Label lblSuccessMsg;	
+	@FindBy(name = "new[vacation][reason]")	private Textbox txtReason;
 	
 	// *********************
 	// ** Build page area **
 	// *********************
-	public TimeOffDetailsPage(TestEnvironment te){
-		this.te = te;
-		ElementFactory.initElements(te.getDriver(), this);
+	public TimeOffDetailsPage(OrasiDriver driver){
+	    this.driver = driver;
+	    ElementFactory.initElements(driver, this);
 	}
 	
 	public boolean pageLoaded(){
-		return te.pageLoaded(this.getClass(), txtDateRequested); 
+	    return driver.pageLoaded(this.getClass(), txtDateRequested); 
 		  
 	}
 	
 	public TimeOffDetailsPage initialize() {
-		return ElementFactory.initElements(te.getDriver(),
-				this.getClass());       
+	    return ElementFactory.initElements(driver.getDriver(), this.getClass());       
 	 }
 
 	// *****************************************
@@ -74,7 +58,7 @@ public class TimeOffDetailsPage {
 	// *****************************************
 
 	public boolean isSuccessMsgDisplayed(){
-		WebDriverWait wait = new WebDriverWait(te.getDriver(), 5);
+		WebDriverWait wait = new WebDriverWait(driver, 5);
 		wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(".alert-success.alert-dismissable")));
 		return lblSuccessMsg.isDisplayed();
 	}
@@ -84,7 +68,7 @@ public class TimeOffDetailsPage {
 	}
 	
 	public void hoverOverElement(WebElement element){
-		Actions builder = new Actions(te.getDriver());
+		Actions builder = new Actions(driver);
 		Actions hoverOverRegistrar = builder.moveToElement(element);
 		hoverOverRegistrar.perform();
 	}
@@ -107,7 +91,7 @@ public class TimeOffDetailsPage {
 
 		//If its a half day
 		if (halfDay.equalsIgnoreCase("TRUE")){
-			WebDriverWait wait = new WebDriverWait(te.getDriver(), 5);
+			WebDriverWait wait = new WebDriverWait(driver, 5);
 			wait.until(ExpectedConditions.visibilityOf(btnHalfDay));
 			btnHalfDay.click();
 		}
@@ -125,14 +109,13 @@ public class TimeOffDetailsPage {
 	//Clean up - delete all the time off requests
 	public void DeleteAllTimeOff(){
 		
-		List<WebElement> deleteIconsList = te.getDriver().findElements(By.cssSelector("a[data-method = 'delete']"));
+		List<WebElement> deleteIconsList = driver.findElements(By.cssSelector("a[data-method = 'delete']"));
 		if (deleteIconsList.size() > 0){
 			for(WebElement element:deleteIconsList){
 				element.click();
 				
 				//accept the alert that pops up
-				Alert alert = te.getDriver().switchTo().alert();
-				alert.accept();
+				AlertHandler.handleAlert(driver, 5);
 			}
 		}
 

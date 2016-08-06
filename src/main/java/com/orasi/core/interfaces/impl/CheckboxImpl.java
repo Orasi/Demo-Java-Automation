@@ -26,7 +26,7 @@ public class CheckboxImpl extends ElementImpl implements Checkbox {
     
     @Override
     public void toggle() {
-        getWrappedElement().click();
+	 ((ElementImpl)getWrappedElement()).clickNoLog();
     }
 
     @Override

@@ -8,34 +8,28 @@ import com.orasi.core.interfaces.Button;
 import com.orasi.core.interfaces.Listbox;
 import com.orasi.core.interfaces.Textbox;
 import com.orasi.core.interfaces.impl.internal.ElementFactory;
+import com.orasi.utils.OrasiDriver;
 import com.orasi.utils.TestEnvironment;
 public class ManageDepartmentPage {
 
-    	private TestEnvironment te = null;
+    	private OrasiDriver driver = null;
 
 	//All the page elements
-	@FindBy(id = "department_name")
-	private Textbox txtDept;
-	
-	@FindBy(xpath = "//select[@id='department_department_id']")
-	private Listbox lstParentDept;
-	
-	@FindBy(id = "department_minimum_hour_increment")
-	private Listbox lstHourIncrement;
-	
-	@FindBy(name = "commit")
-	private Button btnCreateDept;
+	@FindBy(id = "department_name")	private Textbox txtDept;
+	@FindBy(xpath = "//select[@id='department_department_id']") private Listbox lstParentDept;	
+	@FindBy(id = "department_minimum_hour_increment") private Listbox lstHourIncrement;
+	@FindBy(name = "commit") private Button btnCreateDept;
 	
 	// *********************
 	// ** Build page area **
 	// *********************
-	public ManageDepartmentPage(TestEnvironment te){
-		this.te = te;
-		ElementFactory.initElements(te.getDriver(), this);
+	public ManageDepartmentPage(OrasiDriver driver){
+		this.driver = driver;
+		ElementFactory.initElements(driver, this);
 	}
 	
 	public boolean pageLoaded(){
-	    return te.pageLoaded(this.getClass(), btnCreateDept);
+	    return driver.pageLoaded(this.getClass(), btnCreateDept);
 	}
 	
 	// *****************************************
@@ -55,7 +49,7 @@ public class ManageDepartmentPage {
 	}
 	
 	@Step("When I create the new subdepartment \"{0}\" under department \"{1}\"")
-	public void createSubepartment(String departmentName, String parentDepartment){
+	public void createSubdepartment(String departmentName, String parentDepartment){
 	    manageDepartment(departmentName,parentDepartment,"");
 	}
 	
@@ -87,13 +81,13 @@ public class ManageDepartmentPage {
 	}
 	
 	public void clickUpdateButton(){
-	    btnCreateDept.click();
+	    btnCreateDept.submit();
 	}
 	
 	private void manageDepartment(String departmentName, String parentDepartment, String incrementHours ){
 	    txtDept.set(departmentName);
 	    lstParentDept.select(parentDepartment);
 	    lstHourIncrement.select(incrementHours);
-	    btnCreateDept.click();
+	    btnCreateDept.submit();
 	}
 }

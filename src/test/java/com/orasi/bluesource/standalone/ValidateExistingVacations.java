@@ -1,4 +1,4 @@
-package com.orasi.bluesource.standalone;
+/*package com.orasi.bluesource.standalone;
 
 import org.openqa.selenium.By;
 import org.testng.ITestResult;
@@ -53,14 +53,14 @@ public class ValidateExistingVacations  extends TestEnvironment {
 	endTest(testName);
     }
 
-    /**
+    *//**
      * @throws Exception
      * @Summary: Validates all employee "Vacation Page" to ensure it loads properly
      * @Precondition:NA
      * @Author: Justin Phlegar
      * @Version: 06/29/2015
      * @Return: N/A
-     */
+     *//*
     @Features("Vacations")
     @Stories("Validates all employee 'Vacation Page' to ensure it loads properly")
     @Severity(SeverityLevel.MINOR)
@@ -74,13 +74,13 @@ public class ValidateExistingVacations  extends TestEnvironment {
 	testStart(testName);
 	
 	// Login
-	LoginPage loginPage = new LoginPage(this);
+	LoginPage loginPage = new LoginPage(driver);
 	TestReporter.assertTrue(loginPage.pageLoaded(),"Verify login page is displayed");
 	loginPage.login(role);
-	TopNavigationBar topNavigationBar = new TopNavigationBar(this);
+	TopNavigationBar topNavigationBar = new TopNavigationBar(driver);
 	topNavigationBar.pageLoaded();
 	topNavigationBar.clickEmployeesLink();
-	EmployeesPage employeePage = new EmployeesPage(this);
+	EmployeesPage employeePage = new EmployeesPage(driver);
 	employeePage.pageLoaded();
 	employeePage.uncheckInactiveCheckbox();
 	
@@ -98,4 +98,4 @@ public class ValidateExistingVacations  extends TestEnvironment {
 	    }
 	}
     }
-}
+}*/

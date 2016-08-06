@@ -16,7 +16,8 @@ public enum EmployeesTableColumns {
     LOCATION("Location"),
     VACATION_DAYS_LEFT("Vacation Left"),
     SICK_DAYS_LEFT("Sick\\Personal Left"),
-    FLOATING_DAYS_LEFT("Floating Left");
+    FLOATING_DAYS_LEFT("Floating Left"),
+    CELL_PHONE("Cell Phone");
     
     private String text = "";
     private EmployeesTableColumns(String text){this.text = text;}

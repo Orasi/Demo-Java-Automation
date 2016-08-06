@@ -12,6 +12,7 @@ import com.orasi.core.interfaces.impl.ElementImpl;
 import com.orasi.core.interfaces.impl.LinkImpl;
 import com.orasi.core.interfaces.impl.WebtableImpl;
 import com.orasi.core.interfaces.impl.internal.ElementFactory;
+import com.orasi.utils.OrasiDriver;
 import com.orasi.utils.TestEnvironment;
 
 
@@ -25,26 +26,21 @@ import com.orasi.utils.TestEnvironment;
 
 public class BluesourceTables {
     
-    @FindBy(className = "table")
-    private Webtable table;
+    @FindBy(className = "table") private Webtable table;   
+    @FindBy(id = "loading-section") private Element loadingModal;    
+    @FindBy(id = "preference_resources_per_page") private Listbox lstRowsPerPage;
     
-    @FindBy(id = "loading-section")
-    private Element loadingModal;
-    
-    @FindBy(id = "preference_resources_per_page")
-    private Listbox lstRowsPerPage;
-    
-    private TestEnvironment te = null;
+    private OrasiDriver driver = null;
     
     /**
      * 
      * @param {@link TestEnvironment} te
      * @doc.description If only TestEnvironment is passed in, use PageFactory method to find the WebTable element
      */
-    public BluesourceTables (TestEnvironment te){
-	this.te = te;	
-    	ElementFactory.initElements(te.getDriver(), this);
-    	te.pageLoaded(this.getClass(), table);
+    public BluesourceTables (OrasiDriver driver){
+	this.driver = driver;	
+    	ElementFactory.initElements(driver, this);    	
+    	driver.pageLoaded();
     }
     
     /**
@@ -53,8 +49,8 @@ public class BluesourceTables {
      * @param {@link Webtable} table
      * @doc.description  Webtable table passed in will be used for interactions
      */
-    public BluesourceTables (TestEnvironment te, Webtable table){
-	this.te = te;
+    public BluesourceTables (OrasiDriver driver, Webtable table){
+	this.driver = driver;
 	this.table = table;
     }
     
@@ -64,8 +60,8 @@ public class BluesourceTables {
      * @param {@link WebElement} table
      * @doc.description WebElement table will be converted to WebTable for access to additional methods for WebTable
      */
-    public BluesourceTables (TestEnvironment te, WebElement table){
-	this(te, new WebtableImpl(table));
+    public BluesourceTables (OrasiDriver driver, WebElement table){
+	this(driver, new WebtableImpl(table));
     }
    
     /**
@@ -74,8 +70,8 @@ public class BluesourceTables {
      * @param {@link Element} table
      * @doc.description Element table will be converted to WebTable for access to additional methods for WebTable
      */
-    public BluesourceTables (TestEnvironment te,Element table){
-	this(te, new WebtableImpl(table));
+    public BluesourceTables (OrasiDriver driver,Element table){
+	this(driver, new WebtableImpl(table));
     }
     
     /**
@@ -112,7 +108,7 @@ public class BluesourceTables {
 	Link cellLink = new LinkImpl(cell.findElement(By.xpath("a")));
 	
 	cellLink.click();
-	te.pageLoaded();
+	driver.pageLoaded();
 	
 	String currentOrder = cell.findElement(By.cssSelector("span.glyphicon-sort-by-alphabet")).getAttribute("ng-show");
 	if(order == SortOrder.ASCENDING){
@@ -154,8 +150,8 @@ public class BluesourceTables {
 	    
 	    if(currentRow==numberRows+1) {
 		currentRow = 2;
-		movedPage = new Pagination(te).moveNext();
-		te.pageLoaded();
+		movedPage = new Pagination(driver).moveNext();
+		driver.pageLoaded();
 		numberRows = table.getRowCount();
 	    }
 	} while (movedPage);	
@@ -187,7 +183,7 @@ public class BluesourceTables {
     }   
     
     public void selectFieldLink(String fieldText){
-    	te.getDriver().findLink(By.xpath("//tbody/tr/td/a[text()='" + fieldText + "']")).click();;
+    	driver.findLink(By.xpath("//tbody/tr/td/a[text()='" + fieldText + "']")).click();
     }
  
     public boolean validateTextInTable(String text, String column){

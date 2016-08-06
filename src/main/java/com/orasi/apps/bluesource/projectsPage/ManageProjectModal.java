@@ -19,48 +19,32 @@ import com.orasi.core.interfaces.Textbox;
 import com.orasi.core.interfaces.impl.ElementImpl;
 import com.orasi.core.interfaces.impl.ListboxImpl;
 import com.orasi.core.interfaces.impl.internal.ElementFactory;
+import com.orasi.utils.OrasiDriver;
 import com.orasi.utils.TestEnvironment;
 
 public class ManageProjectModal {
-    private TestEnvironment te;
+    private OrasiDriver driver;
     
-    @FindBy(id = "modal_label_1")
-    private Label lblAddProjectPopup;
-    
-    @FindBy(id = "project_name")
-    private Textbox txtName;
-    
-    @FindBy(id = "project_client_partner_id")
-    private Listbox lstClientPartner;
-    
-    @FindBy(id = "add-team-lead")
-    private Button btnAddTeamLead;
-    
-    @FindBy(id = "project_leads")
-    private List<Listbox> lstTeamLeads;
-	
-    @FindBy(id = "project_status")
-    private Listbox lstStatus;
-	
-    @FindBy(id = "project_start_date")
-    private Textbox txtProjectStartDate;
-    
-    @FindBy(id = "project_end_date")
-    private Textbox txtProjectEndDate;
-    
-    @FindBy(name = "commit")
-    private Button btnSave;
+    @FindBy(id = "modal_label_1") private Label lblAddProjectPopup;    
+    @FindBy(id = "project_name") private Textbox txtName;    
+    @FindBy(id = "project_client_partner_id") private Listbox lstClientPartner;    
+    @FindBy(id = "add-team-lead") private Button btnAddTeamLead;    
+    @FindBy(id = "project_leads") private List<Listbox> lstTeamLeads;	
+    @FindBy(id = "project_status") private Listbox lstStatus;	
+    @FindBy(id = "project_start_date") private Textbox txtProjectStartDate;    
+    @FindBy(id = "project_end_date") private Textbox txtProjectEndDate;    
+    @FindBy(name = "commit")private Button btnSave;
 
     // *********************
     // ** Build page area **
     // *********************
-    public ManageProjectModal(TestEnvironment te){
-    	this.te = te;
-    	ElementFactory.initElements(te.getDriver(), this);
+    public ManageProjectModal(OrasiDriver driver){
+    	this.driver = driver;
+    	ElementFactory.initElements(driver, this);
     }
     	
     public boolean pageLoaded(){
-    	return te.pageLoaded(this.getClass(), txtName); 		  
+    	return driver.pageLoaded(this.getClass(), txtName); 		  
     }
     	
     // *****************************************
@@ -70,15 +54,15 @@ public class ManageProjectModal {
     //adds a new project on the projects page
     @Step("And I add a new Project")
     public void addProject(String projectName, String clientPartner, ArrayList<String> teamLeads, String status, String startDate, String endDate){
-	lblAddProjectPopup.syncEnabled();
+	lblAddProjectPopup.syncVisible();
     	//Fill in the details
 
 	txtName.set(projectName);
     	lstClientPartner.select(clientPartner);
     	if (teamLeads.size() > 0){
     	    for(String teamLead : teamLeads){
-    		btnAddTeamLead.click();
-    		te.initializePage(this.getClass());
+    		btnAddTeamLead.jsClick();
+    		ElementFactory.initElements(driver, this);
     		Listbox box = new ListboxImpl(lstTeamLeads.get(lstTeamLeads.size()-1));
     		box.select(teamLead);
     	    }
@@ -113,7 +97,7 @@ public class ManageProjectModal {
     		    }
     		}
     		if(!leadFound){
-        		btnAddTeamLead.click();
+        		btnAddTeamLead.jsClick();
         		//te.initializePage(this.getClass());
         		Listbox box = new ListboxImpl(lstTeamLeads.get(lstTeamLeads.size()-1));
             		box.select(teamLead);
@@ -126,7 +110,7 @@ public class ManageProjectModal {
 		for(int x = 0 ; x < lstTeamLeads.size() ; x++){
 		    Listbox box = new ListboxImpl(lstTeamLeads.get(x));
     		    if(box.getFirstSelectedOption().getText().equals(teamLead)){
-    			new ElementImpl(box.findElement(By.xpath("../span"))).click();
+    			box.findElement(By.xpath("../span")).click();
     		    }
     		}
 	    }

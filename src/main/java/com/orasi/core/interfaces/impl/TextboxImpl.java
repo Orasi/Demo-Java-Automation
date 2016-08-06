@@ -21,12 +21,14 @@ public class TextboxImpl extends ElementImpl implements Textbox {
      * @param element element to wrap up
      */
     public TextboxImpl(WebElement element) {
-    	super(element);
-    	this.element = element;
+    	super(element, "Textbox");
+    	this.element = super.element;
+    	setElementType("Textbox");
     }
     
     public TextboxImpl(WebElement element, OrasiDriver driver) {
-        super(element, driver);
+        super(element, driver, "Textbox");
+        setElementType("Textbox");
     }
 
     /**
@@ -53,17 +55,20 @@ public class TextboxImpl extends ElementImpl implements Textbox {
      */
     @Override
     public void set(String text) {
-		if (!text.isEmpty()) {
-			try {
-				getWrappedElement().clear();
-				getWrappedElement().sendKeys(text);
-				} catch (RuntimeException rte) {
-				TestReporter.interfaceLog("Send Keys [ <b>" + text.toString() + "</b> ] to Textbox [ <b>@FindBy: " + getElementLocatorInfo() + " </b>  ]", true);
-				throw rte;
-			}
-		} else {
-			TestReporter.interfaceLog(" Skipping input to Textbox [ <b>@FindBy: " + getElementLocatorInfo() + " </b> ]");
-		}
+	if (!text.isEmpty()) {
+	    try {
+		getWrappedElement().clear();
+		elementType = "Textbox";
+		if(getWrappedDriver().getDriverCapability().browserName().toLowerCase().equals("android")) getWrappedElement().sendKeys(text);
+		else ((ElementImpl) getWrappedElement()).sendKeysNoLog(text);
+		TestReporter.interfaceLog("Send text [ <b>" + text.toString() + "</b> ] to Textbox [ <b>@FindBy: " + getElementLocatorInfo() + " </b>  ]");
+	    } catch (RuntimeException rte) {
+		TestReporter.interfaceLog("Send text [ <b>" + text.toString() + "</b> ] to Textbox [ <b>@FindBy: " + getElementLocatorInfo() + " </b>  ]", true);
+		throw rte;
+	    }
+	} else {
+	    TestReporter.interfaceLog(" Skipping input to Textbox [ <b>@FindBy: " + getElementLocatorInfo() + " </b> ]");
+	}
     }
     
     /**
@@ -78,9 +83,10 @@ public class TextboxImpl extends ElementImpl implements Textbox {
     public void scrollAndSet(String text) {
         if (!text.isEmpty()){
             try{
-        	    driver.executeJavaScript("arguments[0].scrollIntoView(true);arguments[0].click();", getWrappedElement());
+        	getWrappedDriver().executeJavaScript("arguments[0].scrollIntoView(true);arguments[0].click();", getWrappedElement());
             	getWrappedElement().clear();
-            	getWrappedElement().sendKeys(text); 
+            	if(getWrappedDriver().getDriverCapability().browserName().toLowerCase().equals("android")) getWrappedElement().sendKeys(text);
+		else ((ElementImpl) getWrappedElement()).sendKeysNoLog(text); 
             	TestReporter.interfaceLog(" Send Keys [ <b>" + text.toString() + "</b> ] to Textbox [ <b>@FindBy: " + getElementLocatorInfo()  + " </b> ]");
                 
             }catch(RuntimeException rte){
@@ -105,10 +111,14 @@ public class TextboxImpl extends ElementImpl implements Textbox {
         if (!text.isEmpty()){
             try{
         	char ctrl_a = '\u0001';
-        	getWrappedElement().click();     	
-        	getWrappedElement().sendKeys(String.valueOf(ctrl_a));
-        	getWrappedElement().sendKeys(text);
-        	getWrappedElement().sendKeys(Keys.TAB);
+        	if(getWrappedDriver().getDriverCapability().browserName().toLowerCase().equals("android")) getWrappedElement().sendKeys(text);
+		else ((ElementImpl) getWrappedElement()).clickNoLog();     	
+        	if(getWrappedDriver().getDriverCapability().browserName().toLowerCase().equals("android")) getWrappedElement().sendKeys(text);
+		else ((ElementImpl) getWrappedElement()).sendKeysNoLog(String.valueOf(ctrl_a));
+        	if(getWrappedDriver().getDriverCapability().browserName().toLowerCase().equals("android")) getWrappedElement().sendKeys(text);
+		else ((ElementImpl) getWrappedElement()).sendKeysNoLog(text);
+        	if(getWrappedDriver().getDriverCapability().browserName().toLowerCase().equals("android")) getWrappedElement().sendKeys(text);
+		else ((ElementImpl) getWrappedElement()).sendKeysNoLog(Keys.TAB);
         	TestReporter.interfaceLog(" Send Keys [ <b>" + text.toString() + "</b> ] to Textbox [  <b>@FindBy: " + getElementLocatorInfo()  + " </b> ]");
             }catch(RuntimeException rte){
                 TestReporter.interfaceLog("Send Keys [ <b>" + text.toString() + "</b> ] to Textbox [  <b>@FindBy: " + getElementLocatorInfo()  + " </b> ]", true);
@@ -129,7 +139,8 @@ public class TextboxImpl extends ElementImpl implements Textbox {
     public void setSecure(String text) {
         if (!text.isEmpty()){
             try{
-        	getWrappedElement().sendKeys(Base64Coder.decodeString(text).toString());
+        	if(getWrappedDriver().getDriverCapability().browserName().toLowerCase().equals("android")) getWrappedElement().sendKeys(text);
+		else ((ElementImpl) getWrappedElement()).sendKeysNoLog(Base64Coder.decodeString(text).toString());
         	TestReporter.interfaceLog(" Send encoded text [ <b>" + text.toString() + "</b> ] to Textbox [  <b>@FindBy: " + getElementLocatorInfo()  + " </b> ]");          
             }catch(RuntimeException rte){
                 TestReporter.interfaceLog("Send encoded text [ <b>" + text.toString() + "</b> ] to Textbox [  <b>@FindBy: " + getElementLocatorInfo()  + " </b> ]", true);
@@ -154,10 +165,15 @@ public class TextboxImpl extends ElementImpl implements Textbox {
         if (!text.isEmpty()){
             try{
         	char ctrl_a = '\u0001';
-        	getWrappedElement().click();     	
-        	getWrappedElement().sendKeys(String.valueOf(ctrl_a));
-        	getWrappedElement().sendKeys(Base64Coder.decodeString(text).toString());
-        	getWrappedElement().sendKeys(Keys.TAB);
+        	if(getWrappedDriver().getDriverCapability().browserName().toLowerCase().equals("android") 
+        		||driver.getDriverCapability().browserName().toLowerCase().equals("iOS") ) getWrappedElement().sendKeys(text);
+		else ((ElementImpl) getWrappedElement()).clickNoLog();     	
+        	if(getWrappedDriver().getDriverCapability().browserName().toLowerCase().equals("android")) getWrappedElement().sendKeys(text);
+		else ((ElementImpl) getWrappedElement()).sendKeysNoLog(String.valueOf(ctrl_a));
+        	if(getWrappedDriver().getDriverCapability().browserName().toLowerCase().equals("android")) getWrappedElement().sendKeys(text);
+		else ((ElementImpl) getWrappedElement()).sendKeysNoLog(Base64Coder.decodeString(text).toString());
+        	if(getWrappedDriver().getDriverCapability().browserName().toLowerCase().equals("android")) getWrappedElement().sendKeys(text);
+		else ((ElementImpl) getWrappedElement()).sendKeysNoLog(Keys.TAB);
         	TestReporter.log(" Send encoded text [ <b>" + text.toString() + "</b> ] to Textbox [  <b>@FindBy: " + getElementLocatorInfo()  + " </b> ]");
             }catch(RuntimeException rte){
                 TestReporter.interfaceLog("Send encoded text [ <b>" + text.toString() + "</b> ] to Textbox [  <b>@FindBy: " + getElementLocatorInfo()  + " </b> ]", true);

@@ -2,12 +2,7 @@ package com.orasi.apps.bluesource.employeesPage;
 
 import java.util.List;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.Reporter;
 
 import ru.yandex.qatools.allure.annotations.Step;
 
@@ -20,12 +15,11 @@ import com.orasi.core.interfaces.Label;
 import com.orasi.core.interfaces.Textbox;
 import com.orasi.core.interfaces.Webtable;
 import com.orasi.core.interfaces.impl.internal.ElementFactory;
-import com.orasi.utils.TestEnvironment;
-import com.orasi.utils.TestReporter;
+import com.orasi.utils.OrasiDriver;
 
 public class EmployeesPage {
 	
-	private TestEnvironment te;
+	private OrasiDriver driver;
 	
 	//All the page elements
 	@FindBy(id= "filter_btn")	
@@ -61,14 +55,14 @@ public class EmployeesPage {
 	// *********************
 	// ** Build page area **
 	// *********************
-	public EmployeesPage(TestEnvironment te){
-		this.te = te;
-		ElementFactory.initElements(te.getDriver(), this);
+	public EmployeesPage(OrasiDriver driver){
+		this.driver = driver;
+		ElementFactory.initElements(driver, this);
 	}
 	public EmployeesPage(){}
 	
 	public boolean pageLoaded(){
-	    return te.pageLoaded(this.getClass(), txtSearch); 	    
+	    return driver.pageLoaded(this.getClass(), txtSearch); 	    
 	}
 	
 	// *****************************************
@@ -93,34 +87,34 @@ public class EmployeesPage {
 	
 	@Step("Then Employees with the value \"{0}\" in the \"{1}\" column are displayed")
 	public boolean validateTextInTable(String text, String column){
-	    BluesourceTables table = new BluesourceTables(te);
+	    BluesourceTables table = new BluesourceTables(driver);
 	    String columnName = EmployeesTableColumns.valueOf(column).toString();	    
 	    return table.validateTextInTable(text, columnName);
 	}
 	
 	@Step("When I sort the \"{0}\" column in \"{1}\" order")	
 	public void sortColumn(String column, String order){
-	    BluesourceTables table = new BluesourceTables(te);
+	    BluesourceTables table = new BluesourceTables(driver);
 	    String columnName = EmployeesTableColumns.valueOf(column).toString();
 	    table.sortColumn(columnName, SortOrder.valueOf(order));	
 	}
 	
 	@Step("Then the \"{0}\" column is displayed in \"{1}\" order")
 	public boolean validateSortColumn(String column, String order){
-	    BluesourceTables table = new BluesourceTables(te);	    
+	    BluesourceTables table = new BluesourceTables(driver);	    
 	    String columnName = EmployeesTableColumns.valueOf(column).toString();
 	    return table.validateSortColumn(columnName, SortOrder.valueOf(order));	
 	}
 	
 	@Step("When I set the number of rows to be \"{0}\"")
 	public void setRowsPerPageDisplayed(String numberOfRows){
-	    BluesourceTables table = new BluesourceTables(te);
+	    BluesourceTables table = new BluesourceTables(driver);
 	    table.setRowsPerPageDisplayed(numberOfRows);
 	}
 	
 	@Step("Then the number of rows displayed should be \"{0}\"")
 	public boolean validateRowsPerPageDisplayed(String numberOfRows){
-	    BluesourceTables table = new BluesourceTables(te);
+	    BluesourceTables table = new BluesourceTables(driver);
 	    return table.validateRowsPerPageDisplayed(numberOfRows);
 	}
 	
@@ -135,14 +129,14 @@ public class EmployeesPage {
 	public void clickAllButton(){
 	    loadingModal.syncHidden();
 	    btnAll.click();
-	    te.pageLoaded();
+	    driver.pageLoaded();
 	}
 	
 	@Step("When I click the Add Button on the Employees Page")
 	public void clickAddEmployeeButton(){
 	    loadingModal.syncHidden();
-	    btnAdd.click();
-	    te.pageLoaded();
+	    btnAdd.jsClick();
+	    driver.pageLoaded();
 	}
 
 	@Step("When I click the Show All Label on the Employees Page")
@@ -151,7 +145,7 @@ public class EmployeesPage {
 	    btnAll.click();
 	    lblAll.syncVisible();
 	    lblAll.click();
-	    te.pageLoaded();
+	    driver.pageLoaded();
 	} 
 
 	@Step("When I click the Show Direct Label on the Employees Page")
@@ -160,7 +154,7 @@ public class EmployeesPage {
 	    btnAll.click();
 	    lblDirect.syncVisible();
 	    lblDirect.click();
-	    te.pageLoaded();
+	    driver.pageLoaded();
 	} 
 	
 	@Step("When I check the Show Inactive Checkbox on the Employees Page")
@@ -169,7 +163,7 @@ public class EmployeesPage {
 	    btnAll.click();
 	    chkShowInactive.syncVisible();
 	    chkShowInactive.check();
-	    te.pageLoaded();
+	    driver.pageLoaded();
 	} 
 
 	@Step("When I check the Show Inactive Checkbox on the Employees Page")
@@ -178,7 +172,7 @@ public class EmployeesPage {
 	    btnAll.click();
 	    chkShowInactive.syncVisible();
 	    chkShowInactive.uncheck();
-	    te.pageLoaded();
+	    driver.pageLoaded();
 	} 
 	@Step("Then the Employees table should update the employees displayed")
 	public boolean validateEmployeeTableResultsUpdated(int previousCount){
@@ -196,7 +190,7 @@ public class EmployeesPage {
 	
 	@Step("When I click the \"{0}\" Name link")
 	public void selectEmployeeName(String name){
-		BluesourceTables table = new BluesourceTables(te);
+		BluesourceTables table = new BluesourceTables(driver);
 		table.selectFieldLink(name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase());
 	}
 }
