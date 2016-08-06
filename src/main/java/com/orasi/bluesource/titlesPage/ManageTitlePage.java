@@ -1,4 +1,4 @@
-package com.orasi.apps.bluesource.titlesPage;
+package com.orasi.bluesource.titlesPage;
 
 import org.openqa.selenium.support.FindBy;
 

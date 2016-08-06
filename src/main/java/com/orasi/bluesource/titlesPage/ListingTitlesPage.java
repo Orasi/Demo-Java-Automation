@@ -1,4 +1,4 @@
-package com.orasi.apps.bluesource.titlesPage;
+package com.orasi.bluesource.titlesPage;
 
 import java.util.Iterator;
 import java.util.List;

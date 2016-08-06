@@ -1,4 +1,4 @@
-package com.orasi.apps.bluesource.projectsPage;
+package com.orasi.bluesource.projectsPage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +11,7 @@ import org.testng.Reporter;
 
 import ru.yandex.qatools.allure.annotations.Step;
 
-import com.orasi.apps.bluesource.employeesPage.Employee;
+import com.orasi.bluesource.employeesPage.Employee;
 import com.orasi.core.interfaces.Button;
 import com.orasi.core.interfaces.Label;
 import com.orasi.core.interfaces.Listbox;

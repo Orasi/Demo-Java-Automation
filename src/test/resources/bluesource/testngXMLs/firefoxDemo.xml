@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Bluesource_Regression_demo" parallel= "methods" thread-count="10">
+	<listeners>
+		<listener class-name="com.orasi.utils.Screenshot" />
+	</listeners>
+	<test name="firefox">
+		<parameter name="browserUnderTest" value="firefox" />
+		<parameter name="environment" value="qa" />
+		<parameter name="runLocation" value="sauce" />
+		<parameter name="browserVersion" value="42" />
+		<parameter name="operatingSystem" value="Windows" />
+		<groups>
+			<run>
+				<include name="demo" />		
+			</run>
+		</groups>
+		<packages>
+			<package name="com.orasi.bluesource.features.*">
+			</package>
+		</packages>
+	</test> <!-- Test -->
+</suite> <!-- Suite -->

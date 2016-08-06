@@ -1,4 +1,4 @@
-package com.orasi.apps.bluesource.departmentsPage;
+package com.orasi.bluesource.departmentsPage;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;

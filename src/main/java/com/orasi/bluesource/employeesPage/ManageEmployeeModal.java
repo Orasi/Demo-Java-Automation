@@ -1,4 +1,4 @@
-package com.orasi.apps.bluesource.employeesPage;
+package com.orasi.bluesource.employeesPage;
 
 import org.openqa.selenium.support.FindBy;
 import org.testng.Reporter;
@@ -70,7 +70,7 @@ public class ManageEmployeeModal {
 	    lstManager.select(manager);
 	    lstStatus.select(status);
 	    lstLocation.select(location);
-	    txtStartDate.sendKeys(startDate);
+	    txtStartDate.jsSet(startDate);
 	    txtCellPhone.set(cellPhone);
 	    txtOfficePhone.set(officePhone);
 	    txtEmail.set(email);

@@ -2,15 +2,15 @@ package com.orasi.bluesource.features.manageProjects;
 
 import org.testng.ITestContext;
 import org.testng.annotations.AfterMethod;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
-import com.orasi.apps.bluesource.LoginPage;
-import com.orasi.apps.bluesource.commons.TopNavigationBar;
-import com.orasi.apps.bluesource.projectsPage.ManageProjectModal;
-import com.orasi.apps.bluesource.projectsPage.ProjectsPage;
+import com.orasi.bluesource.LoginPage;
+import com.orasi.bluesource.commons.TopNavigationBar;
+import com.orasi.bluesource.projectsPage.ManageProjectModal;
+import com.orasi.bluesource.projectsPage.ProjectsPage;
 import com.orasi.utils.OrasiDriver;
 import com.orasi.utils.TestEnvironment;
 import com.orasi.utils.TestReporter;
@@ -27,7 +27,7 @@ public class CannotAssignInactiveEmployees  extends TestEnvironment {
     private String inactiveEmployee = "Inactive Employee";
 
     private OrasiDriver driver = null;
-    @BeforeTest(alwaysRun=true)
+    @BeforeClass(alwaysRun=true)
     @Parameters({ "runLocation", "browserUnderTest", "browserVersion", "operatingSystem", "environment" })
     public void setup(String runLocation, String browserUnderTest, String browserVersion, String operatingSystem, String environment) {
 	setApplicationUnderTest("Bluesource");

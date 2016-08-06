@@ -1,16 +1,16 @@
 package com.orasi.bluesource.features.manageDepartments;
 
 import org.testng.ITestContext;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
-import com.orasi.apps.bluesource.LoginPage;
-import com.orasi.apps.bluesource.commons.TopNavigationBar;
-import com.orasi.apps.bluesource.departmentsPage.ListingDepartmentsPage;
-import com.orasi.apps.bluesource.departmentsPage.ManageDepartmentPage;
+import com.orasi.bluesource.LoginPage;
+import com.orasi.bluesource.commons.TopNavigationBar;
+import com.orasi.bluesource.departmentsPage.ListingDepartmentsPage;
+import com.orasi.bluesource.departmentsPage.ManageDepartmentPage;
 import com.orasi.utils.Constants;
 import com.orasi.utils.OrasiDriver;
 import com.orasi.utils.TestEnvironment;
@@ -35,7 +35,7 @@ public class TestManageDepartments  extends TestEnvironment {
 	return new ExcelDataProvider(Constants.BLUESOURCE_DATAPROVIDER_PATH + "TestAddNewDept.xlsx", "TestAddNewDept").getTestData();
     }
     
-    @BeforeTest( alwaysRun=true)
+    @BeforeClass( alwaysRun=true)
     @Parameters({ "runLocation", "browserUnderTest", "browserVersion", "operatingSystem", "environment" })
     public void setup(String runLocation, String browserUnderTest, String browserVersion, String operatingSystem, String environment) {
 	setApplicationUnderTest("Bluesource");
@@ -47,7 +47,7 @@ public class TestManageDepartments  extends TestEnvironment {
 	//setThreadDriver(true);
     }
 
-    @AfterTest( alwaysRun=true)
+    @AfterClass( alwaysRun=true)
     public void closeSession(ITestContext test) {
 	endTest(testName, test);
     }    
@@ -56,7 +56,7 @@ public class TestManageDepartments  extends TestEnvironment {
     @Stories("Given when I login as an admin role, I can create a Department")
     @Severity(SeverityLevel.BLOCKER)
     @Title("ManageDepartments - Create Department")
-    @Test(dataProvider = "dataScenario", groups = { "regression","manageDepartments", "qaOnly" })
+    @Test(dataProvider = "dataScenario", groups = { "demo", "regression","manageDepartments", "qaOnly" })
     public void testAddDepartment(@Parameter String testScenario, @Parameter String role,
 	    @Parameter String newDept) {
 	
@@ -105,7 +105,7 @@ public class TestManageDepartments  extends TestEnvironment {
     @Stories("Given when I login as an admin role, I can modify a Departments name")
     @Severity(SeverityLevel.BLOCKER)
     @Title("ManageDepartments - Modify Department Name")
-    @Test(groups = { "regression","manageDepartments", "qaOnly"   },dependsOnMethods= "testAddDepartment")
+    @Test(groups = {"demo",  "regression","manageDepartments", "qaOnly"   },dependsOnMethods= "testAddDepartment")
     public void testModifyDepartmentName() {
 	
 	
@@ -133,7 +133,7 @@ public class TestManageDepartments  extends TestEnvironment {
     @Stories("Given when I login as an admin role, I can modify a Departments parent")
     @Severity(SeverityLevel.NORMAL)
     @Title("ManageDepartments - Modify Department Parent")
-    @Test(groups = { "regression","manageDepartments" , "qaOnly" },dependsOnMethods= "testModifyDepartmentName")
+    @Test(groups = { "demo", "regression","manageDepartments" , "qaOnly" },dependsOnMethods= "testModifyDepartmentName")
     public void testModifyDepartmentParent() {
 	
 	
@@ -163,7 +163,7 @@ public class TestManageDepartments  extends TestEnvironment {
     @Stories("Given when I login as an admin role, I can modify a Departments Increment Hours")
     @Severity(SeverityLevel.NORMAL)
     @Title("ManageDepartments - Modify Department Increment Hours")
-    @Test(groups = { "regression","manageDepartments", "qaOnly"  },dependsOnMethods= "testModifyDepartmentParent")
+    @Test(groups = {"demo",  "regression","manageDepartments", "qaOnly"  },dependsOnMethods= "testModifyDepartmentParent")
     public void testModifyDeparmentIncrementHours() {
 	
 	
@@ -193,7 +193,7 @@ public class TestManageDepartments  extends TestEnvironment {
     @Stories("Given when I login as an admin role, I can add a Subdepartment")
     @Severity(SeverityLevel.NORMAL)
     @Title("ManageDepartments - Add Subdepartment")
-    @Test(groups = { "regression","manageDepartments", "qaOnly" },dependsOnMethods= "testModifyDeparmentIncrementHours")
+    @Test(groups = {"demo",  "regression","manageDepartments", "qaOnly" },dependsOnMethods= "testModifyDeparmentIncrementHours")
     public void testAddSubdepartment() {
 	
 	subDepartment = departmentName + "_subdepartment";
@@ -222,7 +222,7 @@ public class TestManageDepartments  extends TestEnvironment {
     @Stories("Given when I login as an admin role, I can delete departments")
     @Severity(SeverityLevel.NORMAL)
     @Title("ManageDepartments - Delete Department")
-    @Test(groups = { "regression","manageDepartments", "qaOnly" },dependsOnMethods= "testAddSubdepartment")
+    @Test(groups = { "demo", "regression","manageDepartments", "qaOnly" },dependsOnMethods= "testAddSubdepartment")
     public void testDeleteDepartment() {
 	
 	ListingDepartmentsPage deptPage = new ListingDepartmentsPage(driver);

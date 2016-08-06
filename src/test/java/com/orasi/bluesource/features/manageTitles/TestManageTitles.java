@@ -2,17 +2,17 @@ package com.orasi.bluesource.features.manageTitles;
 
 import org.testng.ITestContext;
 import org.testng.annotations.AfterClass;
-import org.testng.annotations.AfterTest;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeTest;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
-import com.orasi.apps.bluesource.LoginPage;
-import com.orasi.apps.bluesource.commons.TopNavigationBar;
-import com.orasi.apps.bluesource.titlesPage.ListingTitlesPage;
-import com.orasi.apps.bluesource.titlesPage.ManageTitlePage;
+import com.orasi.bluesource.LoginPage;
+import com.orasi.bluesource.commons.TopNavigationBar;
+import com.orasi.bluesource.titlesPage.ListingTitlesPage;
+import com.orasi.bluesource.titlesPage.ManageTitlePage;
 import com.orasi.utils.Constants;
 import com.orasi.utils.OrasiDriver;
 import com.orasi.utils.TestEnvironment;
@@ -57,7 +57,7 @@ public class TestManageTitles extends TestEnvironment{
     @Stories("Given when I login as an admin role, I can add Title")
     @Title("Manage Titles - Create")
     @Severity(SeverityLevel.CRITICAL)
-    @Test(dataProvider = "dataScenario", groups = { "regression", "manageTitles" , "qaOnly"})
+    @Test(dataProvider = "dataScenario", groups = {"demo",  "regression", "manageTitles" , "qaOnly"})
     public void testCreateTitle(@Parameter String testScenario, @Parameter String role,
 	    @Parameter String newTitle) {
 	testName = new Object() {
@@ -79,7 +79,7 @@ public class TestManageTitles extends TestEnvironment{
 	topNavigationBar.clickTitlesLink();
 
 	// Verify navigated to the title page
-	ListingTitlesPage listingTitlesPage = new ListingTitlesPage(driver);
+	ListingTitlesPage listingTitlesPage = new ListingTitlesPage(getDriver());
 	TestReporter.assertTrue(listingTitlesPage.pageLoaded(),"Verify listing titles page is displayed");
 	//listingTitlesPage.ensureNoExistingTitle(title);
 	// Click new title
@@ -102,10 +102,10 @@ public class TestManageTitles extends TestEnvironment{
     @Stories("Given when I login as an admin role, I can modify a Title")
     @Title("Manage Titles - Modify")
     @Severity(SeverityLevel.CRITICAL)
-    @Test( groups = { "regression", "manageTitles" , "qaOnly" } ,dependsOnMethods= "testCreateTitle")
+    @Test( groups = { "demo", "regression", "manageTitles" , "qaOnly" } ,dependsOnMethods= "testCreateTitle")
     public void testModifyTitle() {
 
-	ListingTitlesPage listingTitlesPage = new ListingTitlesPage(driver);
+	ListingTitlesPage listingTitlesPage = new ListingTitlesPage(getDriver());
 	listingTitlesPage.clickModifyTitle(title);
 	title += "_modified";
 
@@ -125,7 +125,7 @@ public class TestManageTitles extends TestEnvironment{
     @Stories("Given when I login as an admin role, I can delete a Title")
     @Title("Manage Titles - Delete")
     @Severity(SeverityLevel.CRITICAL)
-    @Test( groups = { "regression", "manageTitles" , "qaOnly" } ,dependsOnMethods= "testModifyTitle")
+    @Test( groups = { "demo", "regression", "manageTitles" , "qaOnly" } ,dependsOnMethods= "testModifyTitle")
     public void testDeleteTitle() {
 	
 	// Delete the new title

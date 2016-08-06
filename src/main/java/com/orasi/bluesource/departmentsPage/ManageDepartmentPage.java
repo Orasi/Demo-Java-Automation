@@ -1,4 +1,4 @@
-package com.orasi.apps.bluesource.departmentsPage;
+package com.orasi.bluesource.departmentsPage;
 
 import org.openqa.selenium.support.FindBy;
 

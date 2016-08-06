@@ -1,4 +1,4 @@
-package com.orasi.apps.bluesource;
+package com.orasi.bluesource;
 import java.util.ResourceBundle;
 
 import org.openqa.selenium.By;

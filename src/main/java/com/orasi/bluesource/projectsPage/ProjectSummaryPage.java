@@ -1,4 +1,4 @@
-package com.orasi.apps.bluesource.projectsPage;
+package com.orasi.bluesource.projectsPage;
 
 import org.openqa.selenium.support.FindBy;
 

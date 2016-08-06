@@ -1,14 +1,14 @@
 package com.orasi.bluesource.features.manageEmployees;
 
 import org.testng.ITestContext;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
-import com.orasi.apps.bluesource.LoginPage;
-import com.orasi.apps.bluesource.commons.TopNavigationBar;
-import com.orasi.apps.bluesource.employeesPage.EmployeesPage;
+import com.orasi.bluesource.LoginPage;
+import com.orasi.bluesource.commons.TopNavigationBar;
+import com.orasi.bluesource.employeesPage.EmployeesPage;
 import com.orasi.utils.OrasiDriver;
 import com.orasi.utils.TestEnvironment;
 import com.orasi.utils.TestReporter;
@@ -22,7 +22,7 @@ import ru.yandex.qatools.allure.model.SeverityLevel;
 public class ShowEmployeesPerPage  extends TestEnvironment {
 
     private OrasiDriver driver = null;
-    @BeforeTest( alwaysRun=true, groups = { "regression", "manageEmployees", "showEmployeesPerPage" })
+    @BeforeClass( alwaysRun=true, groups = { "regression", "manageEmployees", "showEmployeesPerPage" })
     @Parameters({ "runLocation", "browserUnderTest", "browserVersion", "operatingSystem", "environment" })
     public void setup(String runLocation, String browserUnderTest, String browserVersion, String operatingSystem, String environment) {
 	setApplicationUnderTest("Bluesource");
@@ -34,7 +34,7 @@ public class ShowEmployeesPerPage  extends TestEnvironment {
 	setThreadDriver(true);
     }
 
-    @AfterTest( alwaysRun=true)
+    @AfterClass( alwaysRun=true)
     public void closeSession(ITestContext test) {
 	endTest(testName, test);
     }    

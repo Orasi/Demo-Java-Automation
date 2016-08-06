@@ -1,4 +1,4 @@
-package com.orasi.apps.bluesource.projectsPage;
+package com.orasi.bluesource.projectsPage;
 
 import java.util.ArrayList;
 import java.util.Arrays;

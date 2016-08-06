@@ -2,8 +2,8 @@ package com.orasi.bluesource.features.login;
 
 import org.testng.ITestContext;
 import org.testng.annotations.AfterMethod;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
@@ -15,7 +15,7 @@ import ru.yandex.qatools.allure.annotations.Stories;
 import ru.yandex.qatools.allure.annotations.Title;
 import ru.yandex.qatools.allure.model.SeverityLevel;
 
-import com.orasi.apps.bluesource.LoginPage;
+import com.orasi.bluesource.LoginPage;
 import com.orasi.utils.Constants;
 import com.orasi.utils.OrasiDriver;
 import com.orasi.utils.TestEnvironment;
@@ -30,7 +30,7 @@ public class NegativeLogin  extends TestEnvironment {
 	return new ExcelDataProvider(Constants.BLUESOURCE_DATAPROVIDER_PATH + "Login.xlsx", "LoginNegative").getTestData();
     }
     
-    @BeforeTest( alwaysRun=true)
+    @BeforeClass( alwaysRun=true)
     @Parameters({ "runLocation", "browserUnderTest", "browserVersion", "operatingSystem", "environment" })
     public void setup(String runLocation, String browserUnderTest, String browserVersion, String operatingSystem, String environment) {
 	setApplicationUnderTest("Bluesource");

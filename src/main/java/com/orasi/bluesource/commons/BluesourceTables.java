@@ -1,4 +1,4 @@
-package com.orasi.apps.bluesource.commons;
+package com.orasi.bluesource.commons;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;

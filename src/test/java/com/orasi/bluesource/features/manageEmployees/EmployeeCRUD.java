@@ -1,18 +1,20 @@
 package com.orasi.bluesource.features.manageEmployees;
 
 import org.testng.ITestContext;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
-import com.orasi.apps.bluesource.LoginPage;
-import com.orasi.apps.bluesource.commons.TopNavigationBar;
-import com.orasi.apps.bluesource.employeesPage.Employee;
-import com.orasi.apps.bluesource.employeesPage.EmployeeSummaryPage;
-import com.orasi.apps.bluesource.employeesPage.EmployeesPage;
-import com.orasi.apps.bluesource.employeesPage.ManageEmployeeModal;
+import com.orasi.bluesource.LoginPage;
+import com.orasi.bluesource.commons.TopNavigationBar;
+import com.orasi.bluesource.employeesPage.Employee;
+import com.orasi.bluesource.employeesPage.EmployeeSummaryPage;
+import com.orasi.bluesource.employeesPage.EmployeesPage;
+import com.orasi.bluesource.employeesPage.ManageEmployeeModal;
 import com.orasi.utils.Constants;
 import com.orasi.utils.OrasiDriver;
 import com.orasi.utils.Randomness;
@@ -37,7 +39,7 @@ public class EmployeeCRUD  extends TestEnvironment {
 	return new ExcelDataProvider(Constants.BLUESOURCE_DATAPROVIDER_PATH + "ManageEmployees.xlsx", "AddEmployee").getTestData();
     }
     
-    @BeforeTest(  alwaysRun=true)
+    @BeforeClass(  alwaysRun=true)
     @Parameters({ "runLocation", "browserUnderTest", "browserVersion", "operatingSystem", "environment" })
     public void setup(String runLocation, String browserUnderTest, String browserVersion, String operatingSystem, String environment) {
 	setApplicationUnderTest("Bluesource");
@@ -46,10 +48,10 @@ public class EmployeeCRUD  extends TestEnvironment {
 	setOperatingSystem(operatingSystem);
 	setRunLocation(runLocation);
 	setTestEnvironment(environment);
-	setThreadDriver(true);
+	//setThreadDriver(true);
     }
 
-    @AfterTest( alwaysRun=true)
+    @AfterClass( alwaysRun=true)
     public void closeSession(ITestContext test) {
 	endTest(testName, test);
     }    
@@ -58,7 +60,7 @@ public class EmployeeCRUD  extends TestEnvironment {
     @Stories("I can create a new Employee")
     @Severity(SeverityLevel.BLOCKER)
     @Title("Manage Employees - Create Employee")
-    @Test(dataProvider = "dataScenario", groups = { "regression", "manageEmployees", "employeeCRUD", "qaOnly"  })
+    @Test(dataProvider = "dataScenario", groups = { "demo", "regression", "manageEmployees", "employeeCRUD", "qaOnly"  })
     public void testAddEmployee(@Parameter String testScenario, @Parameter String role) {
 
 	testStart("testAddEmployee");
@@ -97,13 +99,13 @@ public class EmployeeCRUD  extends TestEnvironment {
     @Stories("I can see an Employee's General Info after creating Employee")
     @Severity(SeverityLevel.NORMAL)
     @Title("Manage Employees - View Employee Summary")
-    @Test(groups = { "regression", "manageEmployees", "employeeCRUD", "qaOnly" },
+    @Test(groups = { "demo", "regression", "manageEmployees", "employeeCRUD", "qaOnly" },
     	  dependsOnMethods = {"testAddEmployee"})
     public void testViewEmployeeGeneralInfo() {
 	EmployeesPage employeesPage = new EmployeesPage( getDriver());
 	employeesPage.selectEmployeeName(employee.getLastName());
 	
-	EmployeeSummaryPage summary = new EmployeeSummaryPage(driver);
+	EmployeeSummaryPage summary = new EmployeeSummaryPage(getDriver());
 	TestReporter.assertTrue(summary.pageLoaded(),"Verify Employees Summary page is displayed");
 	TestReporter.assertTrue(summary.validateGeneralInfo(employee), "Verify displayed Employee's General Information is correct");
 	
@@ -114,7 +116,7 @@ public class EmployeeCRUD  extends TestEnvironment {
     @Stories("I can Modify an Employee's General Info and view changes")
     @Severity(SeverityLevel.MINOR)
     @Title("Manage Employees Employeesmployees - Modify Employee Information")
-    @Test(groups = { "regression", "manageEmployees", "employeeCRUD", "qaOnly" },
+    @Test(groups = { "demo", "regression", "manageEmployees", "employeeCRUD", "qaOnly" },
     	  dependsOnMethods = {"testViewEmployeeGeneralInfo"})
     public void testModifyEmployeeGeneralInfo() {
 	EmployeeSummaryPage summary = new EmployeeSummaryPage( getDriver());
@@ -134,7 +136,7 @@ public class EmployeeCRUD  extends TestEnvironment {
     @Stories("I can mark an Employee as Inactive")
     @Severity(SeverityLevel.MINOR)
     @Title("Manage Employees - Mark Employee Inactive")
-    @Test(groups = { "regression", "manageEmployees", "employeeCRUD" , "qaOnly"},
+    @Test(groups = {"demo",  "regression", "manageEmployees", "employeeCRUD" , "qaOnly"},
     	  dependsOnMethods = {"testModifyEmployeeGeneralInfo"})
     public void testDeactivateEmployee() {
 	EmployeeSummaryPage summary = new EmployeeSummaryPage( getDriver());

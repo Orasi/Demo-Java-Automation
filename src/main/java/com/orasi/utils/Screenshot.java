@@ -52,7 +52,7 @@ public class Screenshot extends TestListenerAdapter implements IReporter{
 		//TestReporter.logScreenshot(driver, destDir + slash + destFile, slash, runLocation);
 		
 		//Capture a screenshot for Allure reporting
-		FailedScreenshot(driver);
+		//FailedScreenshot(driver);
 	}
 
 	@Override

@@ -1,4 +1,4 @@
-package com.orasi.apps.bluesource.projectsPage;
+package com.orasi.bluesource.projectsPage;
 /**
  *
  * @author justin.phlegar@orasi.com

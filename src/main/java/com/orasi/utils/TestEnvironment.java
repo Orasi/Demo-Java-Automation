@@ -47,8 +47,8 @@ public class TestEnvironment {
 	/*
 	 * WebDriver Fields
 	 */
-	protected OrasiDriver driver;
-	protected ThreadLocal<OrasiDriver> threadedDriver = new ThreadLocal<OrasiDriver>();
+	private OrasiDriver driver;
+	private ThreadLocal<OrasiDriver> threadedDriver = new ThreadLocal<OrasiDriver>();
 	private boolean setThreadDriver = false;
 	protected ThreadLocal<String> sessionId = new ThreadLocal<String>();
 	// private WebDriver initDriver;
@@ -406,7 +406,7 @@ public class TestEnvironment {
 		}
 
 		SauceREST client = new SauceREST(authentication.getUsername(), authentication.getAccessKey());
-		client.updateJobInfo(driver.getSessionId().toString(), updates);
+		client.updateJobInfo(getDriver().getSessionId().toString(), updates);
 	}
 
 	/**
@@ -606,7 +606,7 @@ public class TestEnvironment {
 		getDriver().setElementTimeout(Constants.ELEMENT_TIMEOUT);
 		getDriver().setPageTimeout(Constants.PAGE_TIMEOUT);
 		getDriver().setScriptTimeout(Constants.DEFAULT_GLOBAL_DRIVER_TIMEOUT);
-		getDriver().manage().window().maximize();
+		//getDriver().manage().window().maximize();
 		// setDefaultTestTimeout(Constants.DEFAULT_GLOBAL_DRIVER_TIMEOUT);
 		if (!getBrowserUnderTest().toLowerCase().contains("edge")) {
 			getDriver().manage().deleteAllCookies();
