@@ -87,7 +87,7 @@ public class FilterEmployees  extends TestEnvironment {
 	
 	//Record the current amount of employees displayed and click Direct
 	int currentAmount = employeesPage.getTotalDisplayedEmployees();
-	employeesPage.clickDirectButton();
+	employeesPage.clickShowDirect();
 	TestReporter.assertTrue(employeesPage.validateEmployeeTableResultsUpdated(currentAmount), "Verify Employee table updated successfully");
 	
 	// logout
@@ -121,8 +121,9 @@ public class FilterEmployees  extends TestEnvironment {
 	TestReporter.assertTrue(employeesPage.pageLoaded(),"Verify Employees page is displayed");
 	
 	//Record the current amount of employees displayed and click Direct
+	employeesPage.checkInactiveCheckbox();
 	int currentAmount = employeesPage.getTotalDisplayedEmployees();
-	employeesPage.clickInactiveButton();
+	employeesPage.uncheckInactiveCheckbox();
 	TestReporter.assertTrue(employeesPage.validateEmployeeTableResultsUpdated(currentAmount), "Verify Employee table updated successfully");
 	
 	// logout
@@ -157,9 +158,9 @@ public class FilterEmployees  extends TestEnvironment {
 	
 	//Record the current amount of employees displayed and click Direct
 	
-	employeesPage.clickDirectButton();
+	employeesPage.clickShowDirect();
 	int currentAmount = employeesPage.getTotalDisplayedEmployees();
-	employeesPage.clickAllButton();
+	employeesPage.clickShowAll();
 	TestReporter.assertTrue(employeesPage.validateEmployeeTableResultsUpdated(currentAmount), "Verify Employee table updated successfully");
 	
 	// logout

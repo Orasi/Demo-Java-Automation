@@ -82,7 +82,7 @@ public class ValidateExistingVacations  extends TestEnvironment {
 	topNavigationBar.clickEmployeesLink();
 	EmployeesPage employeePage = new EmployeesPage(this);
 	employeePage.pageLoaded();
-	employeePage.clickInactiveButton();
+	employeePage.uncheckInactiveCheckbox();
 	
 	Sleeper.sleep(1000);
 	int numberEmployees = employeePage.getTotalDisplayedEmployees();

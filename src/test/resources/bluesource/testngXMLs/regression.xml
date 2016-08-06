@@ -7,12 +7,13 @@
 	<parameter name="browserUnderTest" value="firefox" />
 	<parameter name="environment" value="staging" />
 	<parameter name="runLocation" value="sauce" />
-	<parameter name="browserVersion" value="35" />
-	<parameter name="operatingSystem" value="XP" />
+	<parameter name="browserVersion" value="42" />
+	<parameter name="operatingSystem" value="Windows" />
 	<test name="Test">
 		<groups>
 			<run>
 				<include name="regression" />
+				<exclude name="dev"></exclude>
 			</run>
 		</groups>
 		<packages>

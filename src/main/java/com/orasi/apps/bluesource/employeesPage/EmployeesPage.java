@@ -14,6 +14,7 @@ import ru.yandex.qatools.allure.annotations.Step;
 import com.orasi.apps.bluesource.commons.BluesourceTables;
 import com.orasi.apps.bluesource.commons.SortOrder;
 import com.orasi.core.interfaces.Button;
+import com.orasi.core.interfaces.Checkbox;
 import com.orasi.core.interfaces.Element;
 import com.orasi.core.interfaces.Label;
 import com.orasi.core.interfaces.Textbox;
@@ -27,14 +28,17 @@ public class EmployeesPage {
 	private TestEnvironment te;
 	
 	//All the page elements
-	@FindBy(css= "#all-content > div.header-btn-section > div > div:nth-child(1) > label:nth-child(1)")	
+	@FindBy(id= "filter_btn")	
 	private Button btnAll;
 
-	@FindBy(css= "#all-content > div.header-btn-section > div > div:nth-child(1) > label:nth-child(2)")	
-	private Button btnDirect;
+	@FindBy(xpath="//a[text()='All']")
+	private Label lblAll;
 
-	@FindBy(css= "#all-content > div.header-btn-section > div > div:nth-child(2) > label")	
-	private Button btnShowInactive;
+	@FindBy(xpath="//a[text()='Direct']")
+	private Label lblDirect;
+	
+	@FindBy(id= "preference_show_inactives")	
+	private Checkbox chkShowInactive;
 	
 	@FindBy(xpath= "//button[@data-target='#modal_1' and text()='Add']")	
 	private Button btnAdd;
@@ -82,7 +86,7 @@ public class EmployeesPage {
 	
 	@Step("When I search for \"{0}\" on the Employees Page")
 	public void enterSearchText(String text){
-	    loadingModal.syncHidden();
+	    loadingModal.syncHidden(10000, true);
 	    txtSearch.syncVisible();
 	    txtSearch.set(text);    
 	}
@@ -140,21 +144,42 @@ public class EmployeesPage {
 	    btnAdd.click();
 	    te.pageLoaded();
 	}
-	
-	@Step("When I click the Direct Button on the Employees Page")
-	public void clickDirectButton(){
+
+	@Step("When I click the Show All Label on the Employees Page")
+	public void clickShowAll(){
 	    loadingModal.syncHidden();
-	    btnDirect.click();
+	    btnAll.click();
+	    lblAll.syncVisible();
+	    lblAll.click();
 	    te.pageLoaded();
-	}
-	
-	@Step("When I click the Show Inactive Button on the Employees Page")
-	public void clickInactiveButton(){
+	} 
+
+	@Step("When I click the Show Direct Label on the Employees Page")
+	public void clickShowDirect(){
 	    loadingModal.syncHidden();
-	    btnShowInactive.click();
+	    btnAll.click();
+	    lblDirect.syncVisible();
+	    lblDirect.click();
 	    te.pageLoaded();
 	} 
 	
+	@Step("When I check the Show Inactive Checkbox on the Employees Page")
+	public void checkInactiveCheckbox(){
+	    loadingModal.syncHidden();
+	    btnAll.click();
+	    chkShowInactive.syncVisible();
+	    chkShowInactive.check();
+	    te.pageLoaded();
+	} 
+
+	@Step("When I check the Show Inactive Checkbox on the Employees Page")
+	public void uncheckInactiveCheckbox(){
+	    loadingModal.syncHidden();
+	    btnAll.click();
+	    chkShowInactive.syncVisible();
+	    chkShowInactive.uncheck();
+	    te.pageLoaded();
+	} 
 	@Step("Then the Employees table should update the employees displayed")
 	public boolean validateEmployeeTableResultsUpdated(int previousCount){
 	    return (previousCount != getTotalDisplayedEmployees());

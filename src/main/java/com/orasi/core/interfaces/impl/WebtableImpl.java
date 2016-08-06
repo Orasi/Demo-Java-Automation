@@ -34,19 +34,20 @@ public class WebtableImpl extends ElementImpl implements Webtable {
     }
 
     private List<WebElement> getRowCollection(){
+    int currentTimeout = getWrappedDriver().getElementTimeout();
 	getWrappedDriver().setElementTimeout(1, TimeUnit.SECONDS);
 	List<WebElement> rowCollection = this.element.findElements(By.xpath("tr|tbody/tr"));
-	getWrappedDriver().setElementTimeout(getWrappedDriver().getElementTimeout(),TimeUnit.SECONDS);
+	getWrappedDriver().setElementTimeout(currentTimeout,TimeUnit.SECONDS);
 	return rowCollection;
 	
     }
     
     private List<WebElement> getColumnCollection( WebElement row){
 	String xpath = null;
-	
+    int currentTimeout = getWrappedDriver().getElementTimeout();
 	getWrappedDriver().setElementTimeout(1, TimeUnit.MILLISECONDS);
 	List<WebElement> columnCollection = row.findElements(By.xpath("th|td"));
-	getWrappedDriver().setElementTimeout(getWrappedDriver().getElementTimeout(),TimeUnit.SECONDS);
+	getWrappedDriver().setElementTimeout(currentTimeout,TimeUnit.SECONDS);
 
 	return columnCollection ;
     }
@@ -98,9 +99,10 @@ public class WebtableImpl extends ElementImpl implements Webtable {
      */
     @Override
     public Element getCell( int row, int column) {
+    int currentTimeout = getWrappedDriver().getElementTimeout();
 	getWrappedDriver().setElementTimeout(1, TimeUnit.SECONDS);
 	Element cell = new ElementImpl(getWrappedElement().findElement(By.xpath("tbody/tr[" + row + "]/td[" + column + "]|tbody/tr["+ row + "]/th[" + column + "]|tr[" + row + "]/td["+ column + "]|tr[" + row + "]/th[" + column + "]")));
-	getWrappedDriver().setElementTimeout(getWrappedDriver().getElementTimeout(), TimeUnit.SECONDS);
+	getWrappedDriver().setElementTimeout(currentTimeout, TimeUnit.SECONDS);
 	return cell;
     }
 

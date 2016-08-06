@@ -4,16 +4,11 @@
 	<parameter name="browserUnderTest" value="firefox" />
 	<parameter name="environment" value="staging" />
 	<parameter name="runLocation" value="local" />
-	<parameter name="browserVersion" value="35" />
+	<parameter name="browserVersion" value="" />
 	<parameter name="operatingSystem" value="windows" />
 	<test name="Test">
-		<groups>
-			<run>
-				<include name="employeeCRUD" />
-			</run>
-		</groups>
 		<packages>
-			<package name="com.orasi.bluesource.features.*">
+			<package name="com.orasi.bluesource.features.manageEmployees.*">
 			</package>
 		</packages>
 	</test> <!-- Test -->

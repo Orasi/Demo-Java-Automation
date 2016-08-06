@@ -166,8 +166,9 @@ public class EmployeeCRUD  extends TestEnvironment {
 	
 	EmployeesPage employeesPage = new EmployeesPage(this);
 	TestReporter.assertTrue(employeesPage.pageLoaded(),"Verify Employees page is displayed");
+	employeesPage.checkInactiveCheckbox();
 	employeesPage.enterSearchText(employee.getLastName());
-	TestReporter.assertTrue(employeesPage.validateNoRowsFound(),"Verify Employees Table does not have Employee as active");
+	TestReporter.assertTrue(employeesPage.validateNoRowsFound(),"Verify Employees Table does not have Employee as inactive");
 	topNavigationBar.clickLogout();
     }
 }

@@ -87,6 +87,6 @@ public class Employee {
 		this.email = getUsername() + "@random.com";
 		this.imName = getEmail();
 		this.imClient = "Skype";
-		this.department = "HR";	
+		this.department = "Rural Testing";	
     }   
 }
