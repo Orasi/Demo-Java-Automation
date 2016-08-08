@@ -7,7 +7,7 @@
 	<parameter name="browserUnderTest" value="firefox" />
 	<parameter name="environment" value="staging" />
 	<parameter name="runLocation" value="sauce" />
-	<parameter name="browserVersion" value="42" />
+	<parameter name="browserVersion" value="45" />
 	<parameter name="operatingSystem" value="Windows" />
 	<test name="Test">
 
