@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="Suite" parallel="tests"  data-provider-thread-count="1">
-	<parameter name="browserUnderTest" value="chrome" />
+	<parameter name="browserUnderTest" value="iexplore" />
 	<parameter name="environment" value="qa" />
-	<parameter name="runLocation" value="local" />
-	<parameter name="browserVersion" value="" />
-	<parameter name="operatingSystem" value="windows" />
+	<parameter name="runLocation" value="sauce" />
+	<parameter name="browserVersion" value="11" />
+	<parameter name="operatingSystem" value="Windows 7" />
 	<test name="Test">
 		 <groups>
 			<run>

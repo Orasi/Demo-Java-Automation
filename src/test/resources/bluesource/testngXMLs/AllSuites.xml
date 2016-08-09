@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 
-<suite name="Bluesource_Regression_demo" parallel= "instances" thread-count="10">
+<suite name="Bluesource_demo" parallel= "instances" thread-count="10">
 	<suite-files>
 	<suite-file path="chromeDemo.xml"></suite-file>
 	<suite-file path="firefoxDemo.xml"></suite-file>
+	<suite-file path="IEDemo.xml"></suite-file>
 	</suite-files>
 	
 </suite> <!-- Suite -->

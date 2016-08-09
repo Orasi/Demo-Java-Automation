@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="Bluesource_Chrome_demo" parallel= "methods" thread-count="10">
+<suite name="Bluesource_InternetExplorer_demo" parallel= "methods" thread-count="10">
 	<listeners>
 		<listener class-name="com.orasi.utils.Screenshot" />
 	</listeners>
 	
 	<test name="Chrome">
-		<parameter name="browserUnderTest" value="chrome" />
+		<parameter name="browserUnderTest" value="iexplore" />
 		<parameter name="environment" value="qa" />
 		<parameter name="runLocation" value="sauce" />
-		<parameter name="browserVersion" value="" />
+		<parameter name="browserVersion" value="11" />
 		<parameter name="operatingSystem" value="Windows 7" />
 		<groups>
 			<run>

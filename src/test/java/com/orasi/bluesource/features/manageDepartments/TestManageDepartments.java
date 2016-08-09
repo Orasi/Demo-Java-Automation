@@ -13,6 +13,7 @@ import com.orasi.bluesource.departmentsPage.ListingDepartmentsPage;
 import com.orasi.bluesource.departmentsPage.ManageDepartmentPage;
 import com.orasi.utils.Constants;
 import com.orasi.utils.OrasiDriver;
+import com.orasi.utils.Randomness;
 import com.orasi.utils.TestEnvironment;
 import com.orasi.utils.TestReporter;
 import com.orasi.utils.dataProviders.ExcelDataProvider;
@@ -60,11 +61,16 @@ public class TestManageDepartments  extends TestEnvironment {
     public void testAddDepartment(@Parameter String testScenario, @Parameter String role,
 	    @Parameter String newDept) {
 	
-	setTestName("Manage Departments");
+   	setTestName("Manage Departments_" + getBrowserUnderTest() + "_" + getOperatingSystem());
+	
+	departmentName = newDept;
+	if (departmentName.equalsIgnoreCase("RANDOM")){
+		departmentName = Randomness.randomAlphaNumeric(11);
+	}
 
 	testStart(testName);
 	driver = getDriver();
-	departmentName = newDept;
+	
 	// Login
 	TestReporter.log("Login to Bluesource");
 	LoginPage loginPage = new LoginPage(driver);

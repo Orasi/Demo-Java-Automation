@@ -15,6 +15,7 @@ import com.orasi.bluesource.titlesPage.ListingTitlesPage;
 import com.orasi.bluesource.titlesPage.ManageTitlePage;
 import com.orasi.utils.Constants;
 import com.orasi.utils.OrasiDriver;
+import com.orasi.utils.Randomness;
 import com.orasi.utils.TestEnvironment;
 import com.orasi.utils.TestReporter;
 import com.orasi.utils.dataProviders.ExcelDataProvider;
@@ -60,11 +61,18 @@ public class TestManageTitles extends TestEnvironment{
     @Test(dataProvider = "dataScenario", groups = {"demo",  "regression", "manageTitles" , "qaOnly"})
     public void testCreateTitle(@Parameter String testScenario, @Parameter String role,
 	    @Parameter String newTitle) {
-	testName = new Object() {
-	}.getClass().getEnclosingMethod().getName();
-	testStart(testName);
-	//driver = getDriver();
+    	
+	testName = "Manage Titles_" + getBrowserUnderTest() + "_" + getOperatingSystem();
+	
 	title = newTitle;
+	if (title.equalsIgnoreCase("RANDOM")){
+		title = Randomness.randomAlphaNumeric(11);
+	}
+	
+	testStart(testName);
+	
+	//driver = getDriver();
+
 	// Login
 	LoginPage loginPage = new LoginPage( getDriver());
 	TestReporter.assertTrue(loginPage.pageLoaded(), "Verify login page is displayed");
