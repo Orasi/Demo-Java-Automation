@@ -4,7 +4,7 @@
 <suite name="Bluesource_Regression_demo" parallel= "instances" thread-count="10">
 	<suite-files>
 	<suite-file path="chromeDemo.xml"></suite-file>
-	<suite-file path="firefoxDemo"></suite-file>
+	<suite-file path="firefoxDemo.xml"></suite-file>
 	</suite-files>
 	
 </suite> <!-- Suite -->

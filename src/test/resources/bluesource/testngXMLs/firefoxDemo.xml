@@ -8,7 +8,7 @@
 		<parameter name="browserUnderTest" value="firefox" />
 		<parameter name="environment" value="qa" />
 		<parameter name="runLocation" value="sauce" />
-		<parameter name="browserVersion" value="42" />
+		<parameter name="browserVersion" value="45" />
 		<parameter name="operatingSystem" value="Windows" />
 		<groups>
 			<run>
