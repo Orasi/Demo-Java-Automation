@@ -69,7 +69,7 @@ public class EmployeesPage {
 	// ***Page Interactions ***
 	// *****************************************
 	
-	@Step("Then a success message is displayed")
+	@Step("Verify a success message is displayed")
 	public boolean isSuccessMsgDisplayed(){
 	    return lblSuccessMsg.isDisplayed();
 	}
@@ -78,41 +78,41 @@ public class EmployeesPage {
 	    return lblSuccessMsg.getText();
 	}
 	
-	@Step("When I search for \"{0}\" on the Employees Page")
+	@Step("Search for \"{0}\" on the Employees Page")
 	public void enterSearchText(String text){
 	    loadingModal.syncHidden(10);
 	    txtSearch.syncVisible();
 	    txtSearch.set(text);    
 	}
 	
-	@Step("Then Employees with the value \"{0}\" in the \"{1}\" column are displayed")
+	@Step("Employees with the value \"{0}\" in the \"{1}\" column are displayed")
 	public boolean validateTextInTable(String text, String column){
 	    BluesourceTables table = new BluesourceTables(driver);
 	    String columnName = EmployeesTableColumns.valueOf(column).toString();	    
 	    return table.validateTextInTable(text, columnName);
 	}
 	
-	@Step("When I sort the \"{0}\" column in \"{1}\" order")	
+	@Step("Sort the \"{0}\" column in \"{1}\" order")	
 	public void sortColumn(String column, String order){
 	    BluesourceTables table = new BluesourceTables(driver);
 	    String columnName = EmployeesTableColumns.valueOf(column).toString();
 	    table.sortColumn(columnName, SortOrder.valueOf(order));	
 	}
 	
-	@Step("Then the \"{0}\" column is displayed in \"{1}\" order")
+	@Step("The \"{0}\" column is displayed in \"{1}\" order")
 	public boolean validateSortColumn(String column, String order){
 	    BluesourceTables table = new BluesourceTables(driver);	    
 	    String columnName = EmployeesTableColumns.valueOf(column).toString();
 	    return table.validateSortColumn(columnName, SortOrder.valueOf(order));	
 	}
 	
-	@Step("When I set the number of rows to be \"{0}\"")
+	@Step("Set the number of rows to be \"{0}\"")
 	public void setRowsPerPageDisplayed(String numberOfRows){
 	    BluesourceTables table = new BluesourceTables(driver);
 	    table.setRowsPerPageDisplayed(numberOfRows);
 	}
 	
-	@Step("Then the number of rows displayed should be \"{0}\"")
+	@Step("The number of rows displayed should be \"{0}\"")
 	public boolean validateRowsPerPageDisplayed(String numberOfRows){
 	    BluesourceTables table = new BluesourceTables(driver);
 	    return table.validateRowsPerPageDisplayed(numberOfRows);
@@ -125,21 +125,21 @@ public class EmployeesPage {
 	    return Integer.parseInt(total.substring(total.indexOf("of")+3, total.length()));
 	}
 	
-	@Step("When I click the All Button on the Employees Page")
+	@Step("Click the All Button on the Employees Page")
 	public void clickAllButton(){
 	    loadingModal.syncHidden();
 	    btnAll.click();
 	    driver.page().pageLoaded();
 	}
 	
-	@Step("When I click the Add Button on the Employees Page")
+	@Step("Click the Add Button on the Employees Page")
 	public void clickAddEmployeeButton(){
 	    loadingModal.syncHidden(10);
 	    btnAdd.jsClick();
 	    driver.page().pageLoaded();
 	}
 
-	@Step("When I click the Show All Label on the Employees Page")
+	@Step("Click the Show All Label on the Employees Page")
 	public void clickShowAll(){
 	    loadingModal.syncHidden();
 	    btnAll.click();
@@ -148,7 +148,7 @@ public class EmployeesPage {
 	    driver.page().pageLoaded();
 	} 
 
-	@Step("When I click the Show Direct Label on the Employees Page")
+	@Step("Click the Show Direct Label on the Employees Page")
 	public void clickShowDirect(){
 	    loadingModal.syncHidden();
 	    btnAll.click();
@@ -157,7 +157,7 @@ public class EmployeesPage {
 	    driver.page().pageLoaded();
 	} 
 	
-	@Step("When I check the Show Inactive Checkbox on the Employees Page")
+	@Step("Check the Show Inactive Checkbox on the Employees Page")
 	public void checkInactiveCheckbox(){
 	    loadingModal.syncHidden();
 	    btnAll.click();
@@ -166,7 +166,7 @@ public class EmployeesPage {
 	    driver.page().pageLoaded();
 	} 
 
-	@Step("When I check the Show Inactive Checkbox on the Employees Page")
+	@Step("Uncheck the Show Inactive Checkbox on the Employees Page")
 	public void uncheckInactiveCheckbox(){
 	    loadingModal.syncHidden();
 	    btnAll.click();
@@ -174,12 +174,12 @@ public class EmployeesPage {
 	    chkShowInactive.uncheck();
 	    driver.page().pageLoaded();
 	} 
-	@Step("Then the Employees table should update the employees displayed")
+	@Step("The Employees table should update the employees displayed")
 	public boolean validateEmployeeTableResultsUpdated(int previousCount){
 	    return (previousCount != getTotalDisplayedEmployees());
 	}	
 	
-	@Step("Then the Employee will display no rows found")
+	@Step("Tthe Employee will display no rows found")
 	public boolean validateNoRowsFound(){
 	    return (tabEmployeeTable.getRowCount() == 1);
 	}
@@ -188,7 +188,7 @@ public class EmployeesPage {
 	    return validateTextInTable(username.substring(0, 1).toUpperCase() + username.substring(1).toLowerCase(), EmployeesTableColumns.LASTNAME.name());
 	}
 	
-	@Step("When I click the \"{0}\" Name link")
+	@Step("Click the \"{0}\" Name link")
 	public void selectEmployeeName(String name){
 		BluesourceTables table = new BluesourceTables(driver);
 		table.selectFieldLink(name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase());
