@@ -67,7 +67,7 @@ public class TestEnvironment {
 	/*
 	 * Selenium Hub Field
 	 */
-	protected String seleniumHubURL = "http://40.122.51.143:4444/wd/hub";
+	protected String seleniumHubURL = "http://10.238.242.57:4444/wd/hub";
 
 	/*
 	 * Sauce Labs Fields
@@ -489,7 +489,7 @@ public class TestEnvironment {
 					file = new File(this.getClass().getResource(Constants.DRIVERS_PATH_LOCAL + "MicrosoftWebDriver.exe")
 							.getPath());
 					System.setProperty("webdriver.edge.driver", file.getAbsolutePath());
-					caps = DesiredCapabilities.edge();
+					//caps = DesiredCapabilities.e
 				} else {
 					throw new RuntimeException("Parameter not set for browser type");
 				}
@@ -675,6 +675,7 @@ public class TestEnvironment {
 			return Platform.LINUX;
 		case "mac":
 			return Platform.MAC;
+		
 		case "mavericks":
 			return Platform.MAVERICKS;
 		case "mountain_lion":
@@ -683,6 +684,7 @@ public class TestEnvironment {
 			return Platform.SNOW_LEOPARD;
 		case "yosemite":
 			return Platform.YOSEMITE;
+			
 		default:
 			return Platform.ANY;
 		}

@@ -96,7 +96,7 @@
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-java</artifactId>
-			<version>2.47.2</version>
+			<version>2.48.2</version>
 			<!-- Selenium Versions not to use 2.44.0 - Issues with OS Platform Capabilities 
 				https://code.google.com/p/selenium/issues/detail?id=8083 https://code.google.com/p/selenium/issues/detail?id=8333 
 				2.45.0 - Issues with Test Execution speed https://code.google.com/p/selenium/issues/detail?id=8551 -->
@@ -106,7 +106,6 @@
 			<artifactId>selenium-remote-driver</artifactId>
 			<version>2.47.2</version>
 		</dependency>
-
 		<dependency>
 			<groupId>org.testng</groupId>
 			<artifactId>testng</artifactId>

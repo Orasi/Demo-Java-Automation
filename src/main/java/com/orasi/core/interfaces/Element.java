@@ -246,7 +246,6 @@ public interface Element extends WebElement, WrapsElement, Locatable {
 	public void scrollIntoView();
 
 	@Beta
-	@Override
 	public <X> X getScreenshotAs(OutputType<X> target);
 
 

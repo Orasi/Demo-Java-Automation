@@ -3,7 +3,7 @@
 <suite name="Suite" parallel="instances" thread-count="8">
 	<parameter name="browserUnderTest" value="chrome" />
 	<parameter name="environment" value="qa" />
-	<parameter name="runLocation" value="local" />
+	<parameter name="runLocation" value="sauce" />
 	<parameter name="browserVersion" value="" />
 	<parameter name="operatingSystem" value="windows" />
 	<!-- <parameter name="runLocation" value="remote"</parameter> -->
