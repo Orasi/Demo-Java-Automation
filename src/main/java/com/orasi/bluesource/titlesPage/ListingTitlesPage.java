@@ -81,10 +81,19 @@ public class ListingTitlesPage {
 	}
 	
 	@Step("And I can delete the title from the table")
-	public void deleteTitle(String title){
-		driver.findElement(By.xpath("//table/tbody/tr/td[contains(text(),'"+title+"')]/div/a/span[contains(@class,'glyphicon-trash')]")).click();
-	    
-	    AlertHandler.handleAllAlerts(driver, 2);
+	public void deleteTitle(String title, String browser){
+		//8/15/2016 Safari driver does not currently handle modal alerts.  This is a work around to accept the alert
+		// see issue in github for details: https://github.com/seleniumhq/selenium-google-code-issue-archive/issues/3862
+		if (browser.equalsIgnoreCase("safari")){
+			driver.executeJavaScript("confirm = function(message){return true;};");
+			driver.executeJavaScript("alert = function(message){return true;};");
+			driver.executeJavaScript("prompt = function(message){return true;}");
+			driver.findElement(By.xpath("//table/tbody/tr/td[contains(text(),'"+title+"')]/div/a/span[contains(@class,'glyphicon-trash')]")).click();
+		}
+		else {
+			driver.findElement(By.xpath("//table/tbody/tr/td[contains(text(),'"+title+"')]/div/a/span[contains(@class,'glyphicon-trash')]")).click();
+			AlertHandler.handleAllAlerts(driver, 2);
+		}
 	}
 
 	public void ensureNoExistingTitle(String title){

@@ -5,6 +5,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -87,9 +88,19 @@ public class ListingDepartmentsPage {
 	}
 	
 	@Step("And I can delete the department from the table")
-	public void deleteDepartment(String departmentName){
-	    getDepartmentElement(departmentName).findElement(deleteIcon).click();
-	    AlertHandler.handleAllAlerts(driver, 1);
+	public void deleteDepartment(String departmentName, String browser){
+		//8/15/2016 Safari driver does not currently handle modal alerts.  This is a work around to accept the alert
+		// see issue in github for details: https://github.com/seleniumhq/selenium-google-code-issue-archive/issues/3862
+		if (browser.equalsIgnoreCase("safari")){
+			driver.executeJavaScript("confirm = function(message){return true;};");
+			driver.executeJavaScript("alert = function(message){return true;};");
+			driver.executeJavaScript("prompt = function(message){return true;}");
+			getDepartmentElement(departmentName).findElement(deleteIcon).click();
+		} else {
+		    getDepartmentElement(departmentName).findElement(deleteIcon).click();
+		    AlertHandler.handleAllAlerts(driver, 1);
+		}
+
 	}
 	
 	

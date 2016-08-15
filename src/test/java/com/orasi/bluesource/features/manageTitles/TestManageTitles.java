@@ -138,7 +138,7 @@ public class TestManageTitles extends TestEnvironment{
 	
 	// Delete the new title
 	ListingTitlesPage listingTitlesPage = new ListingTitlesPage( getDriver());
-	listingTitlesPage.deleteTitle(title);
+	listingTitlesPage.deleteTitle(title, getBrowserUnderTest());
 
 	// Verify the title is deleted
 	ListingTitlesPage refreshedPage = new ListingTitlesPage( getDriver());

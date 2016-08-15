@@ -5,6 +5,7 @@
 		<listener class-name="com.orasi.utils.Screenshot" />
 	</listeners>
 
+<!-- Chrome Browser -->	
 	<test name="TestManageDepartments_Chrome_Windows 7">
 		<parameter name="browserUnderTest" value="chrome" />
 		<parameter name="environment" value="qa" />
@@ -49,7 +50,8 @@
 		</classes>
 	</test> <!-- Test -->
 	
-	
+
+<!-- Firefox Browser -->		
 	<test name="TestManageDepartments_Firefox_Windows 7">
 		<parameter name="browserUnderTest" value="firefox" />
 		<parameter name="environment" value="qa" />
@@ -72,7 +74,7 @@
 		</classes>
 	</test> <!-- Test -->
 	
-		<test name="TestLogin_Firefox_Windows 7">
+	<test name="TestLogin_Firefox_Windows 7">
 		<parameter name="browserUnderTest" value="firefox" />
 		<parameter name="environment" value="qa" />
 		<parameter name="runLocation" value="sauce" />
@@ -83,7 +85,7 @@
 		</classes>
 	</test> <!-- Test -->
 	
-		<test name="TestNegativeLogin_Firefox_Windows 7">
+	<test name="TestNegativeLogin_Firefox_Windows 7">
 		<parameter name="browserUnderTest" value="firefox" />
 		<parameter name="environment" value="qa" />
 		<parameter name="runLocation" value="sauce" />
@@ -93,7 +95,9 @@
 			<class name="com.orasi.bluesource.features.login.NegativeLogin" />
 		</classes>
 	</test> <!-- Test -->
-	
+
+
+<!-- IE 11 Browser -->		
 	<test name="TestManageDepartments_Internet Explorer 11_Windows 7">
 		<parameter name="browserUnderTest" value="iexplore" />
 		<parameter name="environment" value="qa" />
@@ -137,25 +141,52 @@
 			<class name="com.orasi.bluesource.features.login.NegativeLogin" />
 		</classes>
 	</test> <!-- Test -->
-	
-	<!-- test name="Mac_OS_X_10_11_Safari_9">
+
+
+<!-- Safari Browser -->	
+	<test name="TestManageDepartments_Mac_OS_X_10_11_Safari_9">
 		<parameter name="browserUnderTest" value="safari" />
 		<parameter name="environment" value="qa" />
 		<parameter name="runLocation" value="sauce" />
 		<parameter name="browserVersion" value="9.0" />
 		<parameter name="operatingSystem" value="MAC OS X 10.11" />
-		<groups>
-			<run>
-				<include name="demo" />		
-			</run>
-		</groups>
 		<classes>
 			<class name="com.orasi.bluesource.features.manageDepartments.TestManageDepartments"/>
+		</classes>
+	</test> <!-- Test -->
+	
+		<test name="TestManageTitles_Mac_OS_X_10_11_Safari_9">
+		<parameter name="browserUnderTest" value="safari" />
+		<parameter name="environment" value="qa" />
+		<parameter name="runLocation" value="sauce" />
+		<parameter name="browserVersion" value="9.0" />
+		<parameter name="operatingSystem" value="MAC OS X 10.11" />
+		<classes>
 			<class name="com.orasi.bluesource.features.manageTitles.TestManageTitles"/>
+		</classes>
+	</test> <!-- Test -->
+	
+		<test name="TestLogin_Mac_OS_X_10_11_Safari_9">
+		<parameter name="browserUnderTest" value="safari" />
+		<parameter name="environment" value="qa" />
+		<parameter name="runLocation" value="sauce" />
+		<parameter name="browserVersion" value="9.0" />
+		<parameter name="operatingSystem" value="MAC OS X 10.11" />
+		<classes>
 			<class name="com.orasi.bluesource.features.login.Login" />
+		</classes>
+	</test> <!-- Test -->
+	
+	<test name="NegativeLogin_Mac_OS_X_10_11_Safari_9">
+		<parameter name="browserUnderTest" value="safari" />
+		<parameter name="environment" value="qa" />
+		<parameter name="runLocation" value="sauce" />
+		<parameter name="browserVersion" value="9.0" />
+		<parameter name="operatingSystem" value="MAC OS X 10.11" />
+		<classes>
 			<class name="com.orasi.bluesource.features.login.NegativeLogin" />
 		</classes>
-	</test--> <!-- Test -->
+	</test> <!-- Test -->
 	
 	
 

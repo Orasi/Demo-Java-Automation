@@ -237,7 +237,7 @@ public class TestManageDepartments  extends TestEnvironment {
 	
 	TestReporter.log("Delete new department");
 	// Delete the new dept
-	deptPage.deleteDepartment(departmentName);
+	deptPage.deleteDepartment(departmentName, getBrowserUnderTest());
 
 	// Verify the title is deleted
 	ListingDepartmentsPage refreshedPage = new ListingDepartmentsPage(driver);
