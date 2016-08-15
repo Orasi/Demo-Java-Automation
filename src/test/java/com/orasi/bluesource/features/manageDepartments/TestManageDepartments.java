@@ -61,170 +61,54 @@ public class TestManageDepartments  extends TestEnvironment {
     public void testAddDepartment(@Parameter String testScenario, @Parameter String role,
 	    @Parameter String newDept) {
 	
-   	setTestName("Manage Departments_" + getBrowserUnderTest() + "_" + getOperatingSystem());
+	   	setTestName("Manage Departments_" + getBrowserUnderTest() + "_" + getOperatingSystem());
+		
+	   	//Create a unique department name
+		departmentName = newDept;
+		if (departmentName.equalsIgnoreCase("RANDOM")){
+			departmentName = Randomness.randomAlphaNumeric(11);
+		}
 	
-	departmentName = newDept;
-	if (departmentName.equalsIgnoreCase("RANDOM")){
-		departmentName = Randomness.randomAlphaNumeric(11);
-	}
-
-	testStart(testName);
-	driver = getDriver();
+		//Launch browser & create driver
+		testStart(testName);
+		driver = getDriver();
+		
+		// Login
+		TestReporter.logStep("Login to Bluesource");
+		LoginPage loginPage = new LoginPage(driver);
+		TestReporter.assertTrue(loginPage.pageLoaded(),"Verify login page is displayed");
+		loginPage.login(role);
 	
-	// Login
-	TestReporter.log("Login to Bluesource");
-	LoginPage loginPage = new LoginPage(driver);
-	TestReporter.assertTrue(loginPage.pageLoaded(),"Verify login page is displayed");
-	loginPage.login(role);
-
-	// Verify user is logged in
-	TestReporter.log("Verify successful login");
-	TopNavigationBar topNavigationBar = new TopNavigationBar(driver);
-	TestReporter.assertTrue(topNavigationBar.isLoggedIn(), "Validate the user logged in successfully");
-
-	// Navigate to the dept page
-	TestReporter.log("Navigate to Departments page");
-	topNavigationBar.clickAdminLink();
-	topNavigationBar.clickDepartmentsLink();
-
-	// Verify navigated to the dept page
-	ListingDepartmentsPage deptPage = new ListingDepartmentsPage(driver);
-	TestReporter.assertTrue(deptPage.pageLoaded(),"Verify list of departments page is displayed");
+		// Verify user is logged in
+		TestReporter.logStep("Verify successful login");
+		TopNavigationBar topNavigationBar = new TopNavigationBar(driver);
+		TestReporter.assertTrue(topNavigationBar.isLoggedIn(), "Validate the user logged in successfully");
 	
-	// Add a new dept
-	TestReporter.log("Add a new department");
-	deptPage.clickAddDeptLink();
-	ManageDepartmentPage manageDepartmentPage = new ManageDepartmentPage(driver);
-	//TestReporter.assertTrue(manageDepartmentPage.pageLoaded(), "Verify manage department page is displayed");
-	manageDepartmentPage.createDepartment(departmentName);
-
-	TestReporter.log("Verify successful department creation");
-	// Verify the dept is added
-	TestReporter.assertTrue(deptPage.isSuccessMsgDisplayed(), "Validate success message appears");
-
-	// Verify the dept is displayed on the dept results table
-	TestReporter.assertTrue(deptPage.searchTableByDept(departmentName), "Validate new department exists in table");
+		// Navigate to the dept page
+		TestReporter.logStep("Navigate to Departments page");
+		topNavigationBar.clickAdminLink();
+		topNavigationBar.clickDepartmentsLink();
+	
+		// Verify navigated to the dept page
+		ListingDepartmentsPage deptPage = new ListingDepartmentsPage(driver);
+		TestReporter.assertTrue(deptPage.pageLoaded(),"Verify list of departments page is displayed");
+		
+		// Add a new dept
+		TestReporter.logStep("Add a new department: [" + departmentName + "]");
+		deptPage.clickAddDeptLink();
+		ManageDepartmentPage manageDepartmentPage = new ManageDepartmentPage(driver);
+		manageDepartmentPage.createDepartment(departmentName);
+	
+		TestReporter.logStep("Verify successful department creation");
+		// Verify the dept is added
+		TestReporter.assertTrue(deptPage.isSuccessMsgDisplayed(), "Validate success message appears");
+	
+		// Verify the dept is displayed on the dept results table
+		TestReporter.logStep("Verify new department displays in the list of departments");
+		TestReporter.assertTrue(deptPage.searchTableByDept(departmentName), "Validate new department exists in table");
 	
     }
     
-    /*
-    @Features("Manage Departments")
-    @Stories("Given when I login as an admin role, I can modify a Departments name")
-    @Severity(SeverityLevel.BLOCKER)
-    @Title("ManageDepartments - Modify Department Name")
-    @Test(groups = {"demo",  "regression","manageDepartments", "qaOnly"   },dependsOnMethods= "testAddDepartment")
-    public void testModifyDepartmentName() {
-	
-	
-	ListingDepartmentsPage deptPage = new ListingDepartmentsPage(driver);
-	TestReporter.assertTrue(deptPage.pageLoaded(driver),"Verify list of departments page is displayed");
-
-	// Add a new dept
-	TestReporter.log("Modify the new department's name");
-	deptPage.clickModifyDepartment(departmentName);
-	ManageDepartmentPage manageDepartmentPage = new ManageDepartmentPage(driver);
-	TestReporter.assertTrue(manageDepartmentPage.pageLoaded(), "Verify manage department page is displayed");
-	departmentName += "_modified";
-	manageDepartmentPage.modifyDepartmentName(departmentName);
-
-	// Verify the success message
-	TestReporter.log("Verify successful name modification");
-	TestReporter.assertTrue(deptPage.isSuccessMsgDisplayed(), "Validate success message appears");
-
-	// Verify the dept is displayed on the dept results table
-	TestReporter.assertTrue(deptPage.searchTableByDept(departmentName), "Validate modified department exists in table");
-
-    }
-    
-    @Features("Manage Departments")
-    @Stories("Given when I login as an admin role, I can modify a Departments parent")
-    @Severity(SeverityLevel.NORMAL)
-    @Title("ManageDepartments - Modify Department Parent")
-    @Test(groups = { "demo", "regression","manageDepartments" , "qaOnly" },dependsOnMethods= "testModifyDepartmentName")
-    public void testModifyDepartmentParent() {
-	
-	
-	ListingDepartmentsPage deptPage = new ListingDepartmentsPage(driver);
-	TestReporter.assertTrue(deptPage.pageLoaded(),"Verify list of departments page is displayed");
-
-	// Add a new dept
-	TestReporter.log("Modify new department's parent");
-	deptPage.clickModifyDepartment(departmentName);
-	ManageDepartmentPage manageDepartmentPage = new ManageDepartmentPage(driver);
-	TestReporter.assertTrue(manageDepartmentPage.pageLoaded(), "Verify manage department page is displayed");
-	manageDepartmentPage.modifyDepartmentsParent(mainDepartment);
-
-	// Verify the success message
-	TestReporter.assertTrue(deptPage.isSuccessMsgDisplayed(), "Validate success message appears");
-
-	// Verify the dept is displayed on the dept results table
-	TestReporter.log("Verify new department's parent was associated");
-	TestReporter.assertTrue(deptPage.isSubdepartment(departmentName, mainDepartment), "Verify new department is a direct Subdepartment");
-	deptPage.clickModifyDepartment(departmentName);
-	TestReporter.assertTrue(manageDepartmentPage.validateCorrectParentDepartment("Rural Testing"), "Verify correct Parent department is displayed");
-	
-	manageDepartmentPage.clickUpdateButton();
-    }
-    
-    @Features("Manage Departments")
-    @Stories("Given when I login as an admin role, I can modify a Departments Increment Hours")
-    @Severity(SeverityLevel.NORMAL)
-    @Title("ManageDepartments - Modify Department Increment Hours")
-    @Test(groups = {"demo",  "regression","manageDepartments", "qaOnly"  },dependsOnMethods= "testModifyDepartmentParent")
-    public void testModifyDeparmentIncrementHours() {
-	
-	
-	ListingDepartmentsPage deptPage = new ListingDepartmentsPage(driver);
-	TestReporter.assertTrue(deptPage.pageLoaded(),"Verify list of departments page is displayed");
-
-	// Add a new dept
-	TestReporter.log("Modify new department's Increment Hours");
-	deptPage.clickModifyDepartment(departmentName);
-	ManageDepartmentPage manageDepartmentPage = new ManageDepartmentPage(driver);
-	TestReporter.assertTrue(manageDepartmentPage.pageLoaded(), "Verify manage department page is displayed");
-	manageDepartmentPage.modifyDepartmentsIncrementHours("8");
-
-	// Verify the success message
-	TestReporter.assertTrue(deptPage.isSuccessMsgDisplayed(), "Validate success message appears");
-
-	// Verify the dept is displayed on the dept results table
-	TestReporter.log("Verify new department's Increment Hours updated");
-	TestReporter.assertTrue(deptPage.isSubdepartment(departmentName, mainDepartment), "Verify new department is a direct Subdepartment");
-	deptPage.clickModifyDepartment(departmentName);
-	TestReporter.assertTrue(manageDepartmentPage.validateCorrectIncrementHours("8"), "Verify correct Increment Hours is displayed");
-	
-	manageDepartmentPage.clickUpdateButton();
-    }
-    
-    @Features("Manage Departments")
-    @Stories("Given when I login as an admin role, I can add a Subdepartment")
-    @Severity(SeverityLevel.NORMAL)
-    @Title("ManageDepartments - Add Subdepartment")
-    @Test(groups = {"demo",  "regression","manageDepartments", "qaOnly" },dependsOnMethods= "testModifyDeparmentIncrementHours")
-    public void testAddSubdepartment() {
-	
-	subDepartment = departmentName + "_subdepartment";
-	ListingDepartmentsPage deptPage = new ListingDepartmentsPage(driver);
-	TestReporter.assertTrue(deptPage.pageLoaded(),"Verify list of departments page is displayed");
-
-	// Add a new dept
-	TestReporter.log("Add new sub-deparment to new department");
-	deptPage.clickAddSubDepartment(departmentName);
-	ManageDepartmentPage manageDepartmentPage = new ManageDepartmentPage(driver);
-	TestReporter.assertTrue(manageDepartmentPage.pageLoaded(), "Verify manage department page is displayed");
-	TestReporter.assertTrue(manageDepartmentPage.validateCorrectParentDepartment(departmentName), "Verify correct Parent department is displayed");
-	
-	manageDepartmentPage.createDepartment(subDepartment);
-
-	// Verify the success message
-	TestReporter.assertTrue(deptPage.isSuccessMsgDisplayed(), "Validate success message appears");
-
-	
-	// Verify the dept is displayed on the dept results table
-	TestReporter.log("Verify sub-deparment was created");
-	TestReporter.assertTrue(deptPage.isSubdepartment(subDepartment, departmentName), "Verify new department is a direct Subdepartment");
-    }
-    */
     @Features("Manage Departments")
     @Stories("Given when I login as an admin role, I can delete departments")
     @Severity(SeverityLevel.NORMAL)
@@ -232,28 +116,22 @@ public class TestManageDepartments  extends TestEnvironment {
     @Test(groups = { "demo", "regression","manageDepartments", "qaOnly" },dependsOnMethods= "testAddDepartment")
     public void testDeleteDepartment() {
 	
-	ListingDepartmentsPage deptPage = new ListingDepartmentsPage(driver);
-	TestReporter.assertTrue(deptPage.pageLoaded(),"Verify list of departments page is displayed");
+		ListingDepartmentsPage deptPage = new ListingDepartmentsPage(driver);
+		TestReporter.assertTrue(deptPage.pageLoaded(),"Verify list of departments page is displayed");
+		
+		// Delete the new dept
+		TestReporter.logStep("Delete new department: [" + departmentName + "]");
+		deptPage.deleteDepartment(departmentName, getBrowserUnderTest());
 	
-	TestReporter.log("Delete new department");
-	// Delete the new dept
-	deptPage.deleteDepartment(departmentName, getBrowserUnderTest());
-
-	// Verify the title is deleted
-	ListingDepartmentsPage refreshedPage = new ListingDepartmentsPage(driver);
-	TestReporter.assertTrue(refreshedPage.isSuccessMsgDisplayed(), "Validate success message appears");
-	
-	TestReporter.log("Verify new department is deleted and sub-department is moved up a domain");
-	// Verify the dept is displayed on the dept results table
-	//TestReporter.assertTrue(deptPage.isSubdepartment(subDepartment, mainDepartment), "Verify subdepartment has moved to the parents level");
-	
-	
-	// Delete the new dept
-	//TestReporter.log("Delete sub-department");
-	//deptPage.deleteDepartment(subDepartment);
-	
-	TopNavigationBar topNavigationBar = new TopNavigationBar(driver);
-	topNavigationBar.clickLogout();
+		// Verify the dept is deleted
+		TestReporter.logStep("Verify new department is deleted");
+		ListingDepartmentsPage refreshedPage = new ListingDepartmentsPage(driver);
+		TestReporter.assertTrue(refreshedPage.isSuccessMsgDisplayed(), "Validate success message appears");
+		
+		//Logout
+		TestReporter.logStep("Logout of application");
+		TopNavigationBar topNavigationBar = new TopNavigationBar(driver);
+		topNavigationBar.clickLogout();
     }
     
     

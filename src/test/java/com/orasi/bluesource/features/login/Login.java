@@ -55,23 +55,24 @@ public class Login  extends TestEnvironment {
     @Test(dataProvider = "dataScenario", groups = { "regression" , "login" })
     public void testLogin(@Parameter String testScenario, @Parameter String role) {
 	
-	testName = new Object() {
-	}.getClass().getEnclosingMethod().getName();
-
-	testStart(testName);
-	driver =getDriver();
-	// Login
-	TestReporter.log("Login to Bluesource");
-	LoginPage loginPage = new LoginPage(getDriver());
-	TestReporter.assertTrue(loginPage.pageLoaded(),"Verify login page is displayed");
-	loginPage.login(role);
-
-	TestReporter.log("Verify successful login");
-	// Verify user is logged in
-	TopNavigationBar topNavigationBar = new TopNavigationBar(getDriver());
-	TestReporter.assertTrue(topNavigationBar.isLoggedIn(), "Validate the user logged in successfully");
-
-	// logout
-	topNavigationBar.clickLogout();
+	    testName = "Test Login_" + getBrowserUnderTest() + "_" + getOperatingSystem();
+	
+		testStart(testName);
+		driver =getDriver();
+		
+		// Login
+		TestReporter.logStep("Login to Bluesource");
+		LoginPage loginPage = new LoginPage(getDriver());
+		TestReporter.assertTrue(loginPage.pageLoaded(),"Verify login page is displayed");
+		loginPage.login(role);
+	
+		TestReporter.logStep("Verify successful login");
+		// Verify user is logged in
+		TopNavigationBar topNavigationBar = new TopNavigationBar(getDriver());
+		TestReporter.assertTrue(topNavigationBar.isLoggedIn(), "Validate the user logged in successfully");
+	
+		// logout
+		TestReporter.logStep("Logout of application");
+		topNavigationBar.clickLogout();
     }
 }
