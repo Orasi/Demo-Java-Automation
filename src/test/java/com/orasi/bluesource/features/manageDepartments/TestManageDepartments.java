@@ -61,6 +61,7 @@ public class TestManageDepartments  extends TestEnvironment {
     public void testAddDepartment(@Parameter String testScenario, @Parameter String role,
 	    @Parameter String newDept) {
 	
+    	
 	   	setTestName("Manage Departments_" + getBrowserUnderTest() + "_" + getOperatingSystem());
 		
 	   	//Create a unique department name
@@ -69,6 +70,9 @@ public class TestManageDepartments  extends TestEnvironment {
 			departmentName = Randomness.randomAlphaNumeric(11);
 		}
 	
+		TestReporter.logScenario("This test creates a new department, verifies the department was created successfully,"
+				+ " then deletes the department & verifies the department was deleted successfully");
+		
 		//Launch browser & create driver
 		testStart(testName);
 		driver = getDriver();

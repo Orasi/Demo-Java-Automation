@@ -9,7 +9,7 @@
 	<!-- <parameter name="runLocation" value="remote"</parameter> -->
 	<test name="Test">
 		<classes>
-			<class name="com.orasi.bluesource.features.login.Login" />
+			<class name="com.orasi.bluesource.features.login.NegativeLogin" />
 		</classes>
 	</test> <!-- Test -->
 </suite> <!-- Suite -->

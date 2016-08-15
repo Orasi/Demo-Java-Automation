@@ -53,7 +53,8 @@ public class NegativeLogin  extends TestEnvironment {
     @Title("Login - Login with incorrect information")
     @Test(dataProvider = "negativeDataScenario", groups = { "regression", "login" })
     public void testFailedLogin(@Parameter String testScenario, @Parameter String role) {
-	
+    	
+    	TestReporter.logScenario("This test attempts to login to bluesource with incorrect credentials & verifies user is not logged in");
 		testName = "TestNegativeLogin_"+ getBrowserUnderTest() + "_" + getOperatingSystem();
 	
 		testStart(testName);

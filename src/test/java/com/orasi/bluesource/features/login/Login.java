@@ -34,18 +34,18 @@ public class Login  extends TestEnvironment {
     @BeforeClass( alwaysRun=true)
     @Parameters({ "runLocation", "browserUnderTest", "browserVersion", "operatingSystem", "environment" })
     public void setup(String runLocation, String browserUnderTest, String browserVersion, String operatingSystem, String environment) {
-	setApplicationUnderTest("Bluesource");
-	setBrowserUnderTest(browserUnderTest);
-	setBrowserVersion(browserVersion);
-	setOperatingSystem(operatingSystem);
-	setRunLocation(runLocation);
-	setTestEnvironment(environment);
-	setThreadDriver(true);
+		setApplicationUnderTest("Bluesource");
+		setBrowserUnderTest(browserUnderTest);
+		setBrowserVersion(browserVersion);
+		setOperatingSystem(operatingSystem);
+		setRunLocation(runLocation);
+		setTestEnvironment(environment);
+		setThreadDriver(true);
     }
 
     @AfterMethod( alwaysRun=true)
     public void closeSession(ITestContext test) {
-	endTest(testName, test);
+    	endTest(testName, test);
     }    
 
     @Features("Login")
@@ -57,11 +57,12 @@ public class Login  extends TestEnvironment {
 	
 	    testName = "Test Login_" + getBrowserUnderTest() + "_" + getOperatingSystem();
 	
+	    TestReporter.logScenario("This test logs into the Bluesource application by role & verifies the user was logged in successfully");
 		testStart(testName);
 		driver =getDriver();
 		
 		// Login
-		TestReporter.logStep("Login to Bluesource");
+		TestReporter.logStep("Login to Bluesource using role: [" + role + "]");
 		LoginPage loginPage = new LoginPage(getDriver());
 		TestReporter.assertTrue(loginPage.pageLoaded(),"Verify login page is displayed");
 		loginPage.login(role);

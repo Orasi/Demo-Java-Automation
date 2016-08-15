@@ -70,6 +70,9 @@ public class TestManageTitles extends TestEnvironment{
 			title = Randomness.randomAlphaNumeric(11);
 		}
 		
+		TestReporter.logScenario("This test creates a new title, verifies the title was created successfully,"
+				+ " the modifies the title name, then deletes the title & verifies the title was deleted successfully");
+		
 		//Launch browser & create driver
 		testStart(testName);
 		//driver = getDriver();
