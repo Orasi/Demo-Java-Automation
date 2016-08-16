@@ -62,7 +62,7 @@ public class FailedTest extends TestEnvironment{
     public void testCreateTitle(@Parameter String testScenario, @Parameter String role,
 	    @Parameter String newTitle) {
     	
-		testName = "Manage Titles_" + getBrowserUnderTest() + "_" + getOperatingSystem();
+		testName = "Failed Test Example";
 		
 		//Create a unique title
 		title = "";
