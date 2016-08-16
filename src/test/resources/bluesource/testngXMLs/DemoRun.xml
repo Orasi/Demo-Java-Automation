@@ -195,7 +195,7 @@
 		<parameter name="browserVersion" value="9.0" />
 		<parameter name="operatingSystem" value="MAC OS X 10.11" />
 		<classes>
-			<class name="com.orasi.bluesource.features.demo.FailedTest" />
+			<class name="com.orasi.bluesource.demo.FailedTest" />
 		</classes>
 	</test> <!-- Test -->
 	
