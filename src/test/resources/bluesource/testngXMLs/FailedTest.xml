@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Suite" parallel="instances" thread-count="1">
+
+	<listeners>
+		<listener class-name="com.orasi.utils.Screenshot" />
+	</listeners>
+
+	<parameter name="browserUnderTest" value="safari" />
+	<parameter name="environment" value="qa" />
+	<parameter name="runLocation" value="sauce" />
+	<parameter name="browserVersion" value="9.0" />
+	<parameter name="operatingSystem" value="MAC OS X 10.11" />
+	<!-- <parameter name="runLocation" value="remote"</parameter> -->
+	<test name="Test">
+		<classes>
+			<class name="com.orasi.bluesource.demo.FailedTest" />
+		</classes>
+	</test> <!-- Test -->
+</suite> <!-- Suite -->

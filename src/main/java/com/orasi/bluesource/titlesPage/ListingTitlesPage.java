@@ -22,6 +22,7 @@ import com.orasi.core.interfaces.Link;
 import com.orasi.core.interfaces.Webtable;
 import com.orasi.core.interfaces.impl.ElementImpl;
 import com.orasi.core.interfaces.impl.internal.ElementFactory;
+import com.orasi.exception.automation.ElementNotVisibleException;
 import com.orasi.utils.AlertHandler;
 import com.orasi.utils.OrasiDriver;
 import com.orasi.utils.TestEnvironment;
@@ -70,8 +71,16 @@ public class ListingTitlesPage {
 	}
 	
 	@Step("Then an alert should appear for confirmation")
-	public boolean isSuccessMsgDisplayed() {	 
-	    return lblSuccessMsg.syncVisible();
+	public boolean isSuccessMsgDisplayed() {
+		boolean displayed;
+		try {
+			displayed = lblSuccessMsg.syncVisible();
+			return displayed;
+
+		} catch (ElementNotVisibleException e){
+			return false;
+		}
+	   
 	}
 	
 	@Step("And the title \"{0}\" should be found on the Titles table")
