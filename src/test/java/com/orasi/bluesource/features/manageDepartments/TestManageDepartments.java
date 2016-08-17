@@ -54,7 +54,7 @@ public class TestManageDepartments  extends TestEnvironment {
     }    
 
     @Features("Manage Departments")
-    @Stories("Given when I login as an admin role, I can create a Department")
+    @Stories("As an admin, I should be able to create a new department")
     @Severity(SeverityLevel.BLOCKER)
     @Title("ManageDepartments - Create Department")
     @Test(dataProvider = "dataScenario", groups = { "demo", "regression","manageDepartments", "qaOnly" })
@@ -114,7 +114,7 @@ public class TestManageDepartments  extends TestEnvironment {
     }
     
     @Features("Manage Departments")
-    @Stories("Given when I login as an admin role, I can delete departments")
+    @Stories("As an admin, I should be able to delete a department")
     @Severity(SeverityLevel.NORMAL)
     @Title("ManageDepartments - Delete Department")
     @Test(groups = { "demo", "regression","manageDepartments", "qaOnly" },dependsOnMethods= "testAddDepartment")

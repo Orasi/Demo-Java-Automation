@@ -55,7 +55,7 @@ public class FailedTest extends TestEnvironment{
     }    
 
     @Features("Manage Titles")
-    @Stories("Given when I login as an admin role, I can add Title")
+    @Stories("As an admin I should be able to create a title")
     @Title("Manage Titles - Create")
     @Severity(SeverityLevel.CRITICAL)
     @Test(dataProvider = "dataScenario", groups = {"demo",  "regression", "manageTitles" , "qaOnly"})
@@ -112,7 +112,7 @@ public class FailedTest extends TestEnvironment{
     }
 
     @Features("Manage Titles")
-    @Stories("Given when I login as an admin role, I can modify a Title")
+    @Stories("As an admin, I should be able to modify a title")
     @Title("Manage Titles - Modify")
     @Severity(SeverityLevel.CRITICAL)
     @Test( groups = { "demo", "regression", "manageTitles" , "qaOnly" } ,dependsOnMethods= "testCreateTitle")
@@ -137,7 +137,7 @@ public class FailedTest extends TestEnvironment{
     }
     
     @Features("Manage Titles")
-    @Stories("Given when I login as an admin role, I can delete a Title")
+    @Stories("As an admin, I should be able to delete a title")
     @Title("Manage Titles - Delete")
     @Severity(SeverityLevel.CRITICAL)
     @Test( groups = { "demo", "regression", "manageTitles" , "qaOnly" } ,dependsOnMethods= "testModifyTitle")

@@ -11,6 +11,7 @@ import java.util.ResourceBundle;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
 
@@ -597,6 +598,8 @@ public class TestEnvironment {
 
 			caps.setCapability("name", getTestName());
 			setDriver(new OrasiDriver(caps, sauceURL));
+			
+			TestReporter.logVideo(getDriver().getSessionId().toString());
 
 		} else {
 			throw new RuntimeException(

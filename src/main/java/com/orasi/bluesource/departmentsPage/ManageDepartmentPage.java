@@ -38,43 +38,43 @@ public class ManageDepartmentPage {
 	
 	
 	//method to create a new title
-	@Step("When I create the new department \"{0}\" using the default increment hours")
+	@Step("Create the new department \"{0}\" using the default increment hours")
 	public void createDepartment(String departmentName){
 	    manageDepartment(departmentName,"","");
 	}
 	
-	@Step("When I create the new department \"{0}\" with increment hours of \"{1}\"")
+	@Step("Create the new department \"{0}\" with increment hours of \"{1}\"")
 	public void createDepartment(String departmentName, String incrementHours){
 	    manageDepartment(departmentName,"",incrementHours);
 	}
 	
-	@Step("When I create the new subdepartment \"{0}\" under department \"{1}\"")
+	@Step("Create the new subdepartment \"{0}\" under department \"{1}\"")
 	public void createSubdepartment(String departmentName, String parentDepartment){
 	    manageDepartment(departmentName,parentDepartment,"");
 	}
 	
-	@Step("When I modify the new department name to \"{0}\"")
+	@Step("Modify the new department name to \"{0}\"")
 	public void modifyDepartmentName(String departmentName){
 	    manageDepartment(departmentName,"","");
 	}
 	
-	@Step("When I modify the new departments parent to \"{0}\"")
+	@Step("Modify the new departments parent to \"{0}\"")
 	public void modifyDepartmentsParent(String parentDepartment){
 	    manageDepartment("",parentDepartment,"");
 	}
 	
-	@Step("Then the parent department \"{0}\" was saved")
+	@Step("The parent department \"{0}\" was saved")
 	public boolean validateCorrectParentDepartment(String parentDepartment){
 	    if(lstParentDept.getFirstSelectedOption().getText().trim().equalsIgnoreCase(parentDepartment)) return true;
 	    return false;
 	}
 	
-	@Step("When I modify the new departments increment hours to \"{0}\"")
+	@Step("Modify the new departments increment hours to \"{0}\"")
 	public void modifyDepartmentsIncrementHours(String incrementHours){
 	    manageDepartment("","",incrementHours);
 	}
 	
-	@Step("Then the increment hours \"{0}\" was saved")
+	@Step("The increment hours \"{0}\" was saved")
 	public boolean validateCorrectIncrementHours(String incrementHours){
 	    if(lstHourIncrement.getFirstSelectedOption().getText().trim().equalsIgnoreCase(incrementHours)) return true;
 	    return false;

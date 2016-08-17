@@ -10,6 +10,8 @@ import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import org.testng.Reporter;
 
+import ru.yandex.qatools.allure.annotations.Step;
+
 import com.orasi.utils.date.SimpleDate;
 
 public class TestReporter {
@@ -223,4 +225,12 @@ public class TestReporter {
 			Reporter.log("<a href='" + fileLocation + "'> <img src='file:///" + fileLocation + "' height='200' width='300'/> </a>");
 		}
     }
+    
+	@Step("https://saucelabs.com/beta/tests/{0}")
+	public static void logVideo(String sessionId) {
+		Reporter.log("<br/>----------------------------------------------------------------------------------<br/>");
+		Reporter.log( "<b><a target='_blank' font size = 6 href='https://saucelabs.com/beta/tests/" + sessionId + "'>SAUCE LABS LINK</a></b><br/>" );
+		Reporter.log("----------------------------------------------------------------------------------<br/>");		
+	}
 }
+

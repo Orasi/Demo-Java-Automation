@@ -38,7 +38,7 @@ public class LoginPage {
 	// ***Page Interactions ***
 	// *****************************************
 
-	@Step("Given I login with the role \"{0}\"")
+	@Step("Login with the role \"{0}\"")
 	public void login(String role) {
 		String username = "";
 		String password = "";
@@ -52,7 +52,7 @@ public class LoginPage {
 		btnLogin.submit();
 	}
 	
-	@Step("Then I did not log in successfully")
+	@Step("User did not log in successfully")
 	public boolean isNotLoggedIn(){
 		return btnLogin.isDisplayed();
 	}
