@@ -214,7 +214,7 @@ public class TestReporter {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		if(runLocation.equalsIgnoreCase("remote")){
+		if(runLocation.equalsIgnoreCase("remote") || runLocation.equalsIgnoreCase("sauce")){
 			fileLocation = fileLocation.replace("/var/lib/jenkins/jobs/OpenSandbox/jobs/Demo_JavaAutomation/workspace/", "job/OpenSandbox/job/Demo_JavaAutomation/ws/");
 			//fileLocation = fileLocation.replace("/var/lib/jenkins/jobs/OpenSandbox/jobs/Toyota-SauceLabs/workspace/", "job/OpenSandbox/job/Toyota-SauceLabs/230/testngreports/toyota/TestAllSecondaryNavigations/");
 			Reporter.log("<a href='https://jenkins.orasi.com/" + fileLocation + "'>FAILED SCREENSHOT</a>");
