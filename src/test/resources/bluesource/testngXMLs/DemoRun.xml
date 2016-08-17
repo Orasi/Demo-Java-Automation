@@ -199,7 +199,7 @@
 		</classes>
 	</test> <!-- Test -->
 	
-		<test name="Rest services test example>
+		<test name="Rest services test example">
 		<parameter name="browserUnderTest" value="safari" />
 		<parameter name="environment" value="qa" />
 		<parameter name="runLocation" value="sauce" />
