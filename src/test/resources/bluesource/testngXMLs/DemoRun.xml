@@ -144,16 +144,6 @@
 
 
 <!-- Safari Browser -->	
-	<test name="TestManageDepartments_Mac_OS_X_10_11_Safari_9">
-		<parameter name="browserUnderTest" value="safari" />
-		<parameter name="environment" value="qa" />
-		<parameter name="runLocation" value="sauce" />
-		<parameter name="browserVersion" value="9.0" />
-		<parameter name="operatingSystem" value="MAC OS X 10.11" />
-		<classes>
-			<class name="com.orasi.bluesource.features.manageDepartments.TestManageDepartments"/>
-		</classes>
-	</test> <!-- Test -->
 	
 		<test name="TestManageTitles_Mac_OS_X_10_11_Safari_9">
 		<parameter name="browserUnderTest" value="safari" />
@@ -177,17 +167,7 @@
 		</classes>
 	</test> <!-- Test -->
 	
-	<test name="NegativeLogin_Mac_OS_X_10_11_Safari_9">
-		<parameter name="browserUnderTest" value="safari" />
-		<parameter name="environment" value="qa" />
-		<parameter name="runLocation" value="sauce" />
-		<parameter name="browserVersion" value="9.0" />
-		<parameter name="operatingSystem" value="MAC OS X 10.11" />
-		<classes>
-			<class name="com.orasi.bluesource.features.login.NegativeLogin" />
-		</classes>
-	</test> <!-- Test -->
-	
+
 	<test name="Failed test example">
 		<parameter name="browserUnderTest" value="safari" />
 		<parameter name="environment" value="qa" />
