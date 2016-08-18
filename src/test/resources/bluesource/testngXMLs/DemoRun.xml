@@ -145,14 +145,14 @@
 
 <!-- Safari Browser -->	
 	
-		<test name="TestManageTitles_Mac_OS_X_10_11_Safari_9">
+		<test name="TestNegativeLogin_Mac_OS_X_10_11_Safari_9">
 		<parameter name="browserUnderTest" value="safari" />
 		<parameter name="environment" value="qa" />
 		<parameter name="runLocation" value="sauce" />
 		<parameter name="browserVersion" value="9.0" />
 		<parameter name="operatingSystem" value="MAC OS X 10.11" />
 		<classes>
-			<class name="com.orasi.bluesource.features.manageTitles.TestManageTitles"/>
+			<class name="com.orasi.bluesource.features.login.NegativeLogin" />
 		</classes>
 	</test> <!-- Test -->
 	
