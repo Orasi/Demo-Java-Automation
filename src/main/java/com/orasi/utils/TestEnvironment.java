@@ -432,16 +432,18 @@ public class TestEnvironment {
 			case "windows":
 			case "win10":
 			case "windows10":
+				//firefox
 				if (getBrowserUnderTest().equalsIgnoreCase("Firefox") || getBrowserUnderTest().equalsIgnoreCase("FF")) {
-					caps = DesiredCapabilities.firefox();
-				}
-				else if (getBrowserUnderTest().equalsIgnoreCase("Marionette")) {
-					caps = DesiredCapabilities.firefox();
-					caps.setCapability("marionette", true);
-					file = new File(
-						this.getClass().getResource(Constants.DRIVERS_PATH_LOCAL + "marionette.exe").getPath());
-				System.setProperty("webdriver.gecko.driver", file.getAbsolutePath());
-				
+					if (Integer.parseInt(browserVersion) > 45){
+						caps = DesiredCapabilities.firefox();
+						caps.setCapability("marionette", true);
+						file = new File(
+							this.getClass().getResource(Constants.DRIVERS_PATH_LOCAL + "geckodriver.exe").getPath());
+					System.setProperty("webdriver.gecko.driver", file.getAbsolutePath());
+					} else {
+						caps = DesiredCapabilities.firefox();
+					}
+					
 				}
 				// Internet explorer
 				else if (getBrowserUnderTest().equalsIgnoreCase("IE")
