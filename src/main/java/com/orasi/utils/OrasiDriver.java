@@ -751,6 +751,7 @@ public class OrasiDriver implements WebDriver, JavaScriptExecutor, TakesScreensh
 			}
 			
 			break;
+		case "iexplore":
 		case "internet explorer":
 		case "ie":
 			driver = new InternetExplorerDriver(caps);

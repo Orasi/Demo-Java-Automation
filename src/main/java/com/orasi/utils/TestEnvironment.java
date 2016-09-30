@@ -446,31 +446,33 @@ public class TestEnvironment {
 		
 		switch (browserUnderTest.toLowerCase().trim()) {
 		case "firefox":
-			
+			caps = DesiredCapabilities.firefox();
 			//For firefox versions greater than 46, will need to use the marionette/gecko driver
-			if (browserVersion == null || Integer.parseInt(browserVersion) > 46 )  {
+			if (browserVersion.isEmpty() || Integer.parseInt(browserVersion) > 46 )  {
 				file = new File(
 						this.getClass().getResource(Constants.DRIVERS_PATH_LOCAL + "geckodriver.exe").getPath());
 				System.setProperty("webdriver.gecko.driver", file.getAbsolutePath());
+				caps.setCapability("marionette", true);
 			}
-			caps = DesiredCapabilities.firefox();
+			
 			break;
 
 		case "ie":
 		case "internet explorer":
+		case "iexplore":
+			caps = DesiredCapabilities.internetExplorer();
 			caps.setCapability("ignoreZoomSetting", true);
 			caps.setCapability("enablePersistentHover", false);
 			file = new File(
 					this.getClass().getResource(Constants.DRIVERS_PATH_LOCAL + "IEDriverServer.exe").getPath());
 			System.setProperty("webdriver.ie.driver", file.getAbsolutePath());
-			caps = DesiredCapabilities.internetExplorer();
 			break;
 			
 		case "microsoftedge":
+			caps = DesiredCapabilities.edge();
 			file = new File(this.getClass().getResource(Constants.DRIVERS_PATH_LOCAL + "MicrosoftWebDriver.exe")
 					.getPath());
 			System.setProperty("webdriver.edge.driver", file.getAbsolutePath());
-			caps = DesiredCapabilities.edge();
 			break;
 			
 		case "chrome":
@@ -489,7 +491,6 @@ public class TestEnvironment {
 					Process proc = Runtime.getRuntime()
 							.exec(new String[] { "/bin/bash", "-c", "chmod 777 " + file.getAbsolutePath() });
 					proc.waitFor();
-					caps = DesiredCapabilities.chrome();
 
 				} catch (IllegalStateException ise) {
 					ise.printStackTrace();
@@ -525,14 +526,21 @@ public class TestEnvironment {
 		//Browser
 		caps.setCapability(CapabilityType.BROWSER_NAME, browserUnderTest);
 		//Browser version
-		if (browserVersion != null) {
+		if (!browserVersion.isEmpty()) {
 			caps.setCapability(CapabilityType.VERSION, browserVersion);
+		}
+		//gecko/firefox
+		if (browserUnderTest.equalsIgnoreCase("firefox")){
+			if (browserVersion.isEmpty() || Integer.parseInt(browserVersion) > 46 ) {
+				caps.setCapability("marionette", true);
+			}
+	
 		}
 		//Operating System
 		caps.setCapability(CapabilityType.PLATFORM, getGridPlatformByOS(operatingSystem));
 		//IE specific capabilities
 		if (browserUnderTest.toLowerCase().contains("ie")
-				|| browserUnderTest.toLowerCase().contains("iexplore")) {
+				|| browserUnderTest.toLowerCase().contains("iexplore") || browserUnderTest.equalsIgnoreCase("internet explorer")) {
 			caps.setCapability("ignoreZoomSetting", true);
 		}
 		caps.setCapability("name", testName);
