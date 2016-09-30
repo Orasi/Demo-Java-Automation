@@ -540,7 +540,7 @@ public class TestEnvironment {
 		caps.setCapability(CapabilityType.PLATFORM, getGridPlatformByOS(operatingSystem));
 		//IE specific capabilities
 		if (browserUnderTest.toLowerCase().contains("ie")
-				|| browserUnderTest.toLowerCase().contains("iexplore")) {
+				|| browserUnderTest.toLowerCase().contains("iexplore") || browserUnderTest.equalsIgnoreCase("internet explorer")) {
 			caps.setCapability("ignoreZoomSetting", true);
 		}
 		caps.setCapability("name", testName);
