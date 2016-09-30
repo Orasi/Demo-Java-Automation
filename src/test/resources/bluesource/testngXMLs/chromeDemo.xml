@@ -8,9 +8,9 @@
 	<test name="Chrome">
 		<parameter name="browserUnderTest" value="chrome" />
 		<parameter name="environment" value="qa" />
-		<parameter name="runLocation" value="sauce" />
+		<parameter name="runLocation" value="grid" />
 		<parameter name="browserVersion" value="" />
-		<parameter name="operatingSystem" value="Windows 7" />
+		<parameter name="operatingSystem" value="WINDOWS" />
 		<groups>
 			<run>
 				<include name="demo" />		

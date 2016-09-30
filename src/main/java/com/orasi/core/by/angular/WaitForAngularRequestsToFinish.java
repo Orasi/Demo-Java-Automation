@@ -4,18 +4,14 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 
 import com.orasi.utils.OrasiDriver;
-import com.orasi.utils.TestEnvironment;
 
 /*
  * Original Code from https://github.com/paul-hammant/ngWebDriver
  */
 
-public class WaitForAngularRequestsToFinish extends TestEnvironment {
+public class WaitForAngularRequestsToFinish  {
 
-    public WaitForAngularRequestsToFinish(TestEnvironment te) {
-		super(te);
-		// TODO Auto-generated constructor stub
-	}
+
 
 	public static void waitForAngularRequestsToFinish(WebDriver driver) {
 		if(driver instanceof OrasiDriver) {
