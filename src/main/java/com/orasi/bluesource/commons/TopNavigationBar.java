@@ -51,44 +51,44 @@ public class TopNavigationBar {
 	// ***Page Interactions ***
 	// *****************************************
 
-	@Step("And I click the \"Admin Link\"")
+	@Step("Click the \"Admin Link\"")
 	public void clickAdminLink(){
 		lnkAdminDrop.click();
 	}
 	
-	@Step("And I navigate to the \"Departments Page\"")
+	@Step("Navigate to the \"Departments Page\"")
 	public void clickDepartmentsLink(){
 		lnkDept.click();
 	}
 	
-	@Step("And I navigate to the \"Titles Page\"")
+	@Step("Navigate to the \"Titles Page\"")
 	public void clickTitlesLink(){
 		lnkTitle.click();
 	}
 	
-	@Step("And I navigate to the \"Directory Page\"")
+	@Step("Navigate to the \"Directory Page\"")
 	public void clickDirectoryLink(){
 		lnkDirectory.click();
 	}
 	
-	@Step("And I navigate to the \"Projects Page\"")
+	@Step("Navigate to the \"Projects Page\"")
 	public void clickProjectsLink(){
 		lnkProjects.click();
 	}
 	
-	@Step("And I navigate to the \"Employees Page\"")
+	@Step("Navigate to the \"Employees Page\"")
 	public void clickEmployeesLink(){
 		lnkEmployees.click();
 	}
 	//Verify logout link is displayed
-	@Step("And I log in successfully")
+	@Step("Verify user is logged in successfully")
 	public boolean isLoggedIn(){
 		return lnkLogout.syncVisible();
 	}
 	
 	
 	//Click logout
-	//@Step("And I Log Out")
+	@Step("Logout of application")
 	public void clickLogout(){
 		lnkLogout.click();
 	}

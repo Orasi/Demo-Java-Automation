@@ -3,6 +3,7 @@ package com.orasi.core.interfaces.impl.internal;
 import com.orasi.core.interfaces.Element;
 import com.orasi.utils.Constants;
 import com.orasi.utils.OrasiDriver;
+import com.orasi.utils.TestReporter;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriverException;
@@ -93,7 +94,9 @@ public class ElementHandler  implements InvocationHandler {
         Constructor cons = wrappingType.getConstructor(OrasiDriver.class, By.class);
         Object thing = cons.newInstance(driver, by);
         try {
-            return method.invoke(wrappingType.cast(thing), objects);
+        	Object invoke = method.invoke(wrappingType.cast(thing), objects);
+            return invoke;
+
         } catch (InvocationTargetException e) {
             // Unwrap the underlying exception
             throw e.getCause();

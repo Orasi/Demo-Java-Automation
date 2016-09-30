@@ -5,6 +5,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -54,12 +55,12 @@ public class ListingDepartmentsPage {
 	//Methods
 	
 	//click add dept link
-	@Step("And I click the \"New Department\" link")
+	@Step("Click the \"New Department\" link")
 	public void clickAddDeptLink(){
 		lnkAddDept.click();
 	}
 	
-	@Step("And I click the \"Add Subdepartment\" link for Department \"{0}\"")
+	@Step("Click the \"Add Subdepartment\" link for Department \"{0}\"")
 	public void clickAddSubDepartment(String parentDepartment){
 	    getDepartmentElement(parentDepartment).findElement(addSubDepartment).click();
 	}
@@ -69,27 +70,37 @@ public class ListingDepartmentsPage {
 	}
 	
 	//return if the success message is displayed
-	@Step("Then an alert should appear for conformation")
+	@Step("An alert should appear for conformation")
 	public boolean isSuccessMsgDisplayed(){
 		return lblSuccessMsg.isDisplayed();
 	}
 	
 	//search page for a dept, return if displayed
-	@Step("And the department \"{0}\" should be found on the Titles table")
+	@Step("The department \"{0}\" should be found on the Titles table")
 	public boolean searchTableByDept(String departmentName){
 	    if (getDepartmentElement(departmentName) != null) return true;
 	    return false;
 	}
 	
-	@Step("And I click the \"Edit\" icon on the row for department \"{0}\"")
+	@Step("Click the \"Edit\" icon on the row for department \"{0}\"")
 	public void clickModifyDepartment(String departmentName){
 	    getDepartmentElement(departmentName).findElement(editIcon).click();
 	}
 	
-	@Step("And I can delete the department from the table")
-	public void deleteDepartment(String departmentName){
-	    getDepartmentElement(departmentName).findElement(deleteIcon).click();
-	    AlertHandler.handleAllAlerts(driver, 1);
+	@Step("Delete the department from the table")
+	public void deleteDepartment(String departmentName, String browser){
+		//8/15/2016 Safari driver does not currently handle modal alerts.  This is a work around to accept the alert
+		// see issue in github for details: https://github.com/seleniumhq/selenium-google-code-issue-archive/issues/3862
+		if (browser.equalsIgnoreCase("safari")){
+			driver.executeJavaScript("confirm = function(message){return true;};");
+			driver.executeJavaScript("alert = function(message){return true;};");
+			driver.executeJavaScript("prompt = function(message){return true;}");
+			getDepartmentElement(departmentName).findElement(deleteIcon).click();
+		} else {
+		    getDepartmentElement(departmentName).findElement(deleteIcon).click();
+		    AlertHandler.handleAllAlerts(driver, 1);
+		}
+
 	}
 	
 	
@@ -97,7 +108,7 @@ public class ListingDepartmentsPage {
 	    return isSubdepartment(departmentName, parentDepartmentName, true);
 	}
 	
-	@Step("Then the department \"{0}\" is a subdepartment of \"{1}\"")
+	@Step("The department \"{0}\" is a subdepartment of \"{1}\"")
 	public boolean isSubdepartment( String departmentName, String parentDepartmentName, boolean isDirect){
 	    int positionOffset = 20;
 	    Element department = null;

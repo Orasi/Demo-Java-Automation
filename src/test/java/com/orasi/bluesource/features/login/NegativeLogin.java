@@ -53,18 +53,20 @@ public class NegativeLogin  extends TestEnvironment {
     @Title("Login - Login with incorrect information")
     @Test(dataProvider = "negativeDataScenario", groups = { "regression", "login" })
     public void testFailedLogin(@Parameter String testScenario, @Parameter String role) {
+    	
+    	TestReporter.logScenario("This test attempts to login to bluesource with incorrect credentials & verifies user is not logged in");
+		testName = "TestNegativeLogin_"+ getBrowserUnderTest() + "_" + getOperatingSystem();
 	
-	testName = new Object() {
-	}.getClass().getEnclosingMethod().getName();
-
-	testStart(testName);
-	driver = getDriver();
-	// Login
-	TestReporter.log("Login to Bluesource with incorrect information");
-	LoginPage loginPage = new LoginPage(getDriver());
-	TestReporter.assertTrue(loginPage.pageLoaded(),"Verify login page is displayed");
-	loginPage.login(role);
-	TestReporter.assertTrue(loginPage.isNotLoggedIn(), "Validate the user did not log in successfully");
+		testStart(testName);
+		driver = getDriver();
+		
+		// Login
+		TestReporter.logStep("Login to Bluesource with incorrect information");
+		LoginPage loginPage = new LoginPage(getDriver());
+		TestReporter.assertTrue(loginPage.pageLoaded(),"Verify login page is displayed");
+		loginPage.login(role);
+		TestReporter.logStep("Validate the user did not log in successfully");
+		TestReporter.assertTrue(loginPage.isNotLoggedIn(), "Validate the user did not log in successfully");
 
     }
 }

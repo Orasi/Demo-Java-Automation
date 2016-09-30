@@ -36,12 +36,12 @@ public class ManageTitlePage {
 
 	
 	//method to create a new title
-	@Step("When I create the new title \"{0}\"")
+	@Step("Create the new title \"{0}\"")
 	public void createNewTitle(@Parameter String newTitle){
 	    enterTitleName(newTitle);
 	}
 
-	@Step("When I modify the title \"{0}\"")
+	@Step("Modify the title \"{0}\"")
 	public void modifyTitle(@Parameter String title){
 	    enterTitleName(title);
 	}

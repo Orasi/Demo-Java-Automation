@@ -60,7 +60,7 @@ public class EmployeeCRUD  extends TestEnvironment {
     @Stories("I can create a new Employee")
     @Severity(SeverityLevel.BLOCKER)
     @Title("Manage Employees - Create Employee")
-    @Test(dataProvider = "dataScenario", groups = { "demo", "regression", "manageEmployees", "employeeCRUD", "qaOnly"  })
+    @Test(dataProvider = "dataScenario", groups = {"regression", "manageEmployees", "employeeCRUD", "qaOnly"  })
     public void testAddEmployee(@Parameter String testScenario, @Parameter String role) {
 
 	testStart("testAddEmployee");
@@ -99,7 +99,7 @@ public class EmployeeCRUD  extends TestEnvironment {
     @Stories("I can see an Employee's General Info after creating Employee")
     @Severity(SeverityLevel.NORMAL)
     @Title("Manage Employees - View Employee Summary")
-    @Test(groups = { "demo", "regression", "manageEmployees", "employeeCRUD", "qaOnly" },
+    @Test(groups = { "regression", "manageEmployees", "employeeCRUD", "qaOnly" },
     	  dependsOnMethods = {"testAddEmployee"})
     public void testViewEmployeeGeneralInfo() {
 	EmployeesPage employeesPage = new EmployeesPage( getDriver());
@@ -116,7 +116,7 @@ public class EmployeeCRUD  extends TestEnvironment {
     @Stories("I can Modify an Employee's General Info and view changes")
     @Severity(SeverityLevel.MINOR)
     @Title("Manage Employees Employeesmployees - Modify Employee Information")
-    @Test(groups = { "demo", "regression", "manageEmployees", "employeeCRUD", "qaOnly" },
+    @Test(groups = {"regression", "manageEmployees", "employeeCRUD", "qaOnly" },
     	  dependsOnMethods = {"testViewEmployeeGeneralInfo"})
     public void testModifyEmployeeGeneralInfo() {
 	EmployeeSummaryPage summary = new EmployeeSummaryPage( getDriver());
@@ -136,7 +136,7 @@ public class EmployeeCRUD  extends TestEnvironment {
     @Stories("I can mark an Employee as Inactive")
     @Severity(SeverityLevel.MINOR)
     @Title("Manage Employees - Mark Employee Inactive")
-    @Test(groups = {"demo",  "regression", "manageEmployees", "employeeCRUD" , "qaOnly"},
+    @Test(groups = {"regression", "manageEmployees", "employeeCRUD" , "qaOnly"},
     	  dependsOnMethods = {"testModifyEmployeeGeneralInfo"})
     public void testDeactivateEmployee() {
 	EmployeeSummaryPage summary = new EmployeeSummaryPage( getDriver());

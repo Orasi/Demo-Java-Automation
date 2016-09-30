@@ -34,18 +34,18 @@ public class Login  extends TestEnvironment {
     @BeforeClass( alwaysRun=true)
     @Parameters({ "runLocation", "browserUnderTest", "browserVersion", "operatingSystem", "environment" })
     public void setup(String runLocation, String browserUnderTest, String browserVersion, String operatingSystem, String environment) {
-	setApplicationUnderTest("Bluesource");
-	setBrowserUnderTest(browserUnderTest);
-	setBrowserVersion(browserVersion);
-	setOperatingSystem(operatingSystem);
-	setRunLocation(runLocation);
-	setTestEnvironment(environment);
-	setThreadDriver(true);
+		setApplicationUnderTest("Bluesource");
+		setBrowserUnderTest(browserUnderTest);
+		setBrowserVersion(browserVersion);
+		setOperatingSystem(operatingSystem);
+		setRunLocation(runLocation);
+		setTestEnvironment(environment);
+		setThreadDriver(true);
     }
 
     @AfterMethod( alwaysRun=true)
     public void closeSession(ITestContext test) {
-	endTest(testName, test);
+    	endTest(testName, test);
     }    
 
     @Features("Login")
@@ -55,23 +55,25 @@ public class Login  extends TestEnvironment {
     @Test(dataProvider = "dataScenario", groups = { "regression" , "login" })
     public void testLogin(@Parameter String testScenario, @Parameter String role) {
 	
-	testName = new Object() {
-	}.getClass().getEnclosingMethod().getName();
-
-	testStart(testName);
-	driver =getDriver();
-	// Login
-	TestReporter.log("Login to Bluesource");
-	LoginPage loginPage = new LoginPage(getDriver());
-	TestReporter.assertTrue(loginPage.pageLoaded(),"Verify login page is displayed");
-	loginPage.login(role);
-
-	TestReporter.log("Verify successful login");
-	// Verify user is logged in
-	TopNavigationBar topNavigationBar = new TopNavigationBar(getDriver());
-	TestReporter.assertTrue(topNavigationBar.isLoggedIn(), "Validate the user logged in successfully");
-
-	// logout
-	topNavigationBar.clickLogout();
+	    testName = "Test Login_" + getBrowserUnderTest() + "_" + getOperatingSystem();
+	
+	    TestReporter.logScenario("This test logs into the Bluesource application by role & verifies the user was logged in successfully");
+		testStart(testName);
+		driver =getDriver();
+		
+		// Login
+		TestReporter.logStep("Login to Bluesource using role: [" + role + "]");
+		LoginPage loginPage = new LoginPage(getDriver());
+		TestReporter.assertTrue(loginPage.pageLoaded(),"Verify login page is displayed");
+		loginPage.login(role);
+	
+		TestReporter.logStep("Verify successful login");
+		// Verify user is logged in
+		TopNavigationBar topNavigationBar = new TopNavigationBar(getDriver());
+		TestReporter.assertTrue(topNavigationBar.isLoggedIn(), "Validate the user logged in successfully");
+	
+		// logout
+		TestReporter.logStep("Logout of application");
+		topNavigationBar.clickLogout();
     }
 }

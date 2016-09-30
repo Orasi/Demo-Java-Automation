@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Bluesource_demo" parallel= "tests" thread-count="10">
+	<listeners>
+		<listener class-name="com.orasi.utils.Screenshot" />
+	</listeners>
+
+<!-- Chrome Browser -->	
+	<test name="TestManageDepartments_Chrome_Windows 7">
+		<parameter name="browserUnderTest" value="chrome" />
+		<parameter name="environment" value="qa" />
+		<parameter name="runLocation" value="sauce" />
+		<parameter name="browserVersion" value="" />
+		<parameter name="operatingSystem" value="VISTA" />
+		<classes>
+			<class name="com.orasi.bluesource.features.manageDepartments.TestManageDepartments"/>
+		</classes>
+	</test> <!-- Test -->
+	
+		<test name="TestManageTitles_Chrome_Windows 7">
+		<parameter name="browserUnderTest" value="chrome" />
+		<parameter name="environment" value="qa" />
+		<parameter name="runLocation" value="sauce" />
+		<parameter name="browserVersion" value="" />
+		<parameter name="operatingSystem" value="VISTA" />
+		<classes>
+			<class name="com.orasi.bluesource.features.manageTitles.TestManageTitles"/>
+		</classes>
+	</test> <!-- Test -->
+	
+		<test name="TestLogin_Chrome_Windows 7">
+		<parameter name="browserUnderTest" value="chrome" />
+		<parameter name="environment" value="qa" />
+		<parameter name="runLocation" value="sauce" />
+		<parameter name="browserVersion" value="" />
+		<parameter name="operatingSystem" value="VISTA" />
+		<classes>
+			<class name="com.orasi.bluesource.features.login.Login" />
+		</classes>
+	</test> <!-- Test -->
+	
+		<test name="TestNegativeLogin_Chrome_Windows 7">
+		<parameter name="browserUnderTest" value="chrome" />
+		<parameter name="environment" value="qa" />
+		<parameter name="runLocation" value="sauce" />
+		<parameter name="browserVersion" value="" />
+		<parameter name="operatingSystem" value="VISTA" />
+		<classes>
+			<class name="com.orasi.bluesource.features.login.NegativeLogin" />
+		</classes>
+	</test> <!-- Test -->
+	
+
+<!-- Firefox Browser -->		
+	<test name="TestManageDepartments_Firefox_Windows 7">
+		<parameter name="browserUnderTest" value="firefox" />
+		<parameter name="environment" value="qa" />
+		<parameter name="runLocation" value="sauce" />
+		<parameter name="browserVersion" value="45" />
+		<parameter name="operatingSystem" value="VISTA" />
+		<classes>
+			<class name="com.orasi.bluesource.features.manageDepartments.TestManageDepartments"/>
+		</classes>
+	</test> <!-- Test -->
+	
+		<test name="TestManageTitles_Firefox_Windows 7">
+		<parameter name="browserUnderTest" value="firefox" />
+		<parameter name="environment" value="qa" />
+		<parameter name="runLocation" value="sauce" />
+		<parameter name="browserVersion" value="45" />
+		<parameter name="operatingSystem" value="VISTA" />
+		<classes>
+			<class name="com.orasi.bluesource.features.manageTitles.TestManageTitles"/>
+		</classes>
+	</test> <!-- Test -->
+	
+	<test name="TestLogin_Firefox_Windows 7">
+		<parameter name="browserUnderTest" value="firefox" />
+		<parameter name="environment" value="qa" />
+		<parameter name="runLocation" value="sauce" />
+		<parameter name="browserVersion" value="45" />
+		<parameter name="operatingSystem" value="VISTA" />
+		<classes>
+			<class name="com.orasi.bluesource.features.login.Login" />
+		</classes>
+	</test> <!-- Test -->
+	
+	<test name="TestNegativeLogin_Firefox_Windows 7">
+		<parameter name="browserUnderTest" value="firefox" />
+		<parameter name="environment" value="qa" />
+		<parameter name="runLocation" value="sauce" />
+		<parameter name="browserVersion" value="45" />
+		<parameter name="operatingSystem" value="VISTA" />
+		<classes>
+			<class name="com.orasi.bluesource.features.login.NegativeLogin" />
+		</classes>
+	</test> <!-- Test -->
+
+
+<!-- IE 11 Browser -->		
+	<test name="TestManageDepartments_Internet Explorer 11_Windows 7">
+		<parameter name="browserUnderTest" value="iexplore" />
+		<parameter name="environment" value="qa" />
+		<parameter name="runLocation" value="sauce" />
+		<parameter name="browserVersion" value="11" />
+		<parameter name="operatingSystem" value="VISTA" />
+		<classes>
+			<class name="com.orasi.bluesource.features.manageDepartments.TestManageDepartments"/>
+		</classes>
+	</test> <!-- Test -->
+	
+		<test name="TestManageTitles_Internet Explorer 11_Windows 7">
+		<parameter name="browserUnderTest" value="iexplore" />
+		<parameter name="environment" value="qa" />
+		<parameter name="runLocation" value="sauce" />
+		<parameter name="browserVersion" value="11" />
+		<parameter name="operatingSystem" value="VISTA" />
+		<classes>
+			<class name="com.orasi.bluesource.features.manageTitles.TestManageTitles"/>
+		</classes>
+	</test> <!-- Test -->
+	
+		<test name="TestLogin_Internet Explorer 11_Windows 7">
+		<parameter name="browserUnderTest" value="iexplore" />
+		<parameter name="environment" value="qa" />
+		<parameter name="runLocation" value="sauce" />
+		<parameter name="browserVersion" value="11" />
+		<parameter name="operatingSystem" value="VISTA" />
+		<classes>
+			<class name="com.orasi.bluesource.features.login.Login" />
+		</classes>
+	</test> <!-- Test -->
+	
+		<test name="TestNegativeLogin_Internet Explorer 11_Windows 7">
+		<parameter name="browserUnderTest" value="iexplore" />
+		<parameter name="environment" value="qa" />
+		<parameter name="runLocation" value="sauce" />
+		<parameter name="browserVersion" value="11" />
+		<parameter name="operatingSystem" value="VISTA" />
+		<classes>
+			<class name="com.orasi.bluesource.features.login.NegativeLogin" />
+		</classes>
+	</test> <!-- Test -->
+
+
+<!-- Safari Browser -->	
+	
+		<test name="TestNegativeLogin_Mac_OS_X_10_11_Safari_9">
+		<parameter name="browserUnderTest" value="safari" />
+		<parameter name="environment" value="qa" />
+		<parameter name="runLocation" value="sauce" />
+		<parameter name="browserVersion" value="9.0" />
+		<parameter name="operatingSystem" value="MAC OS X 10.11" />
+		<classes>
+			<class name="com.orasi.bluesource.features.login.NegativeLogin" />
+		</classes>
+	</test> <!-- Test -->
+	
+		<test name="TestLogin_Mac_OS_X_10_11_Safari_9">
+		<parameter name="browserUnderTest" value="safari" />
+		<parameter name="environment" value="qa" />
+		<parameter name="runLocation" value="sauce" />
+		<parameter name="browserVersion" value="9.0" />
+		<parameter name="operatingSystem" value="MAC OS X 10.11" />
+		<classes>
+			<class name="com.orasi.bluesource.features.login.Login" />
+		</classes>
+	</test> <!-- Test -->
+	
+
+	<test name="Failed test example">
+		<parameter name="browserUnderTest" value="safari" />
+		<parameter name="environment" value="qa" />
+		<parameter name="runLocation" value="sauce" />
+		<parameter name="browserVersion" value="9.0" />
+		<parameter name="operatingSystem" value="MAC OS X 10.11" />
+		<classes>
+			<class name="com.orasi.bluesource.demo.FailedTest" />
+		</classes>
+	</test> <!-- Test -->
+	
+		<test name="Rest services test example">
+		<parameter name="browserUnderTest" value="safari" />
+		<parameter name="environment" value="qa" />
+		<parameter name="runLocation" value="sauce" />
+		<parameter name="browserVersion" value="9.0" />
+		<parameter name="operatingSystem" value="MAC OS X 10.11" />
+		<classes>
+			<class name="com.orasi.bluesource.api.TestEmployee" />
+		</classes>
+	</test> <!-- Test -->
+	
+	
+
+</suite> <!-- Suite -->

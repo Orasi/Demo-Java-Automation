@@ -10,6 +10,8 @@ import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import org.testng.Reporter;
 
+import ru.yandex.qatools.allure.annotations.Step;
+
 import com.orasi.utils.date.SimpleDate;
 
 public class TestReporter {
@@ -203,24 +205,32 @@ public class TestReporter {
    	if(getPrintToConsole()) System.out.println(getTimestamp() + "Assert Not Null - " + trimHtml(description));
        }
     
-    public static void logScreenshot(WebDriver driver, String fileLocation, String slash, String runLocation) {
-	File file = new File("");
-
-	try {
-		file = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-		FileUtils.copyFile(file, new File(fileLocation));
-	} catch (IOException e) {
-		e.printStackTrace();
-	} catch (Exception e) {
-		e.printStackTrace();
-	}
-	if(runLocation.equalsIgnoreCase("remote")){
-		fileLocation = fileLocation.replace("/var/lib/jenkins/jobs/OpenSandbox/jobs/Toyota-SauceLabs/workspace/", "job/OpenSandbox/job/Toyota-SauceLabs/ws/");
-		//fileLocation = fileLocation.replace("/var/lib/jenkins/jobs/OpenSandbox/jobs/Toyota-SauceLabs/workspace/", "job/OpenSandbox/job/Toyota-SauceLabs/230/testngreports/toyota/TestAllSecondaryNavigations/");
-		Reporter.log("<a href='https://jenkins.orasi.com/" + fileLocation + "'>FAILED SCREENSHOT</a>");
-	}else{
-		TestReporter.log(fileLocation);
-		Reporter.log("<a href='" + fileLocation + "'> <img src='file:///" + fileLocation + "' height='200' width='300'/> </a>");
-	}
+    public static void logScreenshot(WebDriver driver, String fileLocation, String runLocation) {
+		File file = new File("");
+	
+		try {
+			file = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+			FileUtils.copyFile(file, new File(fileLocation));
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		if(runLocation.equalsIgnoreCase("remote") || runLocation.equalsIgnoreCase("sauce")){
+			fileLocation = fileLocation.replace("/var/lib/jenkins/jobs/OpenSandbox/jobs/Demo_JavaAutomation/workspace/", "job/OpenSandbox/job/Demo_JavaAutomation/ws/");
+			//fileLocation = fileLocation.replace("/var/lib/jenkins/jobs/OpenSandbox/jobs/Toyota-SauceLabs/workspace/", "job/OpenSandbox/job/Toyota-SauceLabs/230/testngreports/toyota/TestAllSecondaryNavigations/");
+			Reporter.log("<a href='https://jenkins.orasi.com/" + fileLocation + "'>FAILED SCREENSHOT</a>");
+		}else{
+			TestReporter.log(fileLocation);
+			Reporter.log("<a href='" + fileLocation + "'> <img src='file:///" + fileLocation + "' height='200' width='300'/> </a>");
+		}
     }
+    
+	@Step("https://saucelabs.com/beta/tests/{0}")
+	public static void logVideo(String sessionId) {
+		Reporter.log("<br/>----------------------------------------------------------------------------------<br/>");
+		Reporter.log( "<b><a target='_blank' font size = 6 href='https://saucelabs.com/beta/tests/" + sessionId + "'>SAUCE LABS LINK</a></b><br/>" );
+		Reporter.log("----------------------------------------------------------------------------------<br/>");		
+	}
 }
+
