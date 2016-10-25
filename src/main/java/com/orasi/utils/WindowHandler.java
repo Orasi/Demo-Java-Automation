@@ -28,19 +28,26 @@ public class WindowHandler {
 	 * @return 	true/false
 	 */
 	public static boolean waitUntilWindowExistsWithTitle(WebDriver driver, String windowNameOrHandle, int timeoutInSeconds){
-
+		TestReporter.logTrace("Entering WindowHandler#waitUntilWindowExistsWithTitle");
 		//Adding for backwards compatibility for WebDriver
 		if(driver instanceof OrasiDriver){
+			TestReporter.logTrace("Driver is OrasiDriver, extracting information");
 			timeoutInSeconds = ((OrasiDriver)driver).getPageTimeout();
 			driver = ((OrasiDriver)driver).getWebDriver();
 		}
 		
 	    try{
+	    	TestReporter.logTrace("Initializing WebDriverWait with wait time of [ " + timeoutInSeconds + " ] seconds");
 	    	WebDriverWait wait = new WebDriverWait(driver, timeoutInSeconds);
+	    	TestReporter.logTrace("Calling findWindowWithTitleAndSwitchToIt(\"" + windowNameOrHandle + "\"");
 			wait.until(ExtendedExpectedConditions.findWindowWithTitleAndSwitchToIt(windowNameOrHandle));
+			TestReporter.logTrace("Successfully found Window with title of [ " + windowNameOrHandle + " ]");
 	    }catch(TimeoutException e){
+	    	TestReporter.logTrace("Failed to find Window with title of [ " + windowNameOrHandle + " ]");
+			TestReporter.logTrace("Exiting WindowHandler#waitUntilWindowExistsWithTitle");
 	    	return false;
 	    }
+	    TestReporter.logTrace("Exiting WindowHandler#waitUntilWindowExistsWithTitle");
 	    return true;
 	}
 	
@@ -65,19 +72,26 @@ public class WindowHandler {
 	 * @return 	true/false
 	 */
 	public static boolean waitUntilWindowExistsTitleContains(WebDriver driver, String windowNameOrHandle, int timeoutInSeconds){
-	
+		TestReporter.logTrace("Entering WindowHandler#waitUntilWindowExistsTitleContains");
 		//Adding for backwards compatibility for WebDriver
 		if(driver instanceof OrasiDriver){
+			TestReporter.logTrace("Driver is OrasiDriver, extracting information");
 			timeoutInSeconds = ((OrasiDriver)driver).getPageTimeout();
 			driver = ((OrasiDriver)driver).getWebDriver();
 		}
 		
 	    try{
+	    	TestReporter.logTrace("Initializing WebDriverWait with wait time of [ " + timeoutInSeconds + " ] seconds");
 			WebDriverWait wait = new WebDriverWait(driver, timeoutInSeconds);
+	    	TestReporter.logTrace("Calling findWindowContainsTitleAndSwitchToIt(\"" + windowNameOrHandle + "\"");
 			wait.until(ExtendedExpectedConditions.findWindowContainsTitleAndSwitchToIt(windowNameOrHandle));
+			TestReporter.logTrace("Successfully found Window with title of [ " + windowNameOrHandle + " ]");
 	    }catch(TimeoutException e){
+	    	TestReporter.logTrace("Failed to find Window with title of [ " + windowNameOrHandle + " ]");
+			TestReporter.logTrace("Entering Exiting#waitUntilWindowExistsTitleContains");
 	    	return false;
 	    }
+		TestReporter.logTrace("Entering Exiting#waitUntilWindowExistsTitleContains");
 	    return true;
 	}
 
@@ -102,19 +116,26 @@ public class WindowHandler {
 	 * @return 	true/false
 	 */
 	public static boolean waitUntilWindowExistsTitleMatches(WebDriver driver, String regex, int timeoutInSeconds){
-			
+		TestReporter.logTrace("Entering WindowHandler#waitUntilWindowExistsTitleMatches");			
 		//Adding for backwards compatibility for WebDriver
 		if(driver instanceof OrasiDriver){
+			TestReporter.logTrace("Driver is OrasiDriver, extracting information");
 			timeoutInSeconds = ((OrasiDriver)driver).getPageTimeout();
 			driver = ((OrasiDriver)driver).getWebDriver();
 		}
 		
 	    try{
+	    	TestReporter.logTrace("Initializing WebDriverWait with wait time of [ " + timeoutInSeconds + " ] seconds");
 	    	WebDriverWait wait = new WebDriverWait(driver, timeoutInSeconds);
+	    	TestReporter.logTrace("Calling findWindowMatchesTitleAndSwitchToIt(\"" + regex + "\"");
 	    	wait.until(ExtendedExpectedConditions.findWindowMatchesTitleAndSwitchToIt(regex));
+			TestReporter.logTrace("Successfully found Window with title of [ " + regex + " ]");
 	    }catch( TimeoutException e){
+	    	TestReporter.logTrace("Failed to find Window with title of [ " + regex + " ]");
+			TestReporter.logTrace("Entering Exiting#waitUntilWindowExistsTitleMatches");
 	    	return false;
 	    }
+		TestReporter.logTrace("Entering Exiting#waitUntilWindowExistsTitleMatches");
 	    return true;
 	}
 
@@ -137,18 +158,26 @@ public class WindowHandler {
 	 * @return 	true/false
 	 */
 	public static boolean waitUntilNumberOfWindowsAre(WebDriver driver, int expectedNumberOfWindows, int timeoutInSeconds){	
+		TestReporter.logTrace("Entering WindowHandler#waitUntilNumberOfWindowsAre");			
 		//Adding for backwards compatibility for WebDriver
 		if(driver instanceof OrasiDriver){
+			TestReporter.logTrace("Driver is OrasiDriver, extracting information");
 			timeoutInSeconds = ((OrasiDriver)driver).getPageTimeout();
 			driver = ((OrasiDriver)driver).getWebDriver();
 		}
 		
 		try{
+	    	TestReporter.logTrace("Initializing WebDriverWait with wait time of [ " + timeoutInSeconds + " ] seconds");
 			WebDriverWait wait = new WebDriverWait(driver, timeoutInSeconds);
+	    	TestReporter.logTrace("Calling numberOfWindowsToBe(\"" + expectedNumberOfWindows + "\"");
 			wait.until(ExpectedConditions.numberOfWindowsToBe(expectedNumberOfWindows));
+			TestReporter.logTrace("Successfully found number of windows to be [ " + expectedNumberOfWindows + " ]");
 		}catch(TimeoutException e){
+	    	TestReporter.logTrace("Failed to find number of windows to be [ " + expectedNumberOfWindows + " ]");
+			TestReporter.logTrace("Entering Exiting#waitUntilNumberOfWindowsAre");
 			return false;
 		}
+		TestReporter.logTrace("Entering Exiting#waitUntilNumberOfWindowsAre");
 		return true;
 	}
 }

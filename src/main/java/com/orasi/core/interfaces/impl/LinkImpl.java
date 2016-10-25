@@ -28,6 +28,7 @@ public class LinkImpl extends ElementImpl implements Link {
 
 	@Override
 	public void jsClick() {
+		TestReporter.logTrace("Entering LinkImpl#jsClick");
 
 		try {
 			getWrappedDriver().executeJavaScript(
@@ -39,11 +40,13 @@ public class LinkImpl extends ElementImpl implements Link {
 			throw rte;
 		}
 		TestReporter.interfaceLog(" Click Link [ <b>" + getElementLocatorInfo() + " </b> ]");
+		TestReporter.logTrace("Exiting CheckboxImpl#jsClick");
 
 	}
 
 	@Override
 	public void click() {
+		TestReporter.logTrace("Entering LinkImpl#click");
 		try {
 			getWrappedElement().click();
 		} catch (RuntimeException rte) {
@@ -51,11 +54,14 @@ public class LinkImpl extends ElementImpl implements Link {
 			throw rte;
 		}
 		TestReporter.interfaceLog(" Click Link [ <b>" + getElementLocatorInfo() + " </b> ]");
+		TestReporter.logTrace("Exiting LinkImpl#click");
 	}
 
 	@Override
 	public String getURL() {
-		return getWrappedElement().getAttribute("href");
+		TestReporter.logTrace("Entering LinkImpl#getURL");
+		String url = getWrappedElement().getAttribute("href");
+		TestReporter.logTrace("Exiting LinkImpl#getURL");
+		return url;
 	}
-
 }

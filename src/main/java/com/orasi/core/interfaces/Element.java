@@ -246,113 +246,93 @@ public interface Element extends WebElement, WrapsElement, Locatable {
 	public void scrollIntoView();
 
 	@Beta
+	@Override
 	public <X> X getScreenshotAs(OutputType<X> target);
 
 
 	/**
-	 * Used in conjunction with WebObjectPresent to determine if the desired
-	 * element is present in the DOM Will loop for the time out passed in
-	 * parameter timeout If object is not present within the time, handle error
-	 * based on returnError
-	 * 
+	 * Used to determine if the desired element is visible on the screen 
+	 * Will wait for default element timeout unless new timeout is passed in 
+	 * If object is not visible within the time, handle the error based default handler 
+	 * or by boolean passed in
+	 *
 	 * @author Justin
 	 * @param args
 	 *  		Optional arguments </br>
 	 *  		&nbsp;&nbsp;&nbsp;&nbsp;<b>timeout</b> - the maximum time in seconds the method should try to sync. Called 
-	 *  							 with syncTextInElement("text", 10)</br>
+	 *  							 with syncVisible(10)</br>
 	 *  		&nbsp;&nbsp;&nbsp;&nbsp;<b>failTestOnSyncFailure </b>- if TRUE, the test will throw an exception and 
 	 *  					fail the script. If FALSE, the script will 
 	 *  					not fail, instead a FALSE will be returned 
 	 *  					to the calling function. Called with 
-	 *  					syncTextInElement("text", 10, false)
-	 */
-	public boolean syncPresent(Object... args);
-
-	/**
-	 * Used in conjunction with WebObjectVisible to determine if the desired
-	 * element is visible on the screen Will loop for the time out passed in the
-	 * variable timeout If object is not visible within the time, handle the
-	 * error based on the boolean
-	 *
-	 * @author Justin
-	 *@param args
-	 *  		Optional arguments </br>
-	 *  		&nbsp;&nbsp;&nbsp;&nbsp;<b>timeout</b> - the maximum time in seconds the method should try to sync. Called 
-	 *  							 with syncTextInElement("text", 10)</br>
-	 *  		&nbsp;&nbsp;&nbsp;&nbsp;<b>failTestOnSyncFailure </b>- if TRUE, the test will throw an exception and 
-	 *  					fail the script. If FALSE, the script will 
-	 *  					not fail, instead a FALSE will be returned 
-	 *  					to the calling function. Called with 
-	 *  					syncTextInElement("text", 10, false)
+	 *  					syncVisible(10, false)
 	 */
 	public boolean syncVisible(Object... args);
 
 
 	/**
-	 * Used in conjunction with WebObjectVisible to determine if the desired
-	 * element is visible on the screen Will loop for the time out passed in the
-	 * variable timeout If object is not visible within the time, handle the
-	 * error based on the boolean
+	 * Used to determine if the desired element is hidden on the screen 
+	 * Will wait for default element timeout unless new timeout is passed in 
+	 * If object is not hidden within the time, handle the error based default handler 
+	 * or by boolean passed in
 	 * 
 	 * @author Justin
 	 * @param args
 	 *  		Optional arguments </br>
 	 *  		&nbsp;&nbsp;&nbsp;&nbsp;<b>timeout</b> - the maximum time in seconds the method should try to sync. Called 
-	 *  							 with syncTextInElement("text", 10)</br>
+	 *  							 with syncHidden(10)</br>
 	 *  		&nbsp;&nbsp;&nbsp;&nbsp;<b>failTestOnSyncFailure </b>- if TRUE, the test will throw an exception and 
 	 *  					fail the script. If FALSE, the script will 
 	 *  					not fail, instead a FALSE will be returned 
 	 *  					to the calling function. Called with 
-	 *  					syncTextInElement("text", 10, false)
+	 *  					syncHidden(10, false)
 	 */
 	public boolean syncHidden(Object... args);
 
 	/**
-	 * Used in conjunction with WebObjectEnabled to determine if the desired
-	 * element is enabled on the screen Will loop for the time out passed in the
-	 * variable timeout If object is not enabled within the time, handle the
-	 * error based on the boolean
+	 * Used to determine if the desired element is enabled on the screen 
+	 * Will wait for default element timeout unless new timeout is passed in 
+	 * If object is not enabled within the time, handle the error based default handler 
+	 * or by boolean passed in
 	 *
 	 * @author Justin
 	 * @param args
 	 *  		Optional arguments </br>
 	 *  		&nbsp;&nbsp;&nbsp;&nbsp;<b>timeout</b> - the maximum time in seconds the method should try to sync. Called 
-	 *  							 with syncTextInElement("text", 10)</br>
+	 *  							 with syncEnabled(10)</br>
 	 *  		&nbsp;&nbsp;&nbsp;&nbsp;<b>failTestOnSyncFailure </b>- if TRUE, the test will throw an exception and 
 	 *  					fail the script. If FALSE, the script will 
 	 *  					not fail, instead a FALSE will be returned 
 	 *  					to the calling function. Called with 
-	 *  					syncTextInElement("text", 10, false)
+	 *  					syncEnabled(10, false)
 	 */
 	public boolean syncEnabled( Object... args);
 
-	
-
 	/**
-	 * Used in conjunction with WebObjectDisabled to determine if the desired
-	 * element is disabled on the screen Will loop for the time out passed in
-	 * the variable timeout If object is not disabled within the time, handle
-	 * the error based on the boolean
+	 * Used to determine if the desired element is disabled on the screen 
+	 * Will wait for default element timeout unless new timeout is passed in 
+	 * If object is not disabled within the time, handle the error based default handler 
+	 * or by boolean passed in
 	 *
 	 * @author Justin
 	 * @param args
 	 *  		Optional arguments </br>
 	 *  		&nbsp;&nbsp;&nbsp;&nbsp;<b>timeout</b> - the maximum time in seconds the method should try to sync. Called 
-	 *  							 with syncTextInElement("text", 10)</br>
+	 *  							 with syncDisabled(10)</br>
 	 *  		&nbsp;&nbsp;&nbsp;&nbsp;<b>failTestOnSyncFailure </b>- if TRUE, the test will throw an exception and 
 	 *  					fail the script. If FALSE, the script will 
 	 *  					not fail, instead a FALSE will be returned 
 	 *  					to the calling function. Called with 
-	 *  					syncTextInElement("text", 10, false)
+	 *  					syncDisabled(10, false)
 	 */
 	public boolean syncDisabled( Object... args);
 
 	
 	/**
-	 * Used in conjunction with WebObjectText Present to determine if the
-	 * desired text is present in the desired element Will loop for the time out
-	 * passed in the variable timeout If text is not present within the time,
-	 * handle the error based on the boolean
+	 * Used to determine if the desired text is present in the desired element 
+	 * Will wait for default element timeout unless new timeout is passed in 
+	 * If text is not present within the time, handle the error based default handler 
+	 * or by boolean passed in
 	 *
 	 * @author Justin
 	 * @param text - Text to search for
@@ -369,31 +349,31 @@ public interface Element extends WebElement, WrapsElement, Locatable {
 	public boolean syncTextInElement(String text, Object... args);
 	
 	/**
-	 * Used in conjunction with WebObjectText Present to determine if the
-	 * desired text is present in the desired element Will loop for the time out
-	 * passed in the variable timeout If text is not present within the time,
-	 * handle the error based on the boolean
+	 * Used to determine if the desired text is present in the desired element 
+	 * Will wait for default element timeout unless new timeout is passed in 
+	 * If text is not present within the time, handle the error based default handler 
+	 * or by boolean passed in
 	 *
 	 * @author Justin
 	 * @param regex (Required) The regular expression that should match to text the element should contain in either its text or 'value' attribute
 	 * @param args
 	 *  		Optional arguments </br>
 	 *  		&nbsp;&nbsp;&nbsp;&nbsp;<b>timeout</b> - the maximum time in seconds the method should try to sync. Called 
-	 *  							 with syncTextInElement("text", 10)</br>
+	 *  							 with syncTextMatchesInElement("text", 10)</br>
 	 *  		&nbsp;&nbsp;&nbsp;&nbsp;<b>failTestOnSyncFailure </b>- if TRUE, the test will throw an exception and 
 	 *  					fail the script. If FALSE, the script will 
 	 *  					not fail, instead a FALSE will be returned 
 	 *  					to the calling function. Called with 
-	 *  					syncTextInElement("text", 10, false)
+	 *  					syncTextMatchesInElement("text", 10, false)
 	 */
 	public boolean syncTextMatchesInElement(String regex, Object... args);
 	
 
 	/**
-	 * Used in conjunction with WebObjectText Present to determine if the
-	 * desired text is present in the desired element Will loop for the time out
-	 * passed in the variable timeout If text is not present within the time,
-	 * handle the error based on the boolean
+	 * Used to determine if the desired text is present in the desired attribute of Element
+	 * Will wait for default element timeout unless new timeout is passed in 
+	 * If value is not present within the time, handle the error based default handler 
+	 * or by boolean passed in
 	 *
 	 * @author Justin
 	 * @param attribute (Required) - Element attribute to view
@@ -401,20 +381,20 @@ public interface Element extends WebElement, WrapsElement, Locatable {
 	 * @param args
 	 *  		Optional arguments </br>
 	 *  		&nbsp;&nbsp;&nbsp;&nbsp;<b>timeout</b> - the maximum time in seconds the method should try to sync. Called 
-	 *  							 with syncTextInElement("text", 10)</br>
+	 *  							 with syncAttributeContainsValue("attribute, "value", 10)</br>
 	 *  		&nbsp;&nbsp;&nbsp;&nbsp;<b>failTestOnSyncFailure </b>- if TRUE, the test will throw an exception and 
 	 *  					fail the script. If FALSE, the script will 
 	 *  					not fail, instead a FALSE will be returned 
 	 *  					to the calling function. Called with 
-	 *  					syncTextInElement("text", 10, false)
+	 *  					syncAttributeContainsValue("attribute", "value", 10, false)
 	 */
 	public boolean syncAttributeContainsValue(String attribute, String value, Object... args);
 
 	/**
-	 * Used in conjunction with WebObjectText Present to determine if the
-	 * desired text is present in the desired element Will loop for the time out
-	 * passed in the variable timeout If text is not present within the time,
-	 * handle the error based on the boolean
+	 * Used to determine if the desired text is present in the desired attribute of Element
+	 * Will wait for default element timeout unless new timeout is passed in 
+	 * If value is not present within the time, handle the error based default handler 
+	 * or by boolean passed in
 	 *
 	 * @author Justin
 	 * @param attribute (Required) - Element attribute to view
@@ -422,20 +402,20 @@ public interface Element extends WebElement, WrapsElement, Locatable {
 	 * @param args
 	 *  		Optional arguments </br>
 	 *  		&nbsp;&nbsp;&nbsp;&nbsp;<b>timeout</b> - the maximum time in seconds the method should try to sync. Called 
-	 *  							 with syncTextInElement("text", 10)</br>
+	 *  							 with syncAttributeMatchesValue("attribute", "regex", 10)</br>
 	 *  		&nbsp;&nbsp;&nbsp;&nbsp;<b>failTestOnSyncFailure </b>- if TRUE, the test will throw an exception and 
 	 *  					fail the script. If FALSE, the script will 
 	 *  					not fail, instead a FALSE will be returned 
 	 *  					to the calling function. Called with 
-	 *  					syncTextInElement("text", 10, false)
+	 *  					syncAttributeMatchesValue("attribute", "regex", 10, false)
 	 */
 	public boolean syncAttributeMatchesValue(String attribute, String regex, Object... args);
 	
 	/**
-	 * Used in conjunction with WebObjectText Present to determine if the
-	 * desired text is present in the desired element Will loop for the time out
-	 * passed in the variable timeout If text is not present within the time,
-	 * handle the error based on the boolean
+	 * Used to determine if the desired text is present in the desired CSS Property of Element
+	 * Will wait for default element timeout unless new timeout is passed in 
+	 * If value is not present within the time, handle the error based default handler 
+	 * or by boolean passed in
 	 *
 	 * @author Justin
 	 * @param cssProperty (Required) - Element CSS Property to match
@@ -443,20 +423,20 @@ public interface Element extends WebElement, WrapsElement, Locatable {
 	 * @param args
 	 *  		Optional arguments </br>
 	 *  		&nbsp;&nbsp;&nbsp;&nbsp;<b>timeout</b> - the maximum time in seconds the method should try to sync. Called 
-	 *  							 with syncTextInElement("text", 10)</br>
+	 *  							 with syncCssPropertyContainsValue("property", "value", 10)</br>
 	 *  		&nbsp;&nbsp;&nbsp;&nbsp;<b>failTestOnSyncFailure </b>- if TRUE, the test will throw an exception and 
 	 *  					fail the script. If FALSE, the script will 
 	 *  					not fail, instead a FALSE will be returned 
 	 *  					to the calling function. Called with 
-	 *  					syncTextInElement("text", 10, false)
+	 *  					syncCssPropertyContainsValue("property", "value", 10, false)
 	 */
 	public boolean syncCssPropertyContainsValue(String cssProperty, String value, Object... args);
 
 	/**
-	 * Used in conjunction with WebObjectText Present to determine if the
-	 * desired text is present in the desired element Will loop for the time out
-	 * passed in the variable timeout If text is not present within the time,
-	 * handle the error based on the boolean
+	 * Used to determine if the desired text is present in the desired CSS Property of Element
+	 * Will wait for default element timeout unless new timeout is passed in 
+	 * If value is not present within the time, handle the error based default handler 
+	 * or by boolean passed in
 	 *
 	 * @author Justin
 	 * @param cssProperty (Required) - Element CSS Property to match
@@ -464,12 +444,12 @@ public interface Element extends WebElement, WrapsElement, Locatable {
 	 * @param args
 	 *  		Optional arguments </br>
 	 *  		&nbsp;&nbsp;&nbsp;&nbsp;<b>timeout</b> - the maximum time in seconds the method should try to sync. Called 
-	 *  							 with syncTextInElement("text", 10)</br>
+	 *  							 with syncCssPropertyMatchesValue("property", "value", 10)</br>
 	 *  		&nbsp;&nbsp;&nbsp;&nbsp;<b>failTestOnSyncFailure </b>- if TRUE, the test will throw an exception and 
 	 *  					fail the script. If FALSE, the script will 
 	 *  					not fail, instead a FALSE will be returned 
 	 *  					to the calling function. Called with 
-	 *  					syncTextInElement("text", 10, false)
+	 *  					syncCssPropertyMatchesValue("property", "value", 10, false)
 	 */
 	public boolean syncCssPropertyMatchesValue(String cssProperty, String regex, Object... args);
 	

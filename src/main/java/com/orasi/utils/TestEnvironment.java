@@ -111,7 +111,12 @@ public class TestEnvironment {
 	 */
 	public TestEnvironment(String application, String browserUnderTest, String browserVersion, String operatingSystem,
 			String runLocation, String environment) {
-		
+		TestReporter.log(String.format("Initializing test... \n Application: '%s'\n Browser: '%s'\n Browser Version: '%s'\n OS: '%s'\n Testing Environment: '%s'",
+				application,
+				browserUnderTest,
+				browserVersion,
+				operatingSystem,			
+				environment));
 		
 		this.applicationUnderTest = application;
 		this.environment = environment;
@@ -476,10 +481,10 @@ public class TestEnvironment {
 			break;
 			
 		case "chrome":
+			caps = DesiredCapabilities.chrome();
 			file = new File(
 					this.getClass().getResource(Constants.DRIVERS_PATH_LOCAL + "ChromeDriver.exe").getPath());
 			System.setProperty("webdriver.chrome.driver", file.getAbsolutePath());
-			caps = DesiredCapabilities.chrome();
 			//Mac operating system with chrome browser
 			if (operatingSystem.equalsIgnoreCase("mac")){
 				file = new File(

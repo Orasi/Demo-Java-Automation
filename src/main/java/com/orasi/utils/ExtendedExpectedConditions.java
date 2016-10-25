@@ -261,16 +261,20 @@ public class ExtendedExpectedConditions {
 		  @Override
 		  public Boolean apply(WebDriver driver) {
 			  try {
-				  Point location = element.getLocation();
-
+				  Point location = element.getLocation();			
 				  Dimension size = element.getSize();
 				  if ((location.getX() > 0 & location.getY() > 0) | (size.getHeight() > 0 & size.getWidth() > 0)) {
+					//  String attributeHidden = element.getAttribute("hidden");
 					  if (element.getAttribute("hidden") != null)
-						  if (element.getAttribute("hidden").toLowerCase().equals("true")) return false;
+						  if (element.getAttribute("hidden").toLowerCase().equals("true")) 
+							  return false;
+
+					//  String attributeType= element.getAttribute("type");
 					  if (element.getAttribute("type") != null) {
 						  if (element.getAttribute("type").equals("hidden"))
 							  return false;
 					  }
+					  
 					  return true;
 				  } else {
 					  return false;
@@ -295,24 +299,30 @@ public class ExtendedExpectedConditions {
 		  @Override
 		  public Boolean apply(WebDriver driver) {
 			  try {
+				
+				//  String attributeHidden = element.getAttribute("hidden");
+				  if (element.getAttribute("hidden") != null)
+					  if (element.getAttribute("hidden").toLowerCase().equals("true")) 
+						  return true;
+				  
+				//  String attributeType= element.getAttribute("type");
+				  if (element.getAttribute("type") != null) {
+					  if (element.getAttribute("type").equals("hidden"))
+						  return true;
+				  }
+				  
 				  Point location = element.getLocation();
-
 				  Dimension size = element.getSize();
-				  if ((location.getX() > 0 & location.getY() > 0) | (size.getHeight() > 0 & size.getWidth() > 0)) {
-					  if (element.getAttribute("hidden") != null)
-						  if (element.getAttribute("hidden").toLowerCase().equals("true")) return true;
-					  if (element.getAttribute("type") != null) {
-						  if (element.getAttribute("type").equals("hidden"))
-							  return true;
-					  }
-					  return false;
-				  } else {
+				  
+				  if ((location.getX() <= 0 & location.getY() <= 0) | (size.getHeight() <= 0 & size.getWidth() <= 0)) {					 
 					  return true;
+				  } else {
+					  return false;
 				  }
 			  }catch (StaleElementReferenceException sere){
-		            return true;
+		            return false;
 			  } catch (WebDriverException | ClassCastException | NullPointerException e) {
-				  return true;
+				  return false;
 			  }
 		  }
 

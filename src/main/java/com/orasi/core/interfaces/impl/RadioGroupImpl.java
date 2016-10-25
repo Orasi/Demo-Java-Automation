@@ -34,6 +34,7 @@ public class RadioGroupImpl extends ElementImpl implements RadioGroup {
 	 */
 	public RadioGroupImpl(final WebElement element) {
 		super(element);
+		TestReporter.logTrace("Entering RadioGroupImpl#init");
 		int timeout = getWrappedDriver().getElementTimeout();
 		getWrappedDriver().setElementTimeout(0);
 		this.radioButtons = element.findElements(By.tagName("input"));
@@ -44,10 +45,12 @@ public class RadioGroupImpl extends ElementImpl implements RadioGroup {
 		Assert.assertNotEquals(radioButtons.size(), 0,
 				"No radio buttons were found for the element [" + element + "].");
 		currentIndex = getCurrentIndex();
+		TestReporter.logTrace("Exiting RadioGroupImpl#init");
 	}
 
 	public RadioGroupImpl(OrasiDriver driver, By by) {
 		super(driver, by);
+		TestReporter.logTrace("Entering RadioGroupImpl#init");
 	//	element = driver.findWebElement(by);
 		int timeout = driver.getElementTimeout();
 		driver.setElementTimeout(0);
@@ -59,6 +62,7 @@ public class RadioGroupImpl extends ElementImpl implements RadioGroup {
 		Assert.assertNotEquals(radioButtons.size(), 0,
 				"No radio buttons were found for the element [" + element + "].");
 		currentIndex = getCurrentIndex();
+		TestReporter.logTrace("Exiting RadioGroupImpl#init");
 	}
 
 	/**
@@ -85,18 +89,21 @@ public class RadioGroupImpl extends ElementImpl implements RadioGroup {
 	 */
 	@Override
 	public void selectByIndex(int index) {
+		TestReporter.logTrace("Entering RadioGroupImpl#selectByIndex");
 		currentIndex = index;
 		try {
 			radioButtons.get(currentIndex).click();
 		} catch (RuntimeException rte) {
 			TestReporter.interfaceLog("Select option <b> [ " + currentIndex
 					+ " ] </b> from the radio group [ <b>" + getElementLocatorInfo() + " </b> ]", true);
+			TestReporter.logTrace("Exiting RadioGroupImpl#selectByIndex");
 			throw rte;
 		}
 		TestReporter.interfaceLog("Select option <b> [ " + currentIndex + " ] </b> from the radio group [ <b>"
 				+ getElementLocatorInfo() + " </b> ]", true);
 
 		setSelectedOption();
+		TestReporter.logTrace("Exiting RadioGroupImpl#selectByIndex");
 	}
 
 	/**
@@ -106,6 +113,7 @@ public class RadioGroupImpl extends ElementImpl implements RadioGroup {
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<String> getAllOptions() {
+		TestReporter.logTrace("Entering RadioGroupImpl#getAllOptions");
 		stringOptions = FixedSizeList.decorate(Arrays.asList(new String[radioButtons.size()]));
 		int loopCounter = 0;
 
@@ -114,6 +122,7 @@ public class RadioGroupImpl extends ElementImpl implements RadioGroup {
 			loopCounter++;
 		}
 
+		TestReporter.logTrace("Exiting RadioGroupImpl#getAllOptions");
 		return stringOptions;
 	}
 
@@ -132,7 +141,9 @@ public class RadioGroupImpl extends ElementImpl implements RadioGroup {
 	 */
 	@Override
 	public int getNumberOfOptions() {
+		TestReporter.logTrace("Entering RadioGroupImpl#getNumberOfOptions");
 		setNumberOfOptions();
+		TestReporter.logTrace("Exiting RadioGroupImpl#getNumberOfOptions");
 		return numberOfOptions;
 	}
 
@@ -143,6 +154,7 @@ public class RadioGroupImpl extends ElementImpl implements RadioGroup {
 	 */
 	@Override
 	public void selectByOption(String option) {
+		TestReporter.logTrace("Entering RadioGroupImpl#selectByOption");
 		getAllOptions();
 		for (int loopCounter = 0; loopCounter < stringOptions.size(); loopCounter++) {
 			if (stringOptions.get(loopCounter).trim().equalsIgnoreCase(option.trim())) {
@@ -154,6 +166,7 @@ public class RadioGroupImpl extends ElementImpl implements RadioGroup {
 					TestReporter.interfaceLog("Select option <b> [ " + option
 							+ " ] </b> from the radio group [ <b>" + getElementLocatorInfo() + " </b> ]",
 							true);
+					TestReporter.logTrace("Exiting RadioGroupImpl#selectByOption");
 					throw rte;
 				}
 				TestReporter.interfaceLog("Select option <b> [ " + option
@@ -164,6 +177,7 @@ public class RadioGroupImpl extends ElementImpl implements RadioGroup {
 			}
 		}
 		setSelectedOption();
+		TestReporter.logTrace("Exiting RadioGroupImpl#selectByOption");
 	}
 
 	/**
@@ -183,7 +197,9 @@ public class RadioGroupImpl extends ElementImpl implements RadioGroup {
 	 */
 	@Override
 	public String getSelectedOption() {
+		TestReporter.logTrace("Entering RadioGroupImpl#getSelectedOption");
 		setSelectedOption();
+		TestReporter.logTrace("Entering RadioGroupImpl#getSelectedOption");
 		return this.selectedOption;
 	}
 

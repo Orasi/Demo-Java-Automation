@@ -21,7 +21,7 @@ public abstract class Database {
 	protected abstract void setDbDriver(String driver);
 	
 	protected String getDbDriver(){
-		return strDriver;
+	    return strDriver;
 	}
 	
 	protected void setDbHost(String host){
@@ -121,7 +121,7 @@ public abstract class Database {
      * @return an ArrayList of ArrayLists of Strings 
      * @throws SQLException if an SQL exception occurs 
      */  
-    public static Object[][] extract(ResultSet resultSet)  
+    private static Object[][] extract(ResultSet resultSet)  
     throws SQLException {  
         // get row and column count
         int rowCount = 0;

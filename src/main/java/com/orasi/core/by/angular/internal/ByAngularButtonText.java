@@ -3,12 +3,7 @@ package com.orasi.core.by.angular.internal;
 import java.lang.reflect.Field;
 import java.util.List;
 
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.SearchContext;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-
-import com.orasi.utils.OrasiDriver;
+import org.openqa.selenium.*;
 
 /*
  * Original Code from https://github.com/paul-hammant/ngWebDriver
@@ -68,18 +63,8 @@ public class ByAngularButtonText  extends ByAngular.BaseBy {
         	privateStringField = o.getClass().getDeclaredField("foundBy");
         	privateStringField.setAccessible(true);
             privateStringField.set(o, o.toString().replace("unknown locator", "button text: " + text));
-		} catch (NoSuchFieldException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (SecurityException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (IllegalArgumentException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (IllegalAccessException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+		}catch(NoSuchFieldException | IllegalAccessException e){
+			e.printStackTrace();
 		}
         
       

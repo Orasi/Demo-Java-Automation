@@ -1,0 +1,27 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:web="http://www.webservicex.net/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <web:GenerateBarCode>
+         <web:BarCodeParam>
+            <web:Height>125</web:Height>
+            <web:Width>225</web:Width>
+            <web:Angle>0</web:Angle>
+            <web:Ratio>5</web:Ratio>
+            <web:Module>0</web:Module>
+            <web:Left>25</web:Left>
+            <web:Top>0</web:Top>
+            <web:CheckSum>false</web:CheckSum>
+            <web:FontSize>10</web:FontSize>     
+            <web:FontName>"Arial"</web:FontName>
+            <web:BarColor>"Black"</web:BarColor>
+            <web:BGColor>"White"</web:BGColor>
+            <web:barcodeOption>Both</web:barcodeOption>
+            <web:barcodeType>Code_2_5_interleaved</web:barcodeType>
+            <web:checkSumMethod>None</web:checkSumMethod>
+            <web:showTextPosition>BottomCenter</web:showTextPosition>
+            <web:BarCodeImageFormat>PNG</web:BarCodeImageFormat>
+         </web:BarCodeParam>
+         <web:BarCodeText>734341232213334</web:BarCodeText>
+      </web:GenerateBarCode>
+   </soapenv:Body>
+</soapenv:Envelope>

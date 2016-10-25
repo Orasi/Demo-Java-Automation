@@ -4,6 +4,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 
 import com.orasi.utils.OrasiDriver;
+import com.orasi.utils.TestEnvironment;
 
 /*
  * Original Code from https://github.com/paul-hammant/ngWebDriver

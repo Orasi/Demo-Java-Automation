@@ -9,6 +9,7 @@ import org.openqa.selenium.WebElement;
 import com.orasi.core.interfaces.Element;
 import com.orasi.core.interfaces.Webtable;
 import com.orasi.utils.OrasiDriver;
+import com.orasi.utils.TestReporter;
 
 /**
  * Wrapper class like Select that wraps basic checkbox functionality.
@@ -31,20 +32,21 @@ public class WebtableImpl extends ElementImpl implements Webtable {
 
 
 	private List<WebElement> getRowCollection() {
-		int timeout = getWrappedDriver().getElementTimeout();
+		TestReporter.logTrace("Entering WebtableImpl#getRowCollection");
 		getWrappedDriver().setElementTimeout(1, TimeUnit.SECONDS);
 		List<WebElement> rowCollection = this.element.findElements(By.xpath("tr|tbody/tr"));
-		getWrappedDriver().setElementTimeout(timeout, TimeUnit.SECONDS);
+		getWrappedDriver().setElementTimeout(getWrappedDriver().getElementTimeout(), TimeUnit.SECONDS);
+		TestReporter.logTrace("Exiting WebtableImpl#getRowCollection");
 		return rowCollection;
 
 	}
 
 	private List<WebElement> getColumnCollection(WebElement row) {
-		int timeout = getWrappedDriver().getElementTimeout();
+		TestReporter.logTrace("Entering WebtableImpl#getColumnCollection");
 		getWrappedDriver().setElementTimeout(1, TimeUnit.MILLISECONDS);
 		List<WebElement> columnCollection = row.findElements(By.xpath("th|td"));
-		getWrappedDriver().setElementTimeout(timeout, TimeUnit.SECONDS);
-
+		getWrappedDriver().setElementTimeout(getWrappedDriver().getElementTimeout(), TimeUnit.SECONDS);
+		TestReporter.logTrace("Exiting WebtableImpl#getColumnCollection");
 		return columnCollection;
 	}
 
@@ -56,7 +58,10 @@ public class WebtableImpl extends ElementImpl implements Webtable {
 	 */
 	@Override
 	public int getRowCount() {
-		return getRowCollection().size();
+		TestReporter.logTrace("Entering WebtableImpl#getRowCount");
+		int rows = getRowCollection().size();
+		TestReporter.logTrace("Exiting WebtableImpl#getRowCount");
+		return rows;
 	}
 
 	/**
@@ -69,8 +74,11 @@ public class WebtableImpl extends ElementImpl implements Webtable {
 	 * @return int - number of columns found for a given row
 	 */
 	@Override
-	public int getColumnCount(int row) {
-		return getColumnCollection(getRowCollection().get(row)).size();
+	public int getColumnCount(int row) {		
+		TestReporter.logTrace("Entering WebtableImpl#getColumnCount");
+		int columns = getColumnCollection(getRowCollection().get(row)).size();
+		TestReporter.logTrace("Exiting WebtableImpl#getColumnCount");
+		return columns;
 	}
 
 	/**
@@ -88,11 +96,12 @@ public class WebtableImpl extends ElementImpl implements Webtable {
 	 */
 	@Override
 	public Element getCell(int row, int column) {
-		int timeout = getWrappedDriver().getElementTimeout();
+		TestReporter.logTrace("Entering WebtableImpl#getCell");
 		getWrappedDriver().setElementTimeout(1, TimeUnit.SECONDS);
 		Element cell = new ElementImpl(getWrappedDriver(),By.xpath(getElementIdentifier() + "/tbody/tr[" + row + "]/td[" + column + "]|" + getElementIdentifier() + "/tbody/tr[" + row + "]/th[" + column
 						+ "]|" + getElementIdentifier() + "/tr[" + row + "]/td[" + column + "]|" + getElementIdentifier() + "/tr[" + row + "]/th[" + column + "]"));
-		getWrappedDriver().setElementTimeout(timeout, TimeUnit.SECONDS);
+		getWrappedDriver().setElementTimeout(getWrappedDriver().getElementTimeout(), TimeUnit.SECONDS);
+		TestReporter.logTrace("Exiting WebtableImpl#getCell");
 		return cell;
 	}
 
@@ -111,7 +120,9 @@ public class WebtableImpl extends ElementImpl implements Webtable {
 	 */
 	@Override
 	public void clickCell(int row, int column) {
+		TestReporter.logTrace("Entering WebtableImpl#clickCell");
 		getCell(row, column).click();
+		TestReporter.logTrace("Exiting WebtableImpl#clickCell");
 	}
 
 	/**
@@ -129,7 +140,10 @@ public class WebtableImpl extends ElementImpl implements Webtable {
 	 */
 	@Override
 	public String getCellData(int row, int column) {
-		return getCell(row, column).getText();
+		TestReporter.logTrace("Entering WebtableImpl#getCellData");
+		String data = getCell(row, column).getText();
+		TestReporter.logTrace("Exiting WebtableImpl#getCellData");
+		return data;
 	}
 
 	/**
@@ -144,7 +158,10 @@ public class WebtableImpl extends ElementImpl implements Webtable {
 	 */
 	@Override
 	public int getRowWithCellText(String text) {
-		return getRowWithCellText(text, -1);
+		TestReporter.logTrace("Entering WebtableImpl#getRowWithCellText(String text)");
+		int row =getRowWithCellText(text, -1, 1, true);
+		TestReporter.logTrace("Exiting WebtableImpl#getRowWithCellText(String text)");
+		return row;
 	}
 
 	/**
@@ -161,7 +178,10 @@ public class WebtableImpl extends ElementImpl implements Webtable {
 	 */
 	@Override
 	public int getRowWithCellText(String text, int columnPosition) {
-		return getRowWithCellText(text, columnPosition, 1);
+		TestReporter.logTrace("Entering WebtableImpl#getRowWithCellText(String text, int columnPosition)");
+		int row = getRowWithCellText(text, columnPosition, 1, true);
+		TestReporter.logTrace("Exiting WebtableImpl#getRowWithCellText(String text, int columnPosition)");
+		return row;
 	}
 
 	/**
@@ -181,7 +201,10 @@ public class WebtableImpl extends ElementImpl implements Webtable {
 	 */
 	@Override
 	public int getRowWithCellText(String text, int columnPosition, int startRow) {
-		return getRowWithCellText(text, columnPosition, startRow, true);
+		TestReporter.logTrace("Entering WebtableImpl#getRowWithCellText(String text, int columnPosition, int startRow)");
+		int row = getRowWithCellText(text, columnPosition, startRow, true);
+		TestReporter.logTrace("Exiting WebtableImpl#getRowWithCellText(String text, int columnPosition, int startRow)");
+		return row;
 	}
 
 	/**
@@ -203,7 +226,7 @@ public class WebtableImpl extends ElementImpl implements Webtable {
 	 */
 	@Override
 	public int getRowWithCellText(String text, int columnPosition, int startRow, boolean exact) {
-
+		TestReporter.logTrace("Entering WebtableImpl#getRowWithCellText(String text, int columnPosition, int startRow, boolean exact)");
 		int currentRow = 1, rowFound = 0;
 
 		List<WebElement> rowCollection = getRowCollection();
@@ -216,21 +239,29 @@ public class WebtableImpl extends ElementImpl implements Webtable {
 					if (columnPosition == -1) {
 						for (WebElement cell : getColumnCollection(rowElement)) {
 							if (exact) {
-								if (cell.getText().trim().equals(text))
+								if (cell.getText().trim().equals(text)){
+									TestReporter.logTrace("Exiting WebtableImpl#getRowWithCellText(String text, int columnPosition, int startRow, boolean exact)");
 									return currentRow;
+								}
 							} else {
-								if (cell.getText().toLowerCase().trim().contains(text.toLowerCase()))
+								if (cell.getText().toLowerCase().trim().contains(text.toLowerCase())){
+									TestReporter.logTrace("Exiting WebtableImpl#getRowWithCellText(String text, int columnPosition, int startRow, boolean exact)");
 									return currentRow;
+								}
 							}
 						}
 					} else {
 						WebElement cell = rowElement.findElements(By.xpath("th|td")).get(columnPosition - 1);
 						if (exact) {
-							if (cell.getText().trim().equals(text))
+							if (cell.getText().trim().equals(text)){
+								TestReporter.logTrace("Exiting WebtableImpl#getRowWithCellText(String text, int columnPosition, int startRow, boolean exact)");
 								return currentRow;
+							}
 						} else {
-							if (cell.getText().toLowerCase().trim().contains(text.toLowerCase()))
+							if (cell.getText().toLowerCase().trim().contains(text.toLowerCase())){
+								TestReporter.logTrace("Exiting WebtableImpl#getRowWithCellText(String text, int columnPosition, int startRow, boolean exact)");
 								return currentRow;
+							}
 						}
 					}
 					currentRow++;
@@ -238,6 +269,7 @@ public class WebtableImpl extends ElementImpl implements Webtable {
 			}
 		}
 
+		TestReporter.logTrace("Exiting WebtableImpl#getRowWithCellText(String text, int columnPosition, int startRow, boolean exact)");
 		return rowFound;
 	}
 
@@ -252,7 +284,10 @@ public class WebtableImpl extends ElementImpl implements Webtable {
 	 */
 	@Override
 	public int getColumnWithCellText(String text) {
-		return getColumnWithCellText(text, 1);
+		TestReporter.logTrace("Entering WebtableImpl#getColumnWithCellText(String text)");
+		int column = getColumnWithCellText(text, 1);
+		TestReporter.logTrace("Exiting WebtableImpl#getColumnWithCellText(String text)");
+		return column;
 	}
 
 	/**
@@ -266,15 +301,19 @@ public class WebtableImpl extends ElementImpl implements Webtable {
 	 */
 	@Override
 	public int getColumnWithCellText(String text, int rowPosition) {
+		TestReporter.logTrace("Entering WebtableImpl#getColumnWithCellText(String text, int rowPosition)");
 		int currentColumn = 1;
 		List<WebElement> columns = getColumnCollection(getRowCollection().get(rowPosition - 1));
 		for (WebElement cell : columns) {
 			if (currentColumn <= columns.size()) {
-				if (cell.getText().trim().equals(text))
+				if (cell.getText().trim().equals(text)){
+					TestReporter.logTrace("Exiting WebtableImpl#getColumnWithCellText(String text, int rowPosition)");
 					return currentColumn;
+				}
 				currentColumn++;
 			}
 		}
+		TestReporter.logTrace("Exiting WebtableImpl#getColumnWithCellText(String text, int rowPosition)");
 		return 0;
 	}
 }

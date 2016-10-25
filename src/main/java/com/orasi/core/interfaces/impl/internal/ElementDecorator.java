@@ -19,6 +19,7 @@ import org.openqa.selenium.support.pagefactory.internal.LocatingElementListHandl
 import com.orasi.core.by.angular.FindByNG;
 import com.orasi.core.interfaces.Element;
 import com.orasi.utils.OrasiDriver;
+import com.orasi.utils.TestReporter;
 
 /**
  * WrappedElementDecorator recognizes a few things that DefaultFieldDecorator does not.
@@ -49,28 +50,42 @@ public class ElementDecorator implements FieldDecorator {
 
     @Override
     public Object decorate(ClassLoader loader, Field field) {
-    	final OrasiDriver driverRef = driver;
         if (!(WebElement.class.isAssignableFrom(field.getType()) || isDecoratableList(field))) {
             return null;
         }
+		TestReporter.logTrace("Entering ElementDecorator#ElementDecorator");
+    	final OrasiDriver driverRef = driver;
 
-        ElementLocator locator = factory.createLocator(field);
+    	TestReporter.logTrace("Creating proxy for element with field name [ " + field.getName() +" ]");
+    	TestReporter.logTrace("Validate element with field name [ " + field.getName() +" ] is type and is decoratable");
+
+    	TestReporter.logTrace("Create locator from CustomElementLocatorFactory");
+        ElementLocator locator = factory.createLocator(field);        
         if (locator == null) {
             return null;
         }
-
+        TestReporter.logTrace("Successfully created element locator for field name [ " + field.getName() +" ]");
+        
+        TestReporter.logTrace("Ensure field interface is Element or inherited from Element");
         Class<?> fieldType = field.getType();
         if (WebElement.class.equals(fieldType)) {
             fieldType = Element.class;
         }
 
+        TestReporter.logTrace("Create Element Proxy for field name [ " + field.getName() +" ]");
         if (WebElement.class.isAssignableFrom(fieldType)) {
-          //  return proxyForLocator(loader, fieldType, locator);
-        	 return proxyForLocator(loader, fieldType, locator, driverRef);
+        	Object proxy = proxyForLocator(loader, fieldType, locator, driverRef);
+            TestReporter.logTrace("Successfully created element Proxy for field name [ " + field.getName() +" ]");
+    		TestReporter.logTrace("Exiting ElementDecorator#ElementDecorator");
+         	 return proxy;
         } else if (List.class.isAssignableFrom(fieldType)) {
             Class<?> erasureClass = getErasureClass(field);
-            return proxyForListLocator(loader, erasureClass, locator);
+            Object proxy = proxyForListLocator(loader, erasureClass, locator);
+            TestReporter.logTrace("Successfully created element Proxy for field name [ " + field.getName() +" ]");
+    		TestReporter.logTrace("Exiting ElementDecorator#ElementDecorator");
+            return proxy;
         } else {
+    		TestReporter.logTrace("Exiting ElementDecorator#ElementDecorator");
             return null;
         }
     }
@@ -87,35 +102,50 @@ public class ElementDecorator implements FieldDecorator {
     }
 
     private boolean isDecoratableList(Field field) {
+	//	TestReporter.logTrace("Entering ElementDecorator#isDecoratableList");
+    //	TestReporter.logTrace("Validate element is assignable from Field");
         if (!List.class.isAssignableFrom(field.getType())) {
             return false;
         }
 
+   // 	TestReporter.logTrace("Validate element is Erasure");
         @SuppressWarnings("rawtypes")
 		Class erasureClass = getErasureClass(field);
         if (erasureClass == null) {
             return false;
         }
 
+    //	TestReporter.logTrace("Validate element is assignable from erasure");
         if (!WebElement.class.isAssignableFrom(erasureClass)) {
             return false;
         }
 
+
+   // 	TestReporter.logTrace("Validate element FindBy is valid");
         if (field.getAnnotation(FindBy.class) == null && field.getAnnotation(FindBys.class) == null  && field.getAnnotation(FindByNG.class) == null) {
             return false;
         }
 
+
+  //  	TestReporter.logTrace("Successfully validated element");
+	//	TestReporter.logTrace("Exiting ElementDecorator#isDecoratableList");
         return true;
     }
+    
     protected <T> T proxyForLocator(ClassLoader loader, Class<T> interfaceType, ElementLocator locator, OrasiDriver driver) {
-      //  InvocationHandler handler = new ElementHandler(interfaceType, locator);
+		TestReporter.logTrace("Entering ElementDecorator#proxyForLocator");
     	final OrasiDriver driverRef = driver;
+    	
+    	TestReporter.logTrace("Create ElementHandler and embbed locator and driver in it");
+        InvocationHandler handler = new ElementHandler(interfaceType, locator, driverRef);
+    	TestReporter.logTrace("Successfully created ElementHandler");        
         
-    	  InvocationHandler handler = new ElementHandler(interfaceType, locator, driverRef);
-
         T proxy;
+        TestReporter.logTrace("Create element proxy with ElementHandler information");
         proxy = interfaceType.cast(Proxy.newProxyInstance(
                 loader, new Class[]{interfaceType, WebElement.class, WrapsElement.class, Locatable.class}, handler));
+        TestReporter.logTrace("Successfully created element proxy");
+		TestReporter.logTrace("Exiting ElementDecorator#proxyForLocator");
         return proxy;
     }
     /**
@@ -129,11 +159,17 @@ public class ElementDecorator implements FieldDecorator {
      * @return a proxy representing the class we need to wrap.
      */
     protected <T> T proxyForLocator(ClassLoader loader, Class<T> interfaceType, ElementLocator locator) {
+		TestReporter.logTrace("Entering ElementDecorator#proxyForLocator");
+
+    	TestReporter.logTrace("Create ElementHandler and embbed locator in it");
         InvocationHandler handler = new ElementHandler(interfaceType, locator);
 
         T proxy;
+        TestReporter.logTrace("Create element proxy with ElementHandler information");
         proxy = interfaceType.cast(Proxy.newProxyInstance(
                 loader, new Class[]{interfaceType, WebElement.class, WrapsElement.class, Locatable.class}, handler));
+        TestReporter.logTrace("Successfully created element proxy");
+		TestReporter.logTrace("Exiting ElementDecorator#proxyForLocator");
         return proxy;
     }
 

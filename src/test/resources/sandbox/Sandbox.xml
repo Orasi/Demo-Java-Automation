@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="TestingRadioGroups" parallel="methods" thread-count="1">
+	<test name="WithXMLTemplates">
+		<classes>
+			<class name="com.webservicex.loadXmlWithXmlTemplate.TestSoapService"></class>
+			<class name="com.webservicex.loadXmlWithSoapUI.excelExternalData.TestSoapService"></class>
+			<class name="com.webservicex.loadXmlWithSoapUI.noExternalData.TestSoapService"></class>
+		</classes>
+	</test> <!-- TestingRadioGroups -->
+</suite> <!-- TestingRadioGroups -->

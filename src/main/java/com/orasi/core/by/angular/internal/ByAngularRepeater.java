@@ -59,6 +59,26 @@ public class ByAngularRepeater extends ByAngular.BaseBy {
         
         Object o = jse.executeScript(makeJsBy("[0]"), context);
         errorIfNull(o);
+        Field privateStringField = null;
+        try {
+        	privateStringField = o.getClass().getDeclaredField("foundBy");
+        	privateStringField.setAccessible(true);
+        	privateStringField.set(o, o.toString().replace("unknown locator", "ng-repeater: " + repeater));
+		} catch (NoSuchFieldException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (SecurityException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IllegalArgumentException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IllegalAccessException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+        
+      
         return (WebElement) o;
     }
 
@@ -72,25 +92,6 @@ public class ByAngularRepeater extends ByAngular.BaseBy {
         Object o = jse.executeScript(makeJsBy(""), searchContext);
         errorIfNull(o);
         
-        //Give the element an identifier 
-        Field privateStringField = null;
-        try {
-        	privateStringField = o.getClass().getDeclaredField("foundBy");
-        	privateStringField.setAccessible(true);
-            privateStringField.set(o, o.toString().replace("unknown locator", "ng-repeater: " + repeater));
-		} catch (NoSuchFieldException e1) {
-			// TODO Auto-generated catch block
-			
-		} catch (SecurityException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (IllegalArgumentException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (IllegalAccessException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
         return (List<WebElement>) o;
     }
 

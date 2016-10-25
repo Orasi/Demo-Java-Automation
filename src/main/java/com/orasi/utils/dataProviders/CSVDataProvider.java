@@ -7,11 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CSVDataProvider {
-	
-	//Constructor
-	public CSVDataProvider(){
-		
-	}
 
 	/**
 	 * This gets the test data from a csv file.  It returns all the data 
@@ -33,7 +28,7 @@ public class CSVDataProvider {
 		int rowCount = 0;
 		
 		// Get the file location from the project main/resources folder
-		filePath =  CSVDataProvider.class.getResource(filePath).getPath();
+		if(!filePath.contains(":")) filePath =  CSVDataProvider.class.getResource(filePath).getPath();
 
 		// in case file path has a %20 for a whitespace, replace with actual
 		// whitespace
@@ -72,9 +67,9 @@ public class CSVDataProvider {
 			
 			for (int colNum = 0; colNum < columnCount; colNum++ ) {
 				dataArray[rowNum-1][colNum] = rowSplit[colNum];
-				System.out.println(dataArray[rowNum-1][colNum]);
+				//System.out.println(dataArray[rowNum-1][colNum]);
 			}
-			System.out.println("");
+			//System.out.println("");
 		}
 		
 		return dataArray;

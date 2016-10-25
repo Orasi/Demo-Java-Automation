@@ -17,9 +17,6 @@ public class Constants {
     /** Location of the user credentials properties file */
     final static public String USER_CREDENTIALS_PATH = "UserCredentials";
     
-    /** Location of data provider files in the project  */
-    final static public String BLUESOURCE_DATAPROVIDER_PATH = "/bluesource/dataProviders/";
-    
     final static public String SANDBOX_PATH = "/sandbox/";
     
     /** Location of drivers in project */
@@ -61,7 +58,19 @@ public class Constants {
     public static final String TEST_DRIVER_TIMEOUT = "selenium.testDriverTimeout";
     public static final String TEST_ENVIRONMENT = "selenium.testEnvironment";
     public static final String TEST_NAME = "selenium.testName";
-    
+	public static boolean defaultSyncHandler = true;
+	public static int millisecondsToPollForElement = 250;
+
+	/**
+	 * Set on how to handle element sync failures. True will cause the sync to throw an exception  while false will just have the element sync return a boolean
+	 * 
+	 * @param syncHandler True/False 
+	 * @version 1/14/2016
+	 * @author Justin Phlegar
+	 */
+	public static void setSyncToFailTest(boolean syncHandler) {
+		defaultSyncHandler = syncHandler;
+	}
 	/**
      * Defaults to "./" if there's an exception of any sort.
      * @warning Exceptions are swallowed.

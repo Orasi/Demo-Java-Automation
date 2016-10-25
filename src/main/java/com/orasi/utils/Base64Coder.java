@@ -34,7 +34,7 @@ public class Base64Coder {
     private static final String systemLineSeparator = System.getProperty("line.separator");
 
     public static void main(String[] args) {
-	byte[] toEncode = "setSecure".getBytes();
+	byte[] toEncode = "?access_token=4fa170ef17506135dbde1b37cb9ad4e44525c7ef".getBytes();
         System.out.println(encode(toEncode)); // Display the string.
     }
     
@@ -132,18 +132,6 @@ public class Base64Coder {
      */
     public static char[] encode(byte[] in) {
         return encode(in, 0, in.length);
-    }
-
-    /**
-     * Encodes a byte array into Base64 format. No blanks or line breaks are
-     * inserted in the output.
-     *
-     * @param in An array containing the data bytes to be encoded.
-     * @param iLen Number of bytes to process in <code>in</code>.
-     * @return A character array containing the Base64 encoded data.
-     */
-    public static char[] encode(byte[] in, int iLen) {
-        return encode(in, 0, iLen);
     }
 
     /**
