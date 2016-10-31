@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project id="15ddcf3c-e9f3-495b-9b7a-fe84a3218358" activeEnvironment="Default" name="genericbarcode" resourceRoot="" soapui-version="5.1.3" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" id="d9bd26c5-d57c-42a9-a26d-6835874fe576" wsaVersion="NONE" name="BarCodeSoap" type="wsdl" bindingName="{http://www.webservicex.net/}BarCodeSoap" soapVersion="1_1" anonymous="optional" definition="http://www.webservicex.net/genericbarcode.asmx?WSDL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://www.webservicex.net/genericbarcode.asmx?WSDL"><con:part><con:url>http://www.webservicex.net/genericbarcode.asmx?WSDL</con:url><con:content><![CDATA[<wsdl:definitions targetNamespace="http://www.webservicex.net/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.webservicex.net/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:documentation>Barcode generator</wsdl:documentation>
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://www.webservicex.net/">
+      <s:element name="GenerateBarCode">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="BarCodeParam" type="tns:BarCodeData"/>
+            <s:element minOccurs="0" maxOccurs="1" name="BarCodeText" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="BarCodeData">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="Height" type="s:int"/>
+          <s:element minOccurs="1" maxOccurs="1" name="Width" type="s:int"/>
+          <s:element minOccurs="1" maxOccurs="1" name="Angle" type="s:int"/>
+          <s:element minOccurs="1" maxOccurs="1" name="Ratio" type="s:int"/>
+          <s:element minOccurs="1" maxOccurs="1" name="Module" type="s:int"/>
+          <s:element minOccurs="1" maxOccurs="1" name="Left" type="s:int"/>
+          <s:element minOccurs="1" maxOccurs="1" name="Top" type="s:int"/>
+          <s:element minOccurs="1" maxOccurs="1" name="CheckSum" type="s:boolean"/>
+          <s:element minOccurs="0" maxOccurs="1" name="FontName" type="s:string"/>
+          <s:element minOccurs="0" maxOccurs="1" name="BarColor" type="s:string"/>
+          <s:element minOccurs="0" maxOccurs="1" name="BGColor" type="s:string"/>
+          <s:element minOccurs="1" maxOccurs="1" name="FontSize" type="s:float"/>
+          <s:element minOccurs="1" maxOccurs="1" name="barcodeOption" type="tns:BarcodeOption"/>
+          <s:element minOccurs="1" maxOccurs="1" name="barcodeType" type="tns:BarcodeType"/>
+          <s:element minOccurs="1" maxOccurs="1" name="checkSumMethod" type="tns:CheckSumMethod"/>
+          <s:element minOccurs="1" maxOccurs="1" name="showTextPosition" type="tns:ShowTextPosition"/>
+          <s:element minOccurs="1" maxOccurs="1" name="BarCodeImageFormat" type="tns:ImageFormats"/>
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="BarcodeOption">
+        <s:restriction base="s:string">
+          <s:enumeration value="None"/>
+          <s:enumeration value="Code"/>
+          <s:enumeration value="Typ"/>
+          <s:enumeration value="Both"/>
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="BarcodeType">
+        <s:restriction base="s:string">
+          <s:enumeration value="Code_2_5_interleaved"/>
+          <s:enumeration value="Code_2_5_industrial"/>
+          <s:enumeration value="Code_2_5_matrix"/>
+          <s:enumeration value="Code39"/>
+          <s:enumeration value="Code39Extended"/>
+          <s:enumeration value="Code128A"/>
+          <s:enumeration value="Code128B"/>
+          <s:enumeration value="Code128C"/>
+          <s:enumeration value="Code93"/>
+          <s:enumeration value="Code93Extended"/>
+          <s:enumeration value="CodeMSI"/>
+          <s:enumeration value="CodePostNet"/>
+          <s:enumeration value="CodeCodabar"/>
+          <s:enumeration value="CodeEAN8"/>
+          <s:enumeration value="CodeEAN13"/>
+          <s:enumeration value="CodeUPC_A"/>
+          <s:enumeration value="CodeUPC_E0"/>
+          <s:enumeration value="CodeUPC_E1"/>
+          <s:enumeration value="CodeUPC_Supp2"/>
+          <s:enumeration value="CodeUPC_Supp5"/>
+          <s:enumeration value="CodeEAN128A"/>
+          <s:enumeration value="CodeEAN128B"/>
+          <s:enumeration value="CodeEAN128C"/>
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="CheckSumMethod">
+        <s:restriction base="s:string">
+          <s:enumeration value="None"/>
+          <s:enumeration value="Modulo10"/>
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="ShowTextPosition">
+        <s:restriction base="s:string">
+          <s:enumeration value="TopLeft"/>
+          <s:enumeration value="TopRight"/>
+          <s:enumeration value="TopCenter"/>
+          <s:enumeration value="BottomLeft"/>
+          <s:enumeration value="BottomRight"/>
+          <s:enumeration value="BottomCenter"/>
+        </s:restriction>
+      </s:simpleType>
+      <s:simpleType name="ImageFormats">
+        <s:restriction base="s:string">
+          <s:enumeration value="BMP"/>
+          <s:enumeration value="EMF"/>
+          <s:enumeration value="EXIF"/>
+          <s:enumeration value="GIF"/>
+          <s:enumeration value="ICON"/>
+          <s:enumeration value="JPEG"/>
+          <s:enumeration value="MemoryBMP"/>
+          <s:enumeration value="PNG"/>
+          <s:enumeration value="TIFF"/>
+          <s:enumeration value="WMF"/>
+        </s:restriction>
+      </s:simpleType>
+      <s:element name="GenerateBarCodeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GenerateBarCodeResult" type="s:base64Binary"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="GenerateBarCodeSoapIn">
+    <wsdl:part name="parameters" element="tns:GenerateBarCode"/>
+  </wsdl:message>
+  <wsdl:message name="GenerateBarCodeSoapOut">
+    <wsdl:part name="parameters" element="tns:GenerateBarCodeResponse"/>
+  </wsdl:message>
+  <wsdl:portType name="BarCodeSoap">
+    <wsdl:operation name="GenerateBarCode">
+      <wsdl:documentation>WebserviceX.NET barcode library that provides the means to create barcodes for printing and display in any internet enabled applications. This web service supports Code 128, Industrial 2 of 5, Interleaved 2 of 5, Code 2 5 Matrix, Code 39, Code 39 Extended, Code 93, Code 93 Extended, Codabar, EAN13, EAN8, MSI, Postnet, Supp2, Supp5, UPC A, UPC E0 and UPC E1 barcode formats. This Barcodes returns byte image. It supports following image format JPEG, GIF, PNG, BMP, EMF, EXIF, ICON, MEMORY BMP, TIFF and WMF.</wsdl:documentation>
+      <wsdl:input message="tns:GenerateBarCodeSoapIn"/>
+      <wsdl:output message="tns:GenerateBarCodeSoapOut"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="BarCodeHttpGet"/>
+  <wsdl:portType name="BarCodeHttpPost"/>
+  <wsdl:binding name="BarCodeSoap" type="tns:BarCodeSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="GenerateBarCode">
+      <soap:operation soapAction="http://www.webservicex.net/GenerateBarCode" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="BarCodeSoap12" type="tns:BarCodeSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="GenerateBarCode">
+      <soap12:operation soapAction="http://www.webservicex.net/GenerateBarCode" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="BarCodeHttpGet" type="tns:BarCodeHttpGet">
+    <http:binding verb="GET"/>
+  </wsdl:binding>
+  <wsdl:binding name="BarCodeHttpPost" type="tns:BarCodeHttpPost">
+    <http:binding verb="POST"/>
+  </wsdl:binding>
+  <wsdl:service name="BarCode">
+    <wsdl:documentation>Barcode generator</wsdl:documentation>
+    <wsdl:port name="BarCodeSoap" binding="tns:BarCodeSoap">
+      <soap:address location="http://www.webservicex.net/genericbarcode.asmx"/>
+    </wsdl:port>
+    <wsdl:port name="BarCodeSoap12" binding="tns:BarCodeSoap12">
+      <soap12:address location="http://www.webservicex.net/genericbarcode.asmx"/>
+    </wsdl:port>
+    <wsdl:port name="BarCodeHttpGet" binding="tns:BarCodeHttpGet">
+      <http:address location="http://www.webservicex.net/genericbarcode.asmx"/>
+    </wsdl:port>
+    <wsdl:port name="BarCodeHttpPost" binding="tns:BarCodeHttpPost">
+      <http:address location="http://www.webservicex.net/genericbarcode.asmx"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://www.webservicex.net/genericbarcode.asmx</con:endpoint></con:endpoints><con:operation id="7e8bb5f0-f768-4ebc-9a8f-3e63d508b986" isOneWay="false" action="http://www.webservicex.net/GenerateBarCode" name="GenerateBarCode" bindingOperationName="GenerateBarCode" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="d626aff8-c0f8-4e76-92f2-1a66cd957d97" name="makeBarCode_DisplayText"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://www.webservicex.net/genericbarcode.asmx</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:web="http://www.webservicex.net/">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <web:GenerateBarCode>\r
+         <web:BarCodeParam>\r
+            <web:Height>125</web:Height>\r
+            <web:Width>225</web:Width>\r
+            <web:Angle>0</web:Angle>\r
+            <web:Ratio>5</web:Ratio>\r
+            <web:Module>0</web:Module>\r
+            <web:Left>25</web:Left>\r
+            <web:Top>0</web:Top>\r
+            <web:CheckSum>false</web:CheckSum>\r
+            <web:FontSize>10</web:FontSize>\r
+            <web:FontName>"Arial"</web:FontName>\r
+            <web:BarColor>"Black"</web:BarColor>\r
+            <web:BGColor>"White"</web:BGColor>\r
+            <web:barcodeOption>Both</web:barcodeOption>\r
+            <web:barcodeType>Code_2_5_interleaved</web:barcodeType>\r
+            <web:checkSumMethod>None</web:checkSumMethod>\r
+            <web:showTextPosition>BottomCenter</web:showTextPosition>\r
+            <web:BarCodeImageFormat>PNG</web:BarCodeImageFormat>\r
+         </web:BarCodeParam>\r
+         <web:BarCodeText>819825854027</web:BarCodeText>\r
+      </web:GenerateBarCode>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.webservicex.net/GenerateBarCode"/><con:wsrmConfig version="1.2"/></con:call><con:call id="e9febf43-9135-4e1c-ad90-3fb144efc703" name="makeBarCode_FontSize"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://www.webservicex.net/genericbarcode.asmx</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:web="http://www.webservicex.net/">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <web:GenerateBarCode>\r
+         <web:BarCodeParam>\r
+            <web:Height>125</web:Height>\r
+            <web:Width>225</web:Width>\r
+            <web:Angle>0</web:Angle>\r
+            <web:Ratio>5</web:Ratio>\r
+            <web:Module>0</web:Module>\r
+            <web:Left>25</web:Left>\r
+            <web:Top>0</web:Top>\r
+            <web:CheckSum>false</web:CheckSum>\r
+            <web:FontSize>14</web:FontSize>\r
+            <web:FontName>"Arial"</web:FontName>\r
+            <web:BarColor>"Black"</web:BarColor>\r
+            <web:BGColor>"White"</web:BGColor>\r
+            <web:barcodeOption>Both</web:barcodeOption>\r
+            <web:barcodeType>Code_2_5_interleaved</web:barcodeType>\r
+            <web:checkSumMethod>None</web:checkSumMethod>\r
+            <web:showTextPosition>BottomCenter</web:showTextPosition>\r
+            <web:BarCodeImageFormat>PNG</web:BarCodeImageFormat>\r
+         </web:BarCodeParam>\r
+         <web:BarCodeText>734341232213334</web:BarCodeText>\r
+      </web:GenerateBarCode>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.webservicex.net/GenerateBarCode"/><con:wsrmConfig version="1.2"/></con:call><con:call id="92e3adb8-f397-47e8-a565-f09d30ba7c11" name="makeBarCode_DisplayPosition"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://www.webservicex.net/genericbarcode.asmx</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:web="http://www.webservicex.net/">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <web:GenerateBarCode>\r
+         <web:BarCodeParam>\r
+            <web:Height>125</web:Height>\r
+            <web:Width>225</web:Width>\r
+            <web:Angle>0</web:Angle>\r
+            <web:Ratio>5</web:Ratio>\r
+            <web:Module>0</web:Module>\r
+            <web:Left>25</web:Left>\r
+            <web:Top>0</web:Top>\r
+            <web:CheckSum>false</web:CheckSum>\r
+            <web:FontSize>10</web:FontSize>\r
+            <web:FontName>"Arial"</web:FontName>\r
+            <web:BarColor>"Black"</web:BarColor>\r
+            <web:BGColor>"White"</web:BGColor>\r
+            <web:barcodeOption>Both</web:barcodeOption>\r
+            <web:barcodeType>Code_2_5_interleaved</web:barcodeType>\r
+            <web:checkSumMethod>None</web:checkSumMethod>\r
+            <web:showTextPosition>TopCenter</web:showTextPosition>\r
+            <web:BarCodeImageFormat>PNG</web:BarCodeImageFormat>\r
+         </web:BarCodeParam>\r
+         <web:BarCodeText>734341232213334</web:BarCodeText>\r
+      </web:GenerateBarCode>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.webservicex.net/GenerateBarCode"/><con:wsrmConfig version="1.2"/></con:call><con:call id="a09651bd-1857-4d06-8902-f2dd72f30397" name="makeBarGenericBarCode"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://www.webservicex.net/genericbarcode.asmx</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:web="http://www.webservicex.net/">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <web:GenerateBarCode>\r
+         <web:BarCodeParam>\r
+            <web:Height>125</web:Height>\r
+            <web:Width>225</web:Width>\r
+            <web:Angle>0</web:Angle>\r
+            <web:Ratio>5</web:Ratio>\r
+            <web:Module>0</web:Module>\r
+            <web:Left>25</web:Left>\r
+            <web:Top>0</web:Top>\r
+            <web:CheckSum>false</web:CheckSum>\r
+            <web:FontSize>10</web:FontSize>\r
+            <web:FontName>"Arial"</web:FontName>\r
+            <web:BarColor>"Black"</web:BarColor>\r
+            <web:BGColor>"White"</web:BGColor>\r
+            <web:barcodeOption>Both</web:barcodeOption>\r
+            <web:barcodeType>Code_2_5_interleaved</web:barcodeType>\r
+            <web:checkSumMethod>None</web:checkSumMethod>\r
+            <web:showTextPosition>BottomCenter</web:showTextPosition>\r
+            <web:BarCodeImageFormat>PNG</web:BarCodeImageFormat>\r
+         </web:BarCodeParam>\r
+         <web:BarCodeText>734341232213334</web:BarCodeText>\r
+      </web:GenerateBarCode>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.webservicex.net/GenerateBarCode"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:testSuite id="bab2c428-f47d-4473-9287-dae10c6e7ee5" name="CreateBarCode"><con:settings/><con:runType>PARALLELL</con:runType><con:testCase id="4ce7a120-dc78-47b3-a621-fc5e7ab13f24" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="DisplayPosition" searchProperties="true"><con:settings/><con:testStep type="request" id="3fbf1e08-588f-4549-87bc-f22a2424ac86" name="GenerateBarCode - makeBarCode_DisplayPosition"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>BarCodeSoap</con:interface><con:operation>GenerateBarCode</con:operation><con:request name="GenerateBarCode - makeBarCode_DisplayPosition" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="05a66b81-fcdf-46c8-bcdc-604b0aae2401"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://www.webservicex.net/genericbarcode.asmx</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:web="http://www.webservicex.net/">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <web:GenerateBarCode>\r
+         <web:BarCodeParam>\r
+            <web:Height>125</web:Height>\r
+            <web:Width>225</web:Width>\r
+            <web:Angle>0</web:Angle>\r
+            <web:Ratio>5</web:Ratio>\r
+            <web:Module>0</web:Module>\r
+            <web:Left>25</web:Left>\r
+            <web:Top>0</web:Top>\r
+            <web:CheckSum>false</web:CheckSum>\r
+            <web:FontSize>10</web:FontSize>\r
+            <web:FontName>"Arial"</web:FontName>\r
+            <web:BarColor>"Black"</web:BarColor>\r
+            <web:BGColor>"White"</web:BGColor>\r
+            <web:barcodeOption>Both</web:barcodeOption>\r
+            <web:barcodeType>Code_2_5_interleaved</web:barcodeType>\r
+            <web:checkSumMethod>None</web:checkSumMethod>\r
+            <web:showTextPosition>TopCenter</web:showTextPosition>\r
+            <web:BarCodeImageFormat>PNG</web:BarCodeImageFormat>\r
+         </web:BarCodeParam>\r
+         <web:BarCodeText>734341232213334</web:BarCodeText>\r
+      </web:GenerateBarCode>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:assertion type="Valid HTTP Status Codes" id="3a015f3c-c0c8-4c69-80f5-86c1d904643f" name="Valid HTTP Status Codes"><con:configuration><codes>200</codes></con:configuration></con:assertion><con:assertion type="XPath Match" id="36b92227-fa24-4abf-a1f7-1eaea8a6fda3" name="XPath Match"><con:configuration><path>//*[local-name(.)='GenerateBarCodeResult'][1]</path><content>*</content><allowWildcards>true</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.webservicex.net/GenerateBarCode"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/></con:testCase><con:testCase id="13f1b02a-8dbb-4a16-95a1-611cb755fdff" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="DisplayText" searchProperties="true"><con:settings/><con:testStep type="request" id="272ad2cd-765d-4def-a699-611b11d5d10b" name="GenerateBarCode - makeBarCode_DisplayText"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>BarCodeSoap</con:interface><con:operation>GenerateBarCode</con:operation><con:request name="GenerateBarCode - makeBarCode_DisplayText" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="e673b4cf-0338-4fe2-9ffd-0a3f373e9ecf"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://www.webservicex.net/genericbarcode.asmx</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:web="http://www.webservicex.net/">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <web:GenerateBarCode>\r
+         <web:BarCodeParam>\r
+            <web:Height>125</web:Height>\r
+            <web:Width>225</web:Width>\r
+            <web:Angle>0</web:Angle>\r
+            <web:Ratio>5</web:Ratio>\r
+            <web:Module>0</web:Module>\r
+            <web:Left>25</web:Left>\r
+            <web:Top>0</web:Top>\r
+            <web:CheckSum>false</web:CheckSum>\r
+            <web:FontSize>10</web:FontSize>\r
+            <web:FontName>"Arial"</web:FontName>\r
+            <web:BarColor>"Black"</web:BarColor>\r
+            <web:BGColor>"White"</web:BGColor>\r
+            <web:barcodeOption>Both</web:barcodeOption>\r
+            <web:barcodeType>Code_2_5_interleaved</web:barcodeType>\r
+            <web:checkSumMethod>None</web:checkSumMethod>\r
+            <web:showTextPosition>BottomCenter</web:showTextPosition>\r
+            <web:BarCodeImageFormat>PNG</web:BarCodeImageFormat>\r
+         </web:BarCodeParam>\r
+         <web:BarCodeText>819825854027</web:BarCodeText>\r
+      </web:GenerateBarCode>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:assertion type="Valid HTTP Status Codes" id="9a431522-a1a5-46b7-987b-6c1bb4984eac" name="Valid HTTP Status Codes"><con:configuration><codes>200</codes></con:configuration></con:assertion><con:assertion type="XPath Match" id="0f491b39-65c7-4337-b4fa-c1f31d49d2c9" name="XPath Match"><con:configuration><path>//*[local-name(.)='GenerateBarCodeResult'][1]</path><content>*</content><allowWildcards>true</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.webservicex.net/GenerateBarCode"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/></con:testCase><con:testCase id="3467669a-137b-437b-97d1-fe0ce86b7c30" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="FontSize" searchProperties="true"><con:settings/><con:testStep type="request" id="9d024168-1e37-4145-a420-8cd12fdd55fb" name="GenerateBarCode - makeBarCode_FontSize"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>BarCodeSoap</con:interface><con:operation>GenerateBarCode</con:operation><con:request name="GenerateBarCode - makeBarCode_FontSize" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="4938ea01-9c22-4fa6-a3d9-430c8c41e847"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://www.webservicex.net/genericbarcode.asmx</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:web="http://www.webservicex.net/">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <web:GenerateBarCode>\r
+         <web:BarCodeParam>\r
+            <web:Height>125</web:Height>\r
+            <web:Width>225</web:Width>\r
+            <web:Angle>0</web:Angle>\r
+            <web:Ratio>5</web:Ratio>\r
+            <web:Module>0</web:Module>\r
+            <web:Left>25</web:Left>\r
+            <web:Top>0</web:Top>\r
+            <web:CheckSum>false</web:CheckSum>\r
+            <web:FontSize>14</web:FontSize>\r
+            <web:FontName>"Arial"</web:FontName>\r
+            <web:BarColor>"Black"</web:BarColor>\r
+            <web:BGColor>"White"</web:BGColor>\r
+            <web:barcodeOption>Both</web:barcodeOption>\r
+            <web:barcodeType>Code_2_5_interleaved</web:barcodeType>\r
+            <web:checkSumMethod>None</web:checkSumMethod>\r
+            <web:showTextPosition>BottomCenter</web:showTextPosition>\r
+            <web:BarCodeImageFormat>PNG</web:BarCodeImageFormat>\r
+         </web:BarCodeParam>\r
+         <web:BarCodeText>734341232213334</web:BarCodeText>\r
+      </web:GenerateBarCode>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:assertion type="Valid HTTP Status Codes" id="df25d263-915b-44ac-813c-1e433b834be7" name="Valid HTTP Status Codes"><con:configuration><codes>200</codes></con:configuration></con:assertion><con:assertion type="XPath Match" id="a3ff5181-2e6c-44c5-9ed6-3b103df2b9f3" name="XPath Match"><con:configuration><path>//*[local-name(.)='GenerateBarCodeResult'][1]</path><content>*</content><allowWildcards>true</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.webservicex.net/GenerateBarCode"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/></con:testCase><con:testCase id="8790e67b-249c-4927-b8be-fb565966b372" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="Generic" searchProperties="true"><con:settings/><con:testStep type="request" id="196c64c9-49bb-4fe6-b388-c7c970019d46" name="GenerateBarCode - makeBarGenericBarCode"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>BarCodeSoap</con:interface><con:operation>GenerateBarCode</con:operation><con:request name="GenerateBarCode - makeBarGenericBarCode" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="509d59a7-3d01-455e-b4e4-8c5788b07789"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://www.webservicex.net/genericbarcode.asmx</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:web="http://www.webservicex.net/">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <web:GenerateBarCode>\r
+         <web:BarCodeParam>\r
+            <web:Height>125</web:Height>\r
+            <web:Width>225</web:Width>\r
+            <web:Angle>0</web:Angle>\r
+            <web:Ratio>5</web:Ratio>\r
+            <web:Module>0</web:Module>\r
+            <web:Left>25</web:Left>\r
+            <web:Top>0</web:Top>\r
+            <web:CheckSum>false</web:CheckSum>\r
+            <web:FontSize>10</web:FontSize>\r
+            <web:FontName>"Arial"</web:FontName>\r
+            <web:BarColor>"Black"</web:BarColor>\r
+            <web:BGColor>"White"</web:BGColor>\r
+            <web:barcodeOption>Both</web:barcodeOption>\r
+            <web:barcodeType>Code_2_5_interleaved</web:barcodeType>\r
+            <web:checkSumMethod>None</web:checkSumMethod>\r
+            <web:showTextPosition>BottomCenter</web:showTextPosition>\r
+            <web:BarCodeImageFormat>PNG</web:BarCodeImageFormat>\r
+         </web:BarCodeParam>\r
+         <web:BarCodeText>734341232213334</web:BarCodeText>\r
+      </web:GenerateBarCode>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:assertion type="Valid HTTP Status Codes" id="60004dea-7c42-4c87-9e2b-8c8a83eae5f8" name="Valid HTTP Status Codes"><con:configuration><codes>200</codes></con:configuration></con:assertion><con:assertion type="XPath Match" id="84341e59-da3d-4845-8239-6937e911a00c" name="XPath Match"><con:configuration><path>//*[local-name(.)='GenerateBarCodeResult'][1]</path><content>*</content><allowWildcards>true</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.webservicex.net/GenerateBarCode"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/></con:testCase><con:properties/></con:testSuite><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/></con:soapui-project>

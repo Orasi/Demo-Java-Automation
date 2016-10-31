@@ -109,6 +109,10 @@ public class GenerateBarCode extends GenericBarCode{
     
     public void generateBarCodeImage(){
 	 try {
+		File tempFolder = new File("tmp");
+		if( !tempFolder.exists()){
+			tempFolder.mkdir();
+		}
 	    String uploadFile = "tmp/"+Randomness.randomAlphaNumeric(20)+"_test.png";
 	    BufferedImage image = ImageIO.read(new ByteArrayInputStream(Base64Coder.decode(getBarCodeBytes())));
 	    if (image == null) {

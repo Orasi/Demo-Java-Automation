@@ -722,7 +722,6 @@ public abstract class SoapService{
 	protected String buildRequestFromWSDL(String operation) {
 		TestReporter.logTrace("Entering SoapService#buildRequestFromWSDL");
 		System.setProperty("soapui.log4j.config", this.getClass().getResource("/soapui-log4j.xml").getPath());
-		TestReporter.setDebugLevel(3);
 		WsdlInterface[] wsdls = null;
 		WsdlInterface wsdl = null;
 		try {
