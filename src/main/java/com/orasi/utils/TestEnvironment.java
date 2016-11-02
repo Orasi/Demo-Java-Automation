@@ -13,7 +13,11 @@ import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.Parameters;
 
+import com.orasi.api.soapServices.core.SoapService;
 import com.orasi.exception.AutomationException;
 import com.saucelabs.common.SauceOnDemandAuthentication;
 import com.saucelabs.saucerest.SauceREST;
@@ -49,25 +53,32 @@ public class TestEnvironment {
 	 */
 	protected OrasiDriver driver;
 	protected ThreadLocal<OrasiDriver> threadedDriver = new ThreadLocal<OrasiDriver>();
+
+	protected ThreadLocal<SoapService> soapService = new ThreadLocal<SoapService>();
 	private boolean setThreadDriver = false;
 	protected ThreadLocal<String> sessionId = new ThreadLocal<String>();
-
+	
+	@BeforeMethod
+	  @Parameters({ "environment"})
+	public void setup(String environment){
+	    this.environment = environment;
+	}
 	/*
 	 * URL and Credential Repository Field
 	 */
-	protected ResourceBundle appURLRepository = ResourceBundle.getBundle(Constants.ENVIRONMENT_URL_PATH);
+	//protected ResourceBundle appURLRepository = ResourceBundle.getBundle(Constants.ENVIRONMENT_URL_PATH);
 	/*
 	 * Selenium Grid Hub Field
 	 */
-	protected String defaultSeleniumHubURL = appURLRepository.getString("DEFAULT_SELENIUMGRID_HUB_URL");
+	/*protected String defaultSeleniumHubURL = appURLRepository.getString("DEFAULT_SELENIUMGRID_HUB_URL");
 
-	/*
+	
 	 * Mobile Fields
-	 */
+	 
 	protected String deviceID = "";
 	protected String mobileHubURL = appURLRepository.getString("MOBILE_HUB_URL");
 	protected String mobileOSVersion = "";
-	protected String mobileAppPath = appURLRepository.getString("MOBILE_APP_PATH");
+	protected String mobileAppPath = appURLRepository.getString("MOBILE_APP_PATH");*/
 	
 	/*
 	 * Sauce Labs Fields
@@ -81,17 +92,17 @@ public class TestEnvironment {
 	 * {@link com.saucelabs.common.SauceOnDemandAuthentication} constructor.
 	 */
 
-	protected SauceOnDemandAuthentication authentication = new SauceOnDemandAuthentication(
+	/*protected SauceOnDemandAuthentication authentication = new SauceOnDemandAuthentication(
 			Base64Coder.decodeString(appURLRepository.getString("SAUCELABS_USERNAME")),
 			Base64Coder.decodeString(appURLRepository.getString("SAUCELABS_KEY")));
 
 	protected String sauceLabsURL = "http://" + authentication.getUsername() + ":" + authentication.getAccessKey()
 			+ "@ondemand.saucelabs.com:80/wd/hub";
-	
+	*/
 	/*
 	 * Mustard Fields
 	 */
-	protected boolean reportToMustard = false;
+	protected boolean reportToMustard = true;
 
 	/*
 	 * Constructors for TestEnvironment class
@@ -200,20 +211,20 @@ public class TestEnvironment {
 		return testName;
 	}
 	public String getRemoteURL() {
-		if (runLocation.equalsIgnoreCase("sauce"))
+	/*	if (runLocation.equalsIgnoreCase("sauce"))
 			return sauceLabsURL;
 		else if (runLocation.equalsIgnoreCase("grid"))
 			return defaultSeleniumHubURL;
 		else if (runLocation.equalsIgnoreCase("mobile"))
 			return mobileHubURL;
-		else
+		else*/
 			return "";
 	}
 
-
+/*
 	protected void setSeleniumHubURL(String newHubURLName ) {
 		defaultSeleniumHubURL = appURLRepository.getString(newHubURLName);;
-	}
+	}*/
 	
 	/*
 	 * Mustard specific 
@@ -229,13 +240,13 @@ public class TestEnvironment {
 	/*
 	 * Mobile Specific
 	 */
-	protected void setDeviceID(String deviceID) {
+/*	protected void setDeviceID(String deviceID) {
 		this.deviceID = deviceID;
 	}
 	protected void setMobileOSVersion(String mobileOSVersion){
 		this.mobileOSVersion = mobileOSVersion;
 	}
-
+*/
 	
 	// ************************************
 	// ************************************
@@ -267,7 +278,15 @@ public class TestEnvironment {
 			return driver;
 		}
 	}
+	protected void setSoapService(SoapService soapService) {
+	    this.soapService.set(soapService);
+		
+	}
 
+	public SoapService getSoapService() {
+		return soapService.get();
+	
+	}
 	/**
 	 * User controls to see the driver to be threaded or not. Only use when
 	 * using data provider threading
@@ -283,9 +302,9 @@ public class TestEnvironment {
 	/**
 	 * Method to retrive the URL and Credential Repository
 	 */
-	protected ResourceBundle getEnvironmentURLRepository() {
+/*	protected ResourceBundle getEnvironmentURLRepository() {
 		return appURLRepository;
-	}
+	}*/
 
 	/**
 	 * Launches the application under test using a URL passed into method
@@ -306,10 +325,10 @@ public class TestEnvironment {
 	 * @author Justin Phlegar
 	 * @return Nothing
 	 */
-	private void launchApplication() {
+/*	private void launchApplication() {
 		launchApplication(appURLRepository
 					.getString(getApplicationUnderTest().toUpperCase() + "_" + getTestEnvironment().toUpperCase()));
-	}
+	}*/
 
 
 	/**
@@ -330,11 +349,11 @@ public class TestEnvironment {
 		setTestName(testName);
 		driverSetup();
 		//launch the application under test normally 
-		if (pageUrl.isEmpty())
-			launchApplication();
+/*		if (pageUrl.isEmpty())
+		//	launchApplication();
 		//Otherwise if you have a specific page you want the test to start from
 		else
-			launchApplication(pageUrl);
+			launchApplication(pageUrl);*/
 		return getDriver();
 	}
 
@@ -347,9 +366,9 @@ public class TestEnvironment {
 	 */
 	protected void endTest(String testName, ITestResult testResults) {
 		//Sauce labs specific to end test
-		if (runLocation.equalsIgnoreCase("sauce")) {
+	/*	if (runLocation.equalsIgnoreCase("sauce")) {
 			reportToSauceLabs(testResults.getStatus());
-		} 
+		} */
 		//quit driver
 		if (getDriver() != null && getDriver().getWindowHandles().size() > 0) {
 			getDriver().quit();
@@ -364,13 +383,13 @@ public class TestEnvironment {
 	 * before closing test if reporting to sauce labs
 	 */
 	protected void endTest(String testName, ITestContext testResults) {
-		if (runLocation.equalsIgnoreCase("sauce")) {
+/*		if (runLocation.equalsIgnoreCase("sauce")) {
 			if (testResults.getFailedTests().size() == 0) {
 				reportToSauceLabs(ITestResult.SUCCESS);
 			} else {
 				reportToSauceLabs(ITestResult.FAILURE);
 			}
-		}
+		}*/
 		//quit driver
 		if (getDriver() != null && getDriver().getWindowHandles().size() > 0) {
 			getDriver().quit();
@@ -383,7 +402,7 @@ public class TestEnvironment {
 	 * and quits 
 	 * @param result
 	 */
-	private void reportToSauceLabs(int result) {
+/*	private void reportToSauceLabs(int result) {
 		Map<String, Object> updates = new HashMap<String, Object>();
 		updates.put("name", getTestName());
 
@@ -394,7 +413,7 @@ public class TestEnvironment {
 		}
 		SauceREST client = new SauceREST(authentication.getUsername(), authentication.getAccessKey());
 		client.updateJobInfo(driver.getSessionId().toString(), updates);
-	}
+	}*/
 
 
 	/**
@@ -572,7 +591,7 @@ public class TestEnvironment {
 	 *@author jessica.marshall
 	 */
 	private void mobileDriverSetup(){
-		DesiredCapabilities caps = new DesiredCapabilities();
+	/*	DesiredCapabilities caps = new DesiredCapabilities();
 		//if a device ID is specified, go to that device
 		if (deviceID.isEmpty()){
 			//Which mobile OS platform to use, e.g. iOS, Android
@@ -594,7 +613,7 @@ public class TestEnvironment {
 			setDriver(new OrasiDriver(caps, new URL(getRemoteURL())));
 		} catch (MalformedURLException e) {
 			throw new AutomationException("Could not generate the moblile remote driver", e);
-		}
+		}*/
 	}
 	
 	/**

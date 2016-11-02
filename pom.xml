@@ -43,9 +43,7 @@
 				<version>2.12</version>
 				<configuration>
 					<testFailureIgnore>true</testFailureIgnore>
-					<argLine>
-						-javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
-					</argLine>
+				
 					<systemPropertyVariables>
 						<jenkinsOperatingSystem></jenkinsOperatingSystem>
 						<jenkinsBrowser></jenkinsBrowser>
@@ -55,35 +53,11 @@
 						<suiteXmlFile>${testNGSourceDirectory}/bluesource/testngXMLs/DemoRun.xml</suiteXmlFile>
 					</suiteXmlFiles>
 				</configuration>
-				<dependencies>
-					<dependency>
-						<groupId>org.aspectj</groupId>
-						<artifactId>aspectjweaver</artifactId>
-						<version>${aspectj.version}</version>
-					</dependency>
-				</dependencies>
 			</plugin>
-			<plugin>
-				<groupId>org.eclipse.jetty</groupId>
-				<artifactId>jetty-maven-plugin</artifactId>
-				<version>9.2.9.v20150224</version>
-				<configuration>
-					<webAppSourceDirectory>${project.build.directory}/site/allure-maven-plugin</webAppSourceDirectory>
-
-				</configuration>
-			</plugin>
+		
 		</plugins>
 	</build>
-	<reporting>
-		<excludeDefaults>true</excludeDefaults>
-		<plugins>
-			<plugin>
-				<groupId>ru.yandex.qatools.allure</groupId>
-				<artifactId>allure-maven-plugin</artifactId>
-				<version>2.0</version>
-			</plugin>
-		</plugins>
-	</reporting>
+	
 	<dependencies>
 		<!-- Start Selenium requirements: Up-to-date as of 6-11-2015 -->
 
@@ -115,20 +89,6 @@
 		</dependency>
 
 		<!-- End Selenium requirements -->
-		<!-- Start Allure Reports requirements -->
-		<dependency>
-			<groupId>ru.yandex.qatools.allure</groupId>
-			<artifactId>allure-testng-adaptor</artifactId>
-			<version>1.4.19</version>
-			<exclusions>
-				<exclusion>
-					<groupId>junit</groupId>
-					<artifactId>junit</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-
-		<!-- End Allure Reports requirements -->
 		<!-- Start Sauce Labs requirements: Up-to-date as of 6-11-2015 -->
 		<dependency>
 			<groupId>com.saucelabs</groupId>
@@ -253,7 +213,7 @@
 		<!-- End REST Core requirements -->
 
 		<!-- Start Soap Core requirements: Up-to-date as of 6-11-2015 -->
-		<dependency>
+	<!-- 	<dependency>
 			<groupId>eviware</groupId>
 			<artifactId>soapui</artifactId>
 			<version>4.5.0</version>
@@ -262,7 +222,7 @@
 			<groupId>eviware</groupId>
 			<artifactId>soapui-xmlbeans</artifactId>
 			<version>4.5.0</version>
-		</dependency>
+		</dependency> -->
 		<dependency>
 			<groupId>com.fifesoft</groupId>
 			<artifactId>languagesupport</artifactId>
@@ -298,6 +258,11 @@
 			<artifactId>jaxen</artifactId>
 			<version>1.1.4</version>
 		</dependency>
+		   <dependency>
+            <groupId>javax.jms</groupId>
+            <artifactId>jms</artifactId>
+            <version>1.1</version>
+        </dependency> 
 		<!-- End Soap Core requirements -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
