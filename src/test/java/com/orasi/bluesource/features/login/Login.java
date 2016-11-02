@@ -52,7 +52,7 @@ public class Login  extends TestEnvironment {
     @Stories("Logging in will land me on the Homepage")
     @Severity(SeverityLevel.BLOCKER)
     @Title("Login - Login with correct information")
-    @Test(dataProvider = "dataScenario", groups = { "regression" , "login" })
+    @Test(dataProvider = "dataScenario", groups = { "regression" , "login", "demo" })
     public void testLogin(@Parameter String testScenario, @Parameter String role) {
 	
 	    testName = "Test Login_" + getBrowserUnderTest() + "_" + getOperatingSystem();

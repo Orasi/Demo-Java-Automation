@@ -1,15 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="Bluesource_Chrome_demo" parallel= "methods" thread-count="10">
+<suite name="Bluesource_Chrome_demo" parallel= "tests" thread-count="2">
 	<listeners>
 		<listener class-name="com.orasi.utils.Screenshot" />
 	</listeners>
 	
-	<test name="Chrome">
+	<test name="Chrome" parallel="methods" thread-count="20">
 		<parameter name="browserUnderTest" value="chrome" />
 		<parameter name="environment" value="qa" />
 		<parameter name="runLocation" value="grid" />
 		<parameter name="browserVersion" value="" />
+		<parameter name="operatingSystem" value="WINDOWS" />
+		<groups>
+			<run>
+				<include name="demo" />		
+			</run>
+		</groups>
+		<packages>
+			<package name="com.orasi.bluesource.features.*">
+			</package>
+		</packages>
+	</test> <!-- Test -->
+	
+	<test name="Firefox" parallel="methods" thread-count="20">
+		<parameter name="browserUnderTest" value="firefox" />
+		<parameter name="environment" value="qa" />
+		<parameter name="runLocation" value="grid" />
+		<parameter name="browserVersion" value="47" />
 		<parameter name="operatingSystem" value="WINDOWS" />
 		<groups>
 			<run>

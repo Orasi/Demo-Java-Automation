@@ -43,7 +43,7 @@ public class ShowEmployeesPerPage  extends TestEnvironment {
     @Stories("I can select the number of Employees that is displayed")
     @Severity(SeverityLevel.MINOR)
     @Title("Manage Employees - Show 5 Employees Per Page")
-    @Test(alwaysRun=true )
+    @Test(groups = { "regression", "manageEmployees", "showEmployeesPerPage", "demo" }, alwaysRun=true )
     public void testShow5EmployeesPerPage() {
 	
 	testName = new Object() {
@@ -75,7 +75,7 @@ public class ShowEmployeesPerPage  extends TestEnvironment {
     @Stories("I can select the number of Employees that is displayed")
     @Severity(SeverityLevel.MINOR)
     @Title("Manage Employees - Show 10 Employees Per Page")
-    @Test(groups = { "regression", "manageEmployees", "showEmployeesPerPage" }, dependsOnMethods="testShow5EmployeesPerPage")
+    @Test(groups = { "regression", "manageEmployees", "showEmployeesPerPage", "demo" }, dependsOnMethods="testShow5EmployeesPerPage")
     public void testShow10EmployeesPerPage() {
 	
 	EmployeesPage employeesPage = new EmployeesPage(driver);
@@ -90,7 +90,7 @@ public class ShowEmployeesPerPage  extends TestEnvironment {
     @Stories("I can select the number of Employees that is displayed")
     @Severity(SeverityLevel.MINOR)
     @Title("Manage Employees - Show 15 Employees Per Page")
-    @Test(groups = { "regression", "manageEmployees", "showEmployeesPerPage" }, dependsOnMethods="testShow10EmployeesPerPage")
+    @Test(groups = { "regression", "manageEmployees", "showEmployeesPerPage", "demo" }, dependsOnMethods="testShow10EmployeesPerPage")
     public void testShow15EmployeesPerPage() {
 	
 	EmployeesPage employeesPage = new EmployeesPage(driver);
@@ -105,7 +105,7 @@ public class ShowEmployeesPerPage  extends TestEnvironment {
     @Stories("I can select the number of Employees that is displayed")
     @Severity(SeverityLevel.MINOR)
     @Title("Manage Employees - Show 20 Employees Per Page")
-    @Test(groups = { "regression", "manageEmployees", "showEmployeesPerPage" }, dependsOnMethods="testShow15EmployeesPerPage")
+    @Test(groups = { "regression", "manageEmployees", "showEmployeesPerPage", "demo" }, dependsOnMethods="testShow15EmployeesPerPage")
     public void testShow20EmployeesPerPage() {
 	
 	EmployeesPage employeesPage = new EmployeesPage(driver);

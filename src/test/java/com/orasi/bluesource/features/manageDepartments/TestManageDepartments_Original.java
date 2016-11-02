@@ -57,7 +57,7 @@ public class TestManageDepartments_Original  extends TestEnvironment {
     @Stories("Given when I login as an admin role, I can create a Department")
     @Severity(SeverityLevel.BLOCKER)
     @Title("ManageDepartments - Create Department")
-    @Test(dataProvider = "dataScenario", groups = { "demo", "regression","manageDepartments", "qaOnly" })
+    @Test(dataProvider = "dataScenario", groups = {"regression","manageDepartments", "qaOnly" })
     public void testAddDepartment(@Parameter String testScenario, @Parameter String role,
 	    @Parameter String newDept) {
 	
@@ -229,7 +229,7 @@ public class TestManageDepartments_Original  extends TestEnvironment {
     @Stories("Given when I login as an admin role, I can delete departments")
     @Severity(SeverityLevel.NORMAL)
     @Title("ManageDepartments - Delete Department")
-    @Test(groups = { "demo", "regression","manageDepartments", "qaOnly" },dependsOnMethods= "testAddDepartment")
+    @Test(groups = {"regression","manageDepartments", "qaOnly" },dependsOnMethods= "testAddDepartment")
     public void testDeleteDepartment() {
 	
 	ListingDepartmentsPage deptPage = new ListingDepartmentsPage(driver);

@@ -2,14 +2,13 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="Suite" parallel="instances" thread-count="8">
 	<parameter name="browserUnderTest" value="firefox" />
-	<parameter name="environment" value="staging" />
-	<parameter name="runLocation" value="local" />
-	<parameter name="browserVersion" value="" />
+	<parameter name="environment" value="qa" />
+	<parameter name="runLocation" value="grid" />
+	<parameter name="browserVersion" value="47" />
 	<parameter name="operatingSystem" value="windows" />
-	<!-- <parameter name="runLocation" value="remote"</parameter> -->
 	<test name="Test">
 		<classes>
-			<class name="com.orasi.bluesource.standalone.ValidateExistingVacations" />
+			<class name="com.orasi.bluesource.features.manageEmployees.ShowEmployeesPerPage" />
 		</classes>
 	</test> <!-- Test -->
 </suite> <!-- Suite -->

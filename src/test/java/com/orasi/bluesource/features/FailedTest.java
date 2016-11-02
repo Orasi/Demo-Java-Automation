@@ -1,4 +1,4 @@
-package com.orasi.bluesource.features.manageTitles;
+package com.orasi.bluesource.features;
 
 import org.testng.ITestContext;
 import org.testng.annotations.AfterClass;
@@ -27,7 +27,7 @@ import ru.yandex.qatools.allure.annotations.Stories;
 import ru.yandex.qatools.allure.annotations.Title;
 import ru.yandex.qatools.allure.model.SeverityLevel;
 
-public class TestManageTitles extends TestEnvironment{
+public class FailedTest extends TestEnvironment{
 
    // private OrasiDriver driver = null;
     private String title = "";
@@ -55,20 +55,17 @@ public class TestManageTitles extends TestEnvironment{
     }    
 
     @Features("Manage Titles")
-    @Stories("As an admin,  I should be able to create a new title")
+    @Stories("As an admin I should be able to create a title")
     @Title("Manage Titles - Create")
     @Severity(SeverityLevel.CRITICAL)
     @Test(dataProvider = "dataScenario", groups = {"demo",  "regression", "manageTitles" , "qaOnly"})
     public void testCreateTitle(@Parameter String testScenario, @Parameter String role,
 	    @Parameter String newTitle) {
     	
-		testName = "Manage Titles_" + getBrowserUnderTest() + "_" + getOperatingSystem();
+		testName = "Failed Test Example";
 		
 		//Create a unique title
-		title = newTitle;
-		if (title.equalsIgnoreCase("RANDOM")){
-			title = Randomness.randomAlphaNumeric(11);
-		}
+		title = "";
 		
 		TestReporter.logScenario("This test creates a new title, verifies the title was created successfully,"
 				+ " the modifies the title name, then deletes the title & verifies the title was deleted successfully");
@@ -80,7 +77,7 @@ public class TestManageTitles extends TestEnvironment{
 		// Login
 		TestReporter.logStep("Login to application");
 		LoginPage loginPage = new LoginPage( getDriver());
-		//TestReporter.assertTrue(loginPage.pageLoaded(), "Verify login page is displayed");
+		TestReporter.assertTrue(loginPage.pageLoaded(), "Verify login page is displayed");
 		loginPage.login(role);
 	
 		// Verify user is logged in
