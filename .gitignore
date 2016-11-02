@@ -8,5 +8,6 @@
 /test-output
 /tmp
 /path-to-file
+/selenium-reports
 *.log
 *.tmp
