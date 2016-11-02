@@ -50,7 +50,7 @@ public class Screenshot extends TestListenerAdapter implements IReporter{
 		if (driver != null){
 			if (!driver.toString().contains("null")){
 				
-				if (runLocation.equalsIgnoreCase("remote")) {
+				if (runLocation.equalsIgnoreCase("grid") || runLocation.equalsIgnoreCase("sauce")) {
 					screenshotDriver = new Augmenter().augment(driver);
 				}else {
 					screenshotDriver = driver;
@@ -64,7 +64,7 @@ public class Screenshot extends TestListenerAdapter implements IReporter{
 				fileLocation = destDir + "/" + destFile;
 
 				//For remote runs & on Jenkins
-				if (runLocation.equalsIgnoreCase("remote")){
+				if (runLocation.equalsIgnoreCase("grid") || runLocation.equalsIgnoreCase("sauce")){
 					//this if for reporting to allure
 					try {
 						allureScreenshot = ((TakesScreenshot) screenshotDriver).getScreenshotAs(OutputType.BYTES);

@@ -9,6 +9,8 @@
 		<testNGSourceDirectory>src/test/resources</testNGSourceDirectory>
 		<allure.version>1.4.19</allure.version>
 		<aspectj.version>1.8.5</aspectj.version>
+		<property environment="env" />
+		<property name="JOB_NAME"  value="${env.JOB_NAME}"/>
 	</properties>
 
 	<repositories>
