@@ -15,7 +15,7 @@ public class SoapUIMinimalCICD {
     @Test
     public void testSoapProject_AllAtOnce() throws XmlException, IOException, SoapUIException{
 	// Create a new WSDL project
-	WsdlProject project = new WsdlProject("src/main/resources/soapui/demo-project.xml");
+	WsdlProject project = new WsdlProject("src/main/resources/soapui/demo-project_backup.xml");
 	TestRunner runner = project.run( new PropertiesMap(), false );
 	TestReporter.assertTrue(runner.getStatus().toString().equals("FINISHED"), "Test did not finish successfully but was [ " + runner.getStatus() + " ]. Error reason [ " + runner.getReason() + " ]");
 
