@@ -35,12 +35,12 @@ public class TestListener extends TestListenerAdapter implements IReporter{
 	    Object currentClass = result.getInstance();
 	    reportToMustard = ((TestEnvironment) currentClass).isReportingToMustard();
 	    try{
-		runLocation = ((TestEnvironment) currentClass).getRunLocation().toLowerCase();	
+	//	runLocation = ((TestEnvironment) currentClass).getRunLocation().toLowerCase();	
 		testEnvironment = ((TestEnvironment) currentClass).getTestEnvironment().toLowerCase();	
 	    }catch (Exception e){}
 	    
 	    try{
-		driver = ((TestEnvironment) currentClass).getDriver();
+	//	driver = ((TestEnvironment) currentClass).getDriver();
 		if (driver == null) {
 		    soapService = ((TestEnvironment) currentClass).getSoapService();
 		}

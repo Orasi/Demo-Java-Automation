@@ -303,7 +303,7 @@ public class TestReporter {
 			failFormat = "<font size = 2 color=\"red\">";
 			logFailure(message);
 		}
-		String request =bs.getRequest().replaceAll("</*>", "</*>"); 
+		String request =bs.getRequest(); 
 		String response =bs.getResponse();
 		Reporter.log("<font size = 2><b>Endpoint: " + bs.getServiceURL() + "</b></font><br/>"+failFormat+ "<b><br/> SOAP REQUEST [ " + bs.getServiceName() + "#" + bs.getOperationName() + " ] </b></font>");
 		Reporter.setEscapeHtml(true);

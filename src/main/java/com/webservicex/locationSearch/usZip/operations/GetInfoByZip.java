@@ -1,14 +1,18 @@
 package com.webservicex.locationSearch.usZip.operations;
 
+import java.io.File;
+
 import com.orasi.utils.XMLTools;
 import com.webservicex.locationSearch.usZip.USZip;
 
 public class GetInfoByZip extends USZip{
 	public GetInfoByZip() {
+		File xml = new File(this.getClass().getResource("/xml/usZipSoap/getInfoByZip/getInfoByZip.xml").getPath());
+		setRequestDocument(XMLTools.makeXMLDocument(xml));
 		
 		//Generate a request from a project xml file
 	    	setOperationName("GetInfoByZIP");
-		setRequestDocument(XMLTools.loadXML(buildRequestFromWSDL("GetInfoByZIP")));
+		//setRequestDocument(XMLTools.loadXML(buildRequestFromWSDL("GetInfoByZIP")));
 		removeComments() ;
 		removeWhiteSpace();
 	}	

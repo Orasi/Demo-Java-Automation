@@ -1,0 +1,10 @@
+<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope"	xmlns:web="http://www.webserviceX.NET/">
+	<soap:Header />
+	<soap:Body>
+		<web:ChangeFrequencyUnit>
+			<web:FrequencyValue>17</web:FrequencyValue>
+			<web:fromFrequencyUnit>radianPerminute</web:fromFrequencyUnit>
+			<web:toFrequencyUnit>fresnel</web:toFrequencyUnit>
+		</web:ChangeFrequencyUnit>
+	</soap:Body>
+</soap:Envelope> 

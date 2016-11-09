@@ -17,7 +17,7 @@ import com.webservicex.measurementConverter.temperature.operations.ChangeTempera
 public class TestSoapService extends TestEnvironment{
     @BeforeClass
     public void setup(){
-	TestReporter.setDebugLevel(TestReporter.TRACE);
+	//TestReporter.setDebugLevel(TestReporter.INFO);
     }
     
     //@Test
@@ -45,7 +45,7 @@ public class TestSoapService extends TestEnvironment{
 	getInfo.setState("NC");
 	getInfo.sendRequest();
 	TestReporter.logAPI(getInfo.getNumberOfResults() != 0, "Results were returned", getInfo);
-	TestReporter.assertTrue(getInfo.validateResponse("/excelsheets/GetInfoByStateResponse.xls", "Main"),"Validate Response");
+//	TestReporter.assertTrue(getInfo.validateResponse("/excelsheets/GetInfoByStateResponse.xls", "Main"),"Validate Response");
     }
     
     //@Test
