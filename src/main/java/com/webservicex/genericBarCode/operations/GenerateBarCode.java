@@ -21,6 +21,7 @@ import org.testng.Reporter;
 import com.orasi.exception.AutomationException;
 import com.orasi.utils.Base64Coder;
 import com.orasi.utils.Randomness;
+import com.orasi.utils.TestReporter;
 import com.orasi.utils.XMLTools;
 import com.webservicex.genericBarCode.GenericBarCode;
 
@@ -106,24 +107,36 @@ public class GenerateBarCode extends GenericBarCode{
     public String getBarCodeBytes(){
 	return getResponseNodeValueByXPath("/Envelope/Body/GenerateBarCodeResponse/GenerateBarCodeResult");
     }
-    
+
     public void generateBarCodeImage(){
-	 try {
-		File tempFolder = new File("tmp");
-		if( !tempFolder.exists()){
-			tempFolder.mkdir();
-		}
+	try {
+	    TestReporter.logDebug("Start creating Barcode image");
+	    File tempFolder = new File("tmp");
+	    if( !tempFolder.exists()){
+		TestReporter.logDebug("Creating tmp directory");
+		tempFolder.mkdir();
+	    }
+
 	    String uploadFile = "tmp/"+Randomness.randomAlphaNumeric(20)+"_test.png";
+	    TestReporter.logDebug("File to create is [ " + uploadFile + " ]");	    
+	    
 	    BufferedImage image = ImageIO.read(new ByteArrayInputStream(Base64Coder.decode(getBarCodeBytes())));
 	    if (image == null) {
-	              throw new AutomationException("Buffered Image is null");
-	          }
+		throw new AutomationException("Buffered Image is null");
+	    }
+
+	    TestReporter.logDebug("Converted Base64 bytes to image file");
 	    File file = new File(uploadFile);
 	    ImageIO.write(image, "png", file);
-	    Reporter.log("<a href='" + file.getAbsolutePath() + "'> <img src='file:///" + file.getAbsolutePath() + "'/> </a>");
+
+	    TestReporter.logDebug("Saved PNG file to [ " + uploadFile + " ]");
+	    Reporter.log("<a href='" + file.getAbsolutePath() + "'> <img src='file:///" + file.getAbsolutePath() + "'/> </a> <br/><br/>");
+	    
 	} catch (IOException e) {
 	    // TODO Auto-generated catch block
 	    e.printStackTrace();
 	}
+
+	    TestReporter.logDebug("Finished creating image file");
     }
 }

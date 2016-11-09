@@ -17,10 +17,10 @@ import com.webservicex.measurementConverter.temperature.operations.ChangeTempera
 public class TestSoapService extends TestEnvironment{
     @BeforeClass
     public void setup(){
-	//TestReporter.setDebugLevel(TestReporter.TRACE);
+	TestReporter.setDebugLevel(TestReporter.TRACE);
     }
     
-    @Test
+    //@Test
     public void getInfoByAreaCode(){
 	GetInfoByAreaCode getInfo = new GetInfoByAreaCode();
 	setSoapService(getInfo);
@@ -29,7 +29,7 @@ public class TestSoapService extends TestEnvironment{
 	TestReporter.logAPI(getInfo.getNumberOfResults() != 0, "Results were returned", getInfo);
     }
 
-    @Test
+    //@Test
     public void getInfoByCity(){
 	GetInfoByCity getInfo = new GetInfoByCity();
 	setSoapService(getInfo);
@@ -38,7 +38,7 @@ public class TestSoapService extends TestEnvironment{
 	TestReporter.logAPI(getInfo.getNumberOfResults() != 0, "Results were returned", getInfo);
     }
 
-    @Test
+    //@Test
     public void getInfoByState(){
 	GetInfoByState getInfo = new GetInfoByState();
 	setSoapService(getInfo);
@@ -47,7 +47,7 @@ public class TestSoapService extends TestEnvironment{
 	TestReporter.logAPI(getInfo.getNumberOfResults() != 0, "Results were returned", getInfo);
     }
     
-    @Test
+    //@Test
     public void getInfoByZip(){
 	GetInfoByZip getInfo = new GetInfoByZip();
 	setSoapService(getInfo);
@@ -57,7 +57,7 @@ public class TestSoapService extends TestEnvironment{
     }
 	
 
-    @Test
+    //@Test
     public void frequencyConvertTest_SpecificResult() {
 	ChangeFrequencyUnit change = new ChangeFrequencyUnit("FreqConvertRadPMinToFres");
 	change.setFreqValue("17");
@@ -65,7 +65,7 @@ public class TestSoapService extends TestEnvironment{
 	TestReporter.logAPI(change.getResult().equals("45093900355.000404"), "Results were returned", change);
     }
     
-    @Test
+    //@Test
     public void frequencyConvertTest_RandomResult() {
 	ChangeFrequencyUnit change = new ChangeFrequencyUnit("FreqConvertRadPMinToFres");
 	change.setFreqValue(Randomness.randomNumber(2));
@@ -73,7 +73,7 @@ public class TestSoapService extends TestEnvironment{
 	TestReporter.logAPI(change.getResult() != "", "Result not empty", change);
     }
     
-    @Test
+    //@Test
     public void temperatureConvertTest_SpecificResult() {
 	ChangeTemperatureUnit change = new ChangeTemperatureUnit("TempConvertCToF");
 	change.setTemperature("32");

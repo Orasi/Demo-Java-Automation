@@ -15,6 +15,7 @@ import org.testng.ITestContext;
 import org.testng.ITestResult;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 
 import com.orasi.api.soapServices.core.SoapService;
@@ -60,7 +61,7 @@ public class TestEnvironment {
 	
 	@BeforeMethod
 	  @Parameters({ "environment"})
-	public void setup(String environment){
+	public void setup(@Optional String environment){
 	    this.environment = environment;
 	}
 	/*

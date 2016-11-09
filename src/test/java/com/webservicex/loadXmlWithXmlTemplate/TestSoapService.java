@@ -1,5 +1,6 @@
 package com.webservicex.loadXmlWithXmlTemplate;
 
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.orasi.utils.Randomness;
@@ -9,7 +10,10 @@ import com.webservicex.genericBarCode.operations.GenerateBarCode;
 
 
 public class TestSoapService extends TestEnvironment{
-
+    @BeforeClass
+    public void setup(){
+	TestReporter.setDebugLevel(TestReporter.TRACE);
+    }
 	@Test
 	public void makeBarGenericBarCode(){
 		GenerateBarCode generate = new GenerateBarCode();
@@ -20,7 +24,7 @@ public class TestSoapService extends TestEnvironment{
 		generate.generateBarCodeImage();
 	}
 
-	@Test
+	//@Test
 	public void makeBarCode_FontSize(){
 		GenerateBarCode generate = new GenerateBarCode();
 		setSoapService(generate);
@@ -31,7 +35,7 @@ public class TestSoapService extends TestEnvironment{
 		generate.generateBarCodeImage();
 	}
 
-	@Test
+	//@Test
 	public void makeBarCode_DisplayText(){
 		GenerateBarCode generate = new GenerateBarCode();
 		generate.setBarCodeText(Randomness.randomNumber(12));
@@ -42,7 +46,7 @@ public class TestSoapService extends TestEnvironment{
 		generate.generateBarCodeImage();
 	}
 
-	@Test
+	//@Test
 	public void makeBarCode_DisplayPosition(){
 		GenerateBarCode generate = new GenerateBarCode();
 		setSoapService(generate);

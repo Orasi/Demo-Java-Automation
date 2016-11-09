@@ -1,16 +1,12 @@
-package com.orasi.utils.debugging;
+package com.orasi.utils.listeners;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.remote.Augmenter;
@@ -28,8 +24,7 @@ import com.orasi.utils.OrasiDriver;
 import com.orasi.utils.TestEnvironment;
 import com.orasi.utils.TestReporter;
 
-@Deprecated
-public class Screenshot extends TestListenerAdapter implements IReporter{
+public class TestListener extends TestListenerAdapter implements IReporter{
 	private OrasiDriver driver = null;
 	private String runLocation = "";
 	private String testEnvironment = "";
