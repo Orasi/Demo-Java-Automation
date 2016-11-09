@@ -16,10 +16,17 @@
 			<id>eviware</id>
 			<url>http://www.eviware.com/repository/maven2/</url>
 		</repository>
+		
 		<repository>
 			<id>maven</id>
 			<url>http://repo.maven.apache.org/maven2/</url>
 		</repository>
+
+        <repository>
+        <id>local123</id>
+        <name>localRepo</name>
+        <url>file://${project.basedir}/lib</url>
+        </repository>
 	</repositories>
 
 	<build>
