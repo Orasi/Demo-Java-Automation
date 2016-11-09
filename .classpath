@@ -27,26 +27,10 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="lib/soapui-5.0.0.jar"/>
-	<classpathentry kind="lib" path="lib/proxy-vole-20131209.jar"/>
-	<classpathentry kind="lib" path="lib/flex-messaging-common-1.0.jar"/>
-	<classpathentry kind="lib" path="lib/flex-messaging-core-1.0.jar"/>
-	<classpathentry kind="lib" path="lib/flex-messaging-opt-1.0.jar"/>
-	<classpathentry kind="lib" path="lib/flex-messaging-proxy-1.0.jar"/>
-	<classpathentry kind="lib" path="lib/flex-messaging-remoting-1.0.jar"/>
-	<classpathentry kind="lib" path="lib/xmlunit-1.2.jar"/>
 	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
 		<attributes>
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="lib/l2fprod-common-directorychooser-7.3.jar"/>
-	<classpathentry kind="lib" path="lib/l2fprod-common-fontchooser-7.3.jar"/>
-	<classpathentry kind="lib" path="lib/mail-1.4.jar"/>
-	<classpathentry kind="lib" path="lib/httpcore-4.1.1.jar"/>
-	<classpathentry kind="lib" path="lib/httpclient-4.1.1.jar"/>
-	<classpathentry kind="lib" path="lib/httpclient-cache-4.1.1.jar"/>
-	<classpathentry kind="lib" path="lib/httpcore-nio-4.1.1.jar"/>
-	<classpathentry kind="lib" path="lib/httpmime-4.1.1.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

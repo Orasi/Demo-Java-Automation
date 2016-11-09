@@ -1,23 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<con:soapui-project id="4693bd85-4c5b-4ac2-adcc-c295a819588e" activeEnvironment="Default" name="Demo" resourceRoot="" soapui-version="5.0.0" abortOnError="false" runType="PARALLELL" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" id="0653e068-0e4d-4551-85d4-8c91b10d216c" wsaVersion="NONE" name="FrequencyUnitSoap" type="wsdl" bindingName="{http://www.webserviceX.NET/}FrequencyUnitSoap" soapVersion="1_1" anonymous="optional" definition="http://www.webservicex.net/convertFrequency.asmx?WSDL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache/><con:endpoints><con:endpoint>http://www.webservicex.net/convertFrequency.asmx</con:endpoint></con:endpoints><con:operation id="bfc11a74-20d3-4d44-9f46-41a68eb20002" isOneWay="false" action="http://www.webserviceX.NET/ChangeFrequencyUnit" name="ChangeFrequencyUnit" bindingOperationName="ChangeFrequencyUnit" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="cd104b2c-0494-457d-8c00-e97e6dc0f528" name="frequencyConvertTest_SpecificResult"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://www.webservicex.net/convertFrequency.asmx</con:endpoint><con:request><![CDATA[<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:web="http://www.webserviceX.NET/">\r
-   <soap:Header/>\r
-   <soap:Body>\r
-      <web:ChangeFrequencyUnit>\r
-         <web:FrequencyValue>17</web:FrequencyValue>\r
-         <web:fromFrequencyUnit>radianPerminute</web:fromFrequencyUnit>\r
-         <web:toFrequencyUnit>fresnel</web:toFrequencyUnit>\r
-      </web:ChangeFrequencyUnit>\r
-   </soap:Body>\r
-</soap:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.webserviceX.NET/ChangeFrequencyUnit"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:interface xsi:type="con:WsdlInterface" wsaVersion="NONE" name="ConvertTemperatureSoap" type="wsdl" bindingName="{http://www.webserviceX.NET/}ConvertTemperatureSoap" soapVersion="1_1" anonymous="optional" definition="http://www.webservicex.net/ConvertTemperature.asmx?WSDL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache/><con:endpoints><con:endpoint>http://www.webservicex.net/ConvertTemperature.asmx</con:endpoint></con:endpoints><con:operation isOneWay="false" action="http://www.webserviceX.NET/ConvertTemp" name="ConvertTemp" bindingOperationName="ConvertTemp" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://www.webservicex.net/ConvertTemperature.asmx</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:web="http://www.webserviceX.NET/">
-   <soapenv:Header/>
-   <soapenv:Body>
-      <web:ConvertTemp>
-         <web:Temperature>?</web:Temperature>
-         <web:FromUnit>?</web:FromUnit>
-         <web:ToUnit>?</web:ToUnit>
-      </web:ConvertTemp>
-   </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.webserviceX.NET/ConvertTemp"/></con:call></con:operation></con:interface><con:interface xsi:type="con:WsdlInterface" wsaVersion="NONE" name="BarCodeSoap" type="wsdl" bindingName="{http://www.webservicex.net/}BarCodeSoap" soapVersion="1_1" anonymous="optional" definition="http://www.webservicex.net/genericbarcode.asmx?WSDL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://www.webservicex.net/genericbarcode.asmx?WSDL"><con:part><con:url>http://www.webservicex.net/genericbarcode.asmx?WSDL</con:url><con:content><![CDATA[<wsdl:definitions targetNamespace="http://www.webservicex.net/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.webservicex.net/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+<con:soapui-project activeEnvironment="Default" name="Demo2" resourceRoot="" soapui-version="4.5.0" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" wsaVersion="NONE" name="BarCodeSoap" type="wsdl" bindingName="{http://www.webservicex.net/}BarCodeSoap" soapVersion="1_1" anonymous="optional" definition="http://www.webservicex.net/genericbarcode.asmx?WSDL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://www.webservicex.net/genericbarcode.asmx?WSDL"><con:part><con:url>http://www.webservicex.net/genericbarcode.asmx?WSDL</con:url><con:content><![CDATA[<wsdl:definitions targetNamespace="http://www.webservicex.net/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.webservicex.net/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
   <wsdl:documentation>Barcode generator</wsdl:documentation>
   <wsdl:types>
     <s:schema elementFormDefault="qualified" targetNamespace="http://www.webservicex.net/">
@@ -214,7 +196,25 @@
          <web:BarCodeText>?</web:BarCodeText>
       </web:GenerateBarCode>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.webservicex.net/GenerateBarCode"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:interface xsi:type="con:WsdlInterface" wsaVersion="NONE" name="USZipSoap" type="wsdl" bindingName="{http://www.webserviceX.NET}USZipSoap" soapVersion="1_1" anonymous="optional" definition="http://www.webservicex.net/uszip.asmx?wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache/><con:endpoints><con:endpoint>http://www.webservicex.net/uszip.asmx</con:endpoint></con:endpoints><con:operation isOneWay="false" action="http://www.webserviceX.NET/GetInfoByAreaCode" name="GetInfoByAreaCode" bindingOperationName="GetInfoByAreaCode" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://www.webservicex.net/uszip.asmx</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:web="http://www.webserviceX.NET">
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.webservicex.net/GenerateBarCode"/></con:call></con:operation></con:interface><con:interface xsi:type="con:WsdlInterface" wsaVersion="NONE" name="ConvertTemperatureSoap" type="wsdl" bindingName="{http://www.webserviceX.NET/}ConvertTemperatureSoap" soapVersion="1_1" anonymous="optional" definition="http://www.webservicex.net/ConvertTemperature.asmx?WSDL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache/><con:endpoints><con:endpoint>http://www.webservicex.net/ConvertTemperature.asmx</con:endpoint></con:endpoints><con:operation isOneWay="false" action="http://www.webserviceX.NET/ConvertTemp" name="ConvertTemp" bindingOperationName="ConvertTemp" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://www.webservicex.net/ConvertTemperature.asmx</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:web="http://www.webserviceX.NET/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <web:ConvertTemp>
+         <web:Temperature>?</web:Temperature>
+         <web:FromUnit>?</web:FromUnit>
+         <web:ToUnit>?</web:ToUnit>
+      </web:ConvertTemp>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.webserviceX.NET/ConvertTemp"/></con:call></con:operation></con:interface><con:interface xsi:type="con:WsdlInterface" wsaVersion="NONE" name="FrequencyUnitSoap" type="wsdl" bindingName="{http://www.webserviceX.NET/}FrequencyUnitSoap" soapVersion="1_1" anonymous="optional" definition="http://www.webservicex.net/convertFrequency.asmx?WSDL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache/><con:endpoints><con:endpoint>http://www.webservicex.net/convertFrequency.asmx</con:endpoint></con:endpoints><con:operation isOneWay="false" action="http://www.webserviceX.NET/ChangeFrequencyUnit" name="ChangeFrequencyUnit" bindingOperationName="ChangeFrequencyUnit" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://www.webservicex.net/convertFrequency.asmx</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:web="http://www.webserviceX.NET/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <web:ChangeFrequencyUnit>
+         <web:FrequencyValue>?</web:FrequencyValue>
+         <web:fromFrequencyUnit>?</web:fromFrequencyUnit>
+         <web:toFrequencyUnit>?</web:toFrequencyUnit>
+      </web:ChangeFrequencyUnit>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.webserviceX.NET/ChangeFrequencyUnit"/></con:call></con:operation></con:interface><con:interface xsi:type="con:WsdlInterface" wsaVersion="NONE" name="USZipSoap" type="wsdl" bindingName="{http://www.webserviceX.NET}USZipSoap" soapVersion="1_1" anonymous="optional" definition="http://www.webservicex.net/uszip.asmx?wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache/><con:endpoints><con:endpoint>http://www.webservicex.net/uszip.asmx</con:endpoint></con:endpoints><con:operation isOneWay="false" action="http://www.webserviceX.NET/GetInfoByAreaCode" name="GetInfoByAreaCode" bindingOperationName="GetInfoByAreaCode" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://www.webservicex.net/uszip.asmx</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:web="http://www.webserviceX.NET">
    <soapenv:Header/>
    <soapenv:Body>
       <web:GetInfoByAreaCode>
@@ -246,7 +246,432 @@
          <web:USZip>?</web:USZip>
       </web:GetInfoByZIP>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.webserviceX.NET/GetInfoByZIP"/></con:call></con:operation></con:interface><con:testSuite id="9621848d-bcdc-4443-89c9-99d005bba97e" name="ConvertFrequency"><con:settings/><con:runType>SEQUENTIAL</con:runType><con:testCase id="97717157-0dae-4a22-b886-726fa7e7f9da" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="Convert" searchProperties="true"><con:settings/><con:testStep type="request" id="71cb69dd-d746-4722-b554-6034aee2b6b7" name="ChangeFrequencyUnit - frequencyConvertTest_SpecificResult"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>FrequencyUnitSoap</con:interface><con:operation>ChangeFrequencyUnit</con:operation><con:request name="ChangeFrequencyUnit - frequencyConvertTest_SpecificResult" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="3fec068f-53fe-4d08-9f10-1c2f907969dd"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://www.webservicex.net/convertFrequency.asmx</con:endpoint><con:request><![CDATA[<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:web="http://www.webserviceX.NET/">
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.webserviceX.NET/GetInfoByZIP"/></con:call></con:operation></con:interface><con:interface xsi:type="con:WsdlInterface" wsaVersion="NONE" name="USZipSoap12" type="wsdl" bindingName="{http://www.webserviceX.NET}USZipSoap12" soapVersion="1_2" anonymous="optional" definition="http://www.webservicex.net/uszip.asmx?wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://www.webservicex.net/uszip.asmx?wsdl"><con:part><con:url>http://www.webservicex.net/uszip.asmx?wsdl</con:url><con:content><![CDATA[<wsdl:definitions targetNamespace="http://www.webserviceX.NET" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://www.webserviceX.NET" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://www.webserviceX.NET">
+      <s:element name="GetInfoByZIP">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="USZip" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetInfoByZIPResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetInfoByZIPResult">
+              <s:complexType mixed="true">
+                <s:sequence>
+                  <s:any/>
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetInfoByCity">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="USCity" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetInfoByCityResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetInfoByCityResult">
+              <s:complexType mixed="true">
+                <s:sequence>
+                  <s:any/>
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetInfoByState">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="USState" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetInfoByStateResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetInfoByStateResult">
+              <s:complexType mixed="true">
+                <s:sequence>
+                  <s:any/>
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetInfoByAreaCode">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="USAreaCode" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetInfoByAreaCodeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetInfoByAreaCodeResult">
+              <s:complexType mixed="true">
+                <s:sequence>
+                  <s:any/>
+                </s:sequence>
+              </s:complexType>
+            </s:element>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="GetInfoByZIPSoapIn">
+    <wsdl:part name="parameters" element="tns:GetInfoByZIP"/>
+  </wsdl:message>
+  <wsdl:message name="GetInfoByZIPSoapOut">
+    <wsdl:part name="parameters" element="tns:GetInfoByZIPResponse"/>
+  </wsdl:message>
+  <wsdl:message name="GetInfoByCitySoapIn">
+    <wsdl:part name="parameters" element="tns:GetInfoByCity"/>
+  </wsdl:message>
+  <wsdl:message name="GetInfoByCitySoapOut">
+    <wsdl:part name="parameters" element="tns:GetInfoByCityResponse"/>
+  </wsdl:message>
+  <wsdl:message name="GetInfoByStateSoapIn">
+    <wsdl:part name="parameters" element="tns:GetInfoByState"/>
+  </wsdl:message>
+  <wsdl:message name="GetInfoByStateSoapOut">
+    <wsdl:part name="parameters" element="tns:GetInfoByStateResponse"/>
+  </wsdl:message>
+  <wsdl:message name="GetInfoByAreaCodeSoapIn">
+    <wsdl:part name="parameters" element="tns:GetInfoByAreaCode"/>
+  </wsdl:message>
+  <wsdl:message name="GetInfoByAreaCodeSoapOut">
+    <wsdl:part name="parameters" element="tns:GetInfoByAreaCodeResponse"/>
+  </wsdl:message>
+  <wsdl:message name="GetInfoByZIPHttpGetIn">
+    <wsdl:part name="USZip" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="GetInfoByZIPHttpGetOut">
+    <wsdl:part name="Body"/>
+  </wsdl:message>
+  <wsdl:message name="GetInfoByCityHttpGetIn">
+    <wsdl:part name="USCity" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="GetInfoByCityHttpGetOut">
+    <wsdl:part name="Body"/>
+  </wsdl:message>
+  <wsdl:message name="GetInfoByStateHttpGetIn">
+    <wsdl:part name="USState" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="GetInfoByStateHttpGetOut">
+    <wsdl:part name="Body"/>
+  </wsdl:message>
+  <wsdl:message name="GetInfoByAreaCodeHttpGetIn">
+    <wsdl:part name="USAreaCode" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="GetInfoByAreaCodeHttpGetOut">
+    <wsdl:part name="Body"/>
+  </wsdl:message>
+  <wsdl:message name="GetInfoByZIPHttpPostIn">
+    <wsdl:part name="USZip" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="GetInfoByZIPHttpPostOut">
+    <wsdl:part name="Body"/>
+  </wsdl:message>
+  <wsdl:message name="GetInfoByCityHttpPostIn">
+    <wsdl:part name="USCity" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="GetInfoByCityHttpPostOut">
+    <wsdl:part name="Body"/>
+  </wsdl:message>
+  <wsdl:message name="GetInfoByStateHttpPostIn">
+    <wsdl:part name="USState" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="GetInfoByStateHttpPostOut">
+    <wsdl:part name="Body"/>
+  </wsdl:message>
+  <wsdl:message name="GetInfoByAreaCodeHttpPostIn">
+    <wsdl:part name="USAreaCode" type="s:string"/>
+  </wsdl:message>
+  <wsdl:message name="GetInfoByAreaCodeHttpPostOut">
+    <wsdl:part name="Body"/>
+  </wsdl:message>
+  <wsdl:portType name="USZipSoap">
+    <wsdl:operation name="GetInfoByZIP">
+      <wsdl:documentation>Get State Code,City,Area Code,Time Zone,Zip Code by Zip Code</wsdl:documentation>
+      <wsdl:input message="tns:GetInfoByZIPSoapIn"/>
+      <wsdl:output message="tns:GetInfoByZIPSoapOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetInfoByCity">
+      <wsdl:documentation>Get State Code,City,Area Code,Time Zone,Zip Code by City</wsdl:documentation>
+      <wsdl:input message="tns:GetInfoByCitySoapIn"/>
+      <wsdl:output message="tns:GetInfoByCitySoapOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetInfoByState">
+      <wsdl:documentation>Get State Code,City,Area Code,Time Zone,Zip Code by state</wsdl:documentation>
+      <wsdl:input message="tns:GetInfoByStateSoapIn"/>
+      <wsdl:output message="tns:GetInfoByStateSoapOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetInfoByAreaCode">
+      <wsdl:documentation>Get State Code,City,Area Code,Time Zone,Zip Code by Area Code</wsdl:documentation>
+      <wsdl:input message="tns:GetInfoByAreaCodeSoapIn"/>
+      <wsdl:output message="tns:GetInfoByAreaCodeSoapOut"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="USZipHttpGet">
+    <wsdl:operation name="GetInfoByZIP">
+      <wsdl:documentation>Get State Code,City,Area Code,Time Zone,Zip Code by Zip Code</wsdl:documentation>
+      <wsdl:input message="tns:GetInfoByZIPHttpGetIn"/>
+      <wsdl:output message="tns:GetInfoByZIPHttpGetOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetInfoByCity">
+      <wsdl:documentation>Get State Code,City,Area Code,Time Zone,Zip Code by City</wsdl:documentation>
+      <wsdl:input message="tns:GetInfoByCityHttpGetIn"/>
+      <wsdl:output message="tns:GetInfoByCityHttpGetOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetInfoByState">
+      <wsdl:documentation>Get State Code,City,Area Code,Time Zone,Zip Code by state</wsdl:documentation>
+      <wsdl:input message="tns:GetInfoByStateHttpGetIn"/>
+      <wsdl:output message="tns:GetInfoByStateHttpGetOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetInfoByAreaCode">
+      <wsdl:documentation>Get State Code,City,Area Code,Time Zone,Zip Code by Area Code</wsdl:documentation>
+      <wsdl:input message="tns:GetInfoByAreaCodeHttpGetIn"/>
+      <wsdl:output message="tns:GetInfoByAreaCodeHttpGetOut"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="USZipHttpPost">
+    <wsdl:operation name="GetInfoByZIP">
+      <wsdl:documentation>Get State Code,City,Area Code,Time Zone,Zip Code by Zip Code</wsdl:documentation>
+      <wsdl:input message="tns:GetInfoByZIPHttpPostIn"/>
+      <wsdl:output message="tns:GetInfoByZIPHttpPostOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetInfoByCity">
+      <wsdl:documentation>Get State Code,City,Area Code,Time Zone,Zip Code by City</wsdl:documentation>
+      <wsdl:input message="tns:GetInfoByCityHttpPostIn"/>
+      <wsdl:output message="tns:GetInfoByCityHttpPostOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetInfoByState">
+      <wsdl:documentation>Get State Code,City,Area Code,Time Zone,Zip Code by state</wsdl:documentation>
+      <wsdl:input message="tns:GetInfoByStateHttpPostIn"/>
+      <wsdl:output message="tns:GetInfoByStateHttpPostOut"/>
+    </wsdl:operation>
+    <wsdl:operation name="GetInfoByAreaCode">
+      <wsdl:documentation>Get State Code,City,Area Code,Time Zone,Zip Code by Area Code</wsdl:documentation>
+      <wsdl:input message="tns:GetInfoByAreaCodeHttpPostIn"/>
+      <wsdl:output message="tns:GetInfoByAreaCodeHttpPostOut"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="USZipSoap" type="tns:USZipSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="GetInfoByZIP">
+      <soap:operation soapAction="http://www.webserviceX.NET/GetInfoByZIP" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetInfoByCity">
+      <soap:operation soapAction="http://www.webserviceX.NET/GetInfoByCity" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetInfoByState">
+      <soap:operation soapAction="http://www.webserviceX.NET/GetInfoByState" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetInfoByAreaCode">
+      <soap:operation soapAction="http://www.webserviceX.NET/GetInfoByAreaCode" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="USZipSoap12" type="tns:USZipSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="GetInfoByZIP">
+      <soap12:operation soapAction="http://www.webserviceX.NET/GetInfoByZIP" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetInfoByCity">
+      <soap12:operation soapAction="http://www.webserviceX.NET/GetInfoByCity" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetInfoByState">
+      <soap12:operation soapAction="http://www.webserviceX.NET/GetInfoByState" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetInfoByAreaCode">
+      <soap12:operation soapAction="http://www.webserviceX.NET/GetInfoByAreaCode" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="USZipHttpGet" type="tns:USZipHttpGet">
+    <http:binding verb="GET"/>
+    <wsdl:operation name="GetInfoByZIP">
+      <http:operation location="/GetInfoByZIP"/>
+      <wsdl:input>
+        <http:urlEncoded/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:content part="Body" type="text/xml"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetInfoByCity">
+      <http:operation location="/GetInfoByCity"/>
+      <wsdl:input>
+        <http:urlEncoded/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:content part="Body" type="text/xml"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetInfoByState">
+      <http:operation location="/GetInfoByState"/>
+      <wsdl:input>
+        <http:urlEncoded/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:content part="Body" type="text/xml"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetInfoByAreaCode">
+      <http:operation location="/GetInfoByAreaCode"/>
+      <wsdl:input>
+        <http:urlEncoded/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:content part="Body" type="text/xml"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="USZipHttpPost" type="tns:USZipHttpPost">
+    <http:binding verb="POST"/>
+    <wsdl:operation name="GetInfoByZIP">
+      <http:operation location="/GetInfoByZIP"/>
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded"/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:content part="Body" type="text/xml"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetInfoByCity">
+      <http:operation location="/GetInfoByCity"/>
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded"/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:content part="Body" type="text/xml"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetInfoByState">
+      <http:operation location="/GetInfoByState"/>
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded"/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:content part="Body" type="text/xml"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetInfoByAreaCode">
+      <http:operation location="/GetInfoByAreaCode"/>
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded"/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:content part="Body" type="text/xml"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="USZip">
+    <wsdl:port name="USZipSoap" binding="tns:USZipSoap">
+      <soap:address location="http://www.webservicex.net/uszip.asmx"/>
+    </wsdl:port>
+    <wsdl:port name="USZipSoap12" binding="tns:USZipSoap12">
+      <soap12:address location="http://www.webservicex.net/uszip.asmx"/>
+    </wsdl:port>
+    <wsdl:port name="USZipHttpGet" binding="tns:USZipHttpGet">
+      <http:address location="http://www.webservicex.net/uszip.asmx"/>
+    </wsdl:port>
+    <wsdl:port name="USZipHttpPost" binding="tns:USZipHttpPost">
+      <http:address location="http://www.webservicex.net/uszip.asmx"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://www.webservicex.net/uszip.asmx</con:endpoint></con:endpoints><con:operation isOneWay="false" action="http://www.webserviceX.NET/GetInfoByAreaCode" name="GetInfoByAreaCode" bindingOperationName="GetInfoByAreaCode" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://www.webservicex.net/uszip.asmx</con:endpoint><con:request><![CDATA[<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:web="http://www.webserviceX.NET">
+   <soap:Header/>
+   <soap:Body>
+      <web:GetInfoByAreaCode>
+         <!--Optional:-->
+         <web:USAreaCode>?</web:USAreaCode>
+      </web:GetInfoByAreaCode>
+   </soap:Body>
+</soap:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.webserviceX.NET/USZipSoap/GetInfoByAreaCodeRequest"/></con:call></con:operation><con:operation isOneWay="false" action="http://www.webserviceX.NET/GetInfoByCity" name="GetInfoByCity" bindingOperationName="GetInfoByCity" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://www.webservicex.net/uszip.asmx</con:endpoint><con:request><![CDATA[<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:web="http://www.webserviceX.NET">
+   <soap:Header/>
+   <soap:Body>
+      <web:GetInfoByCity>
+         <!--Optional:-->
+         <web:USCity>?</web:USCity>
+      </web:GetInfoByCity>
+   </soap:Body>
+</soap:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.webserviceX.NET/USZipSoap/GetInfoByCityRequest"/></con:call></con:operation><con:operation isOneWay="false" action="http://www.webserviceX.NET/GetInfoByState" name="GetInfoByState" bindingOperationName="GetInfoByState" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://www.webservicex.net/uszip.asmx</con:endpoint><con:request><![CDATA[<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:web="http://www.webserviceX.NET">
+   <soap:Header/>
+   <soap:Body>
+      <web:GetInfoByState>
+         <!--Optional:-->
+         <web:USState>?</web:USState>
+      </web:GetInfoByState>
+   </soap:Body>
+</soap:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.webserviceX.NET/USZipSoap/GetInfoByStateRequest"/></con:call></con:operation><con:operation isOneWay="false" action="http://www.webserviceX.NET/GetInfoByZIP" name="GetInfoByZIP" bindingOperationName="GetInfoByZIP" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://www.webservicex.net/uszip.asmx</con:endpoint><con:request><![CDATA[<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:web="http://www.webserviceX.NET">
+   <soap:Header/>
+   <soap:Body>
+      <web:GetInfoByZIP>
+         <!--Optional:-->
+         <web:USZip>?</web:USZip>
+      </web:GetInfoByZIP>
+   </soap:Body>
+</soap:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.webserviceX.NET/USZipSoap/GetInfoByZIPRequest"/></con:call></con:operation></con:interface><con:testSuite name="ConvertFrequency"><con:settings/><con:runType>SEQUENTIAL</con:runType><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="Convert" searchProperties="true"><con:settings/><con:testStep type="request" name="ChangeFrequencyUnit - frequencyConvertTest_SpecificResult"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>FrequencyUnitSoap</con:interface><con:operation>ChangeFrequencyUnit</con:operation><con:request name="ChangeFrequencyUnit - frequencyConvertTest_SpecificResult" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="3fec068f-53fe-4d08-9f10-1c2f907969dd"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://www.webservicex.net/convertFrequency.asmx</con:endpoint><con:request><![CDATA[<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:web="http://www.webserviceX.NET/">
    <soap:Header/>
    <soap:Body>
       <web:ChangeFrequencyUnit>
@@ -255,7 +680,7 @@
          <web:toFrequencyUnit>fresnel</web:toFrequencyUnit>
       </web:ChangeFrequencyUnit>
    </soap:Body>
-</soap:Envelope>]]></con:request><con:assertion type="Valid HTTP Status Codes" id="e6610f55-977a-494b-b270-850e45edae11" name="Valid HTTP Status Codes"><con:configuration><codes>200</codes></con:configuration></con:assertion><con:assertion type="XPath Match" id="f5fc46fc-08ec-45ab-a53b-9bdd6d9ce480" name="XPath Match" disabled="true"><con:configuration><path>//*[local-name(.)='ChangeFrequencyUnitResult'][1]</path><content>45093900355.000404</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>true</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.webserviceX.NET/ChangeFrequencyUnit"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/></con:testCase><con:properties/></con:testSuite><con:testSuite name="ConvertTemperature"><con:settings/><con:runType>SEQUENTIAL</con:runType><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="CelciusToFahrenheit" searchProperties="true" id="66b38f2c-6ec6-425e-a006-3b555cd06286"><con:settings/><con:testStep type="request" name="ConvertTemp - temperatureConvertCtoF_SpecificResult"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>ConvertTemperatureSoap</con:interface><con:operation>ConvertTemp</con:operation><con:request name="ConvertTemp - temperatureConvertCtoF_SpecificResult" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="f02c94b7-b25f-4a9b-9246-10b6f0aa63c1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://www.webservicex.net/ConvertTemperature.asmx</con:endpoint><con:request><![CDATA[<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:web="http://www.webserviceX.NET/">
+</soap:Envelope>]]></con:request><con:assertion type="Valid HTTP Status Codes" id="e6610f55-977a-494b-b270-850e45edae11" name="Valid HTTP Status Codes"><con:configuration><codes>200</codes></con:configuration></con:assertion><con:assertion type="XPath Match" id="f5fc46fc-08ec-45ab-a53b-9bdd6d9ce480" name="XPath Match" disabled="true"><con:configuration><path>//*[local-name(.)='ChangeFrequencyUnitResult'][1]</path><content>45093900355.000404</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>true</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.webserviceX.NET/ChangeFrequencyUnit"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/></con:testCase><con:properties/></con:testSuite><con:testSuite name="ConvertTemperature"><con:settings/><con:runType>SEQUENTIAL</con:runType><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="CelciusToFahrenheit" searchProperties="true"><con:settings/><con:testStep type="request" name="ConvertTemp - temperatureConvertCtoF_SpecificResult"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>ConvertTemperatureSoap</con:interface><con:operation>ConvertTemp</con:operation><con:request name="ConvertTemp - temperatureConvertCtoF_SpecificResult" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="f02c94b7-b25f-4a9b-9246-10b6f0aa63c1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://www.webservicex.net/ConvertTemperature.asmx</con:endpoint><con:request><![CDATA[<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:web="http://www.webserviceX.NET/">
    <soap:Header/>
    <soap:Body>
       <web:ConvertTemp>
@@ -264,7 +689,7 @@
          <web:ToUnit>degreeFahrenheit</web:ToUnit>
       </web:ConvertTemp>
    </soap:Body>
-</soap:Envelope>]]></con:request><con:assertion type="Valid HTTP Status Codes" id="7a484914-1e06-43b7-b929-d1dfb429967a" name="Valid HTTP Status Codes"><con:configuration><codes>200</codes></con:configuration></con:assertion><con:assertion type="XPath Match" id="bbef048b-b53a-48f6-9bad-cbac2f072ecc" name="XPath Match" disabled="true"><con:configuration><path>//*[local-name(.)='ConvertTempResult'][1]</path><content>89.6</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.webserviceX.NET/ConvertTemp"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="FahrenheitToCelsius" searchProperties="true" id="64f07423-d4dd-40e9-9b53-afa44c00dce4"><con:settings/><con:testStep type="request" name="ConvertTemp - temperatureConvertFotC_SpecificResult"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>ConvertTemperatureSoap</con:interface><con:operation>ConvertTemp</con:operation><con:request name="ConvertTemp - temperatureConvertFotC_SpecificResult" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="7e30eba6-af3b-4d82-807a-1d133d29e908"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://www.webservicex.net/ConvertTemperature.asmx</con:endpoint><con:request><![CDATA[<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:web="http://www.webserviceX.NET/">
+</soap:Envelope>]]></con:request><con:assertion type="Valid HTTP Status Codes" id="7a484914-1e06-43b7-b929-d1dfb429967a" name="Valid HTTP Status Codes"><con:configuration><codes>200</codes></con:configuration></con:assertion><con:assertion type="XPath Match" id="bbef048b-b53a-48f6-9bad-cbac2f072ecc" name="XPath Match" disabled="true"><con:configuration><path>//*[local-name(.)='ConvertTempResult'][1]</path><content>89.6</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.webserviceX.NET/ConvertTemp"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="FahrenheitToCelsius" searchProperties="true"><con:settings/><con:testStep type="request" name="ConvertTemp - temperatureConvertFotC_SpecificResult"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>ConvertTemperatureSoap</con:interface><con:operation>ConvertTemp</con:operation><con:request name="ConvertTemp - temperatureConvertFotC_SpecificResult" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="7e30eba6-af3b-4d82-807a-1d133d29e908"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://www.webservicex.net/ConvertTemperature.asmx</con:endpoint><con:request><![CDATA[<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:web="http://www.webserviceX.NET/">
    <soap:Header/>
    <soap:Body>
       <web:ConvertTemp>
@@ -273,7 +698,7 @@
          <web:ToUnit>degreeCelsius</web:ToUnit>
       </web:ConvertTemp>
    </soap:Body>
-</soap:Envelope>]]></con:request><con:assertion type="Valid HTTP Status Codes" id="18ebb960-575f-4086-9ba6-e34f37daf7a2" name="Valid HTTP Status Codes"><con:configuration><codes>200</codes></con:configuration></con:assertion><con:assertion type="XPath Match" id="080565dd-19aa-45f2-b106-65f6b91dd29f" name="XPath Match" disabled="true"><con:configuration><path>//*[local-name(.)='ConvertTempResult'][1]</path><content>0</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.webserviceX.NET/ConvertTemp"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/></con:testCase><con:properties/></con:testSuite><con:testSuite name="CreateBarCode"><con:settings/><con:runType>SEQUENTIAL</con:runType><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="DisplayPosition" searchProperties="true" id="8ca46a35-3843-4a0d-9187-fceb54b262c1"><con:settings/><con:testStep type="request" name="GenerateBarCode - makeBarCode_DisplayPosition"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>BarCodeSoap</con:interface><con:operation>GenerateBarCode</con:operation><con:request name="GenerateBarCode - makeBarCode_DisplayPosition" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="05a66b81-fcdf-46c8-bcdc-604b0aae2401"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://www.webservicex.net/genericbarcode.asmx</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:web="http://www.webservicex.net/">
+</soap:Envelope>]]></con:request><con:assertion type="Valid HTTP Status Codes" id="18ebb960-575f-4086-9ba6-e34f37daf7a2" name="Valid HTTP Status Codes"><con:configuration><codes>200</codes></con:configuration></con:assertion><con:assertion type="XPath Match" id="080565dd-19aa-45f2-b106-65f6b91dd29f" name="XPath Match" disabled="true"><con:configuration><path>//*[local-name(.)='ConvertTempResult'][1]</path><content>0</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.webserviceX.NET/ConvertTemp"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/></con:testCase><con:properties/></con:testSuite><con:testSuite name="CreateBarCode"><con:settings/><con:runType>SEQUENTIAL</con:runType><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="DisplayPosition" searchProperties="true"><con:settings/><con:testStep type="request" name="GenerateBarCode - makeBarCode_DisplayPosition"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>BarCodeSoap</con:interface><con:operation>GenerateBarCode</con:operation><con:request name="GenerateBarCode - makeBarCode_DisplayPosition" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="05a66b81-fcdf-46c8-bcdc-604b0aae2401"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://www.webservicex.net/genericbarcode.asmx</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:web="http://www.webservicex.net/">
    <soapenv:Header/>
    <soapenv:Body>
       <web:GenerateBarCode>
@@ -299,7 +724,7 @@
          <web:BarCodeText>734341232213334</web:BarCodeText>
       </web:GenerateBarCode>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:assertion type="Valid HTTP Status Codes" id="3a015f3c-c0c8-4c69-80f5-86c1d904643f" name="Valid HTTP Status Codes"><con:configuration><codes>200</codes></con:configuration></con:assertion><con:assertion type="XPath Match" id="36b92227-fa24-4abf-a1f7-1eaea8a6fda3" name="XPath Match" disabled="true"><con:configuration><path>//*[local-name(.)='GenerateBarCodeResult'][1]</path><content>*</content><allowWildcards>true</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.webservicex.net/GenerateBarCode"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="DisplayText" searchProperties="true" id="bfd3ed30-4ab5-46f4-a026-3a9d0620afe9"><con:settings/><con:testStep type="request" name="GenerateBarCode - makeBarCode_DisplayText"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>BarCodeSoap</con:interface><con:operation>GenerateBarCode</con:operation><con:request name="GenerateBarCode - makeBarCode_DisplayText" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="e673b4cf-0338-4fe2-9ffd-0a3f373e9ecf"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://www.webservicex.net/genericbarcode.asmx</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:web="http://www.webservicex.net/">
+</soapenv:Envelope>]]></con:request><con:assertion type="Valid HTTP Status Codes" id="3a015f3c-c0c8-4c69-80f5-86c1d904643f" name="Valid HTTP Status Codes"><con:configuration><codes>200</codes></con:configuration></con:assertion><con:assertion type="XPath Match" id="36b92227-fa24-4abf-a1f7-1eaea8a6fda3" name="XPath Match" disabled="true"><con:configuration><path>//*[local-name(.)='GenerateBarCodeResult'][1]</path><content>*</content><allowWildcards>true</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.webservicex.net/GenerateBarCode"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="DisplayText" searchProperties="true"><con:settings/><con:testStep type="request" name="GenerateBarCode - makeBarCode_DisplayText"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>BarCodeSoap</con:interface><con:operation>GenerateBarCode</con:operation><con:request name="GenerateBarCode - makeBarCode_DisplayText" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="e673b4cf-0338-4fe2-9ffd-0a3f373e9ecf"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://www.webservicex.net/genericbarcode.asmx</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:web="http://www.webservicex.net/">
    <soapenv:Header/>
    <soapenv:Body>
       <web:GenerateBarCode>
@@ -325,7 +750,7 @@
          <web:BarCodeText>819825854027</web:BarCodeText>
       </web:GenerateBarCode>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:assertion type="Valid HTTP Status Codes" id="9a431522-a1a5-46b7-987b-6c1bb4984eac" name="Valid HTTP Status Codes"><con:configuration><codes>200</codes></con:configuration></con:assertion><con:assertion type="XPath Match" id="0f491b39-65c7-4337-b4fa-c1f31d49d2c9" name="XPath Match" disabled="true"><con:configuration><path>//*[local-name(.)='GenerateBarCodeResult'][1]</path><content>*</content><allowWildcards>true</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.webservicex.net/GenerateBarCode"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="FontSize" searchProperties="true" id="32ed2cad-b31c-4dd1-a655-33ffa7125fdd"><con:settings/><con:testStep type="request" name="GenerateBarCode - makeBarCode_FontSize"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>BarCodeSoap</con:interface><con:operation>GenerateBarCode</con:operation><con:request name="GenerateBarCode - makeBarCode_FontSize" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="4938ea01-9c22-4fa6-a3d9-430c8c41e847"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://www.webservicex.net/genericbarcode.asmx</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:web="http://www.webservicex.net/">
+</soapenv:Envelope>]]></con:request><con:assertion type="Valid HTTP Status Codes" id="9a431522-a1a5-46b7-987b-6c1bb4984eac" name="Valid HTTP Status Codes"><con:configuration><codes>200</codes></con:configuration></con:assertion><con:assertion type="XPath Match" id="0f491b39-65c7-4337-b4fa-c1f31d49d2c9" name="XPath Match" disabled="true"><con:configuration><path>//*[local-name(.)='GenerateBarCodeResult'][1]</path><content>*</content><allowWildcards>true</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.webservicex.net/GenerateBarCode"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="FontSize" searchProperties="true"><con:settings/><con:testStep type="request" name="GenerateBarCode - makeBarCode_FontSize"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>BarCodeSoap</con:interface><con:operation>GenerateBarCode</con:operation><con:request name="GenerateBarCode - makeBarCode_FontSize" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="4938ea01-9c22-4fa6-a3d9-430c8c41e847"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://www.webservicex.net/genericbarcode.asmx</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:web="http://www.webservicex.net/">
    <soapenv:Header/>
    <soapenv:Body>
       <web:GenerateBarCode>
@@ -351,7 +776,7 @@
          <web:BarCodeText>734341232213334</web:BarCodeText>
       </web:GenerateBarCode>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:assertion type="Valid HTTP Status Codes" id="df25d263-915b-44ac-813c-1e433b834be7" name="Valid HTTP Status Codes"><con:configuration><codes>200</codes></con:configuration></con:assertion><con:assertion type="XPath Match" id="a3ff5181-2e6c-44c5-9ed6-3b103df2b9f3" name="XPath Match" disabled="true"><con:configuration><path>//*[local-name(.)='GenerateBarCodeResult'][1]</path><content>*</content><allowWildcards>true</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.webservicex.net/GenerateBarCode"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="Generic" searchProperties="true" id="3ed7c406-3c25-48ef-9017-ca3f2b83c59e"><con:settings/><con:testStep type="request" name="GenerateBarCode - makeBarGenericBarCode"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>BarCodeSoap</con:interface><con:operation>GenerateBarCode</con:operation><con:request name="GenerateBarCode - makeBarGenericBarCode" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="509d59a7-3d01-455e-b4e4-8c5788b07789"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://www.webservicex.net/genericbarcode.asmx</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:web="http://www.webservicex.net/">
+</soapenv:Envelope>]]></con:request><con:assertion type="Valid HTTP Status Codes" id="df25d263-915b-44ac-813c-1e433b834be7" name="Valid HTTP Status Codes"><con:configuration><codes>200</codes></con:configuration></con:assertion><con:assertion type="XPath Match" id="a3ff5181-2e6c-44c5-9ed6-3b103df2b9f3" name="XPath Match" disabled="true"><con:configuration><path>//*[local-name(.)='GenerateBarCodeResult'][1]</path><content>*</content><allowWildcards>true</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.webservicex.net/GenerateBarCode"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="Generic" searchProperties="true"><con:settings/><con:testStep type="request" name="GenerateBarCode - makeBarGenericBarCode"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>BarCodeSoap</con:interface><con:operation>GenerateBarCode</con:operation><con:request name="GenerateBarCode - makeBarGenericBarCode" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="509d59a7-3d01-455e-b4e4-8c5788b07789"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://www.webservicex.net/genericbarcode.asmx</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:web="http://www.webservicex.net/">
    <soapenv:Header/>
    <soapenv:Body>
       <web:GenerateBarCode>
@@ -377,7 +802,7 @@
          <web:BarCodeText>734341232213334</web:BarCodeText>
       </web:GenerateBarCode>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:assertion type="Valid HTTP Status Codes" id="60004dea-7c42-4c87-9e2b-8c8a83eae5f8" name="Valid HTTP Status Codes"><con:configuration><codes>200</codes></con:configuration></con:assertion><con:assertion type="XPath Match" id="84341e59-da3d-4845-8239-6937e911a00c" name="XPath Match" disabled="true"><con:configuration><path>//*[local-name(.)='GenerateBarCodeResult'][1]</path><content>*</content><allowWildcards>true</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.webservicex.net/GenerateBarCode"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/></con:testCase><con:properties/></con:testSuite><con:testSuite name="UsZip"><con:settings/><con:runType>SEQUENTIAL</con:runType><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="InfoByAreaCode" searchProperties="true" id="29877d5e-9d16-4ff1-b67e-988e4da94cf2"><con:settings/><con:testStep type="request" name="GetInfoByAreaCode - Request 1"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>USZipSoap</con:interface><con:operation>GetInfoByAreaCode</con:operation><con:request name="GetInfoByAreaCode - Request 1" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="88acc6ec-8da1-457f-902b-7b3d561326fd"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://www.webservicex.net/uszip.asmx</con:endpoint><con:request><![CDATA[<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:web="http://www.webserviceX.NET">
+</soapenv:Envelope>]]></con:request><con:assertion type="Valid HTTP Status Codes" id="60004dea-7c42-4c87-9e2b-8c8a83eae5f8" name="Valid HTTP Status Codes"><con:configuration><codes>200</codes></con:configuration></con:assertion><con:assertion type="XPath Match" id="84341e59-da3d-4845-8239-6937e911a00c" name="XPath Match" disabled="true"><con:configuration><path>//*[local-name(.)='GenerateBarCodeResult'][1]</path><content>*</content><allowWildcards>true</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.webservicex.net/GenerateBarCode"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/></con:testCase><con:properties/></con:testSuite><con:testSuite name="UsZip"><con:settings/><con:runType>SEQUENTIAL</con:runType><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="InfoByAreaCode" searchProperties="true"><con:settings/><con:testStep type="request" name="GetInfoByAreaCode - Request 1"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>USZipSoap</con:interface><con:operation>GetInfoByAreaCode</con:operation><con:request name="GetInfoByAreaCode - Request 1" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="88acc6ec-8da1-457f-902b-7b3d561326fd"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://www.webservicex.net/uszip.asmx</con:endpoint><con:request><![CDATA[<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:web="http://www.webserviceX.NET">
    <soap:Header/>
    <soap:Body>
       <web:GetInfoByAreaCode>
@@ -2060,7 +2485,7 @@
       <TIME_ZONE>C</TIME_ZONE>
     </Table>
   </NewDataSet>
-</GetInfoByAreaCodeResult>]]></content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.webserviceX.NET/GetInfoByAreaCode"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="InfoByCity" searchProperties="true" id="c2002b90-9464-4c3d-b6b6-1c48fe4f631b"><con:settings/><con:testStep type="request" name="GetInfoByCity - Request 1"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>USZipSoap</con:interface><con:operation>GetInfoByCity</con:operation><con:request name="GetInfoByCity - Request 1" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="4aa12e42-c06e-4c3b-9d8d-8b9422065492"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://www.webservicex.net/uszip.asmx</con:endpoint><con:request><![CDATA[<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:web="http://www.webserviceX.NET">
+</GetInfoByAreaCodeResult>]]></content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.webserviceX.NET/GetInfoByAreaCode"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="InfoByCity" searchProperties="true"><con:settings/><con:testStep type="request" name="GetInfoByCity - Request 1"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>USZipSoap</con:interface><con:operation>GetInfoByCity</con:operation><con:request name="GetInfoByCity - Request 1" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="4aa12e42-c06e-4c3b-9d8d-8b9422065492"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://www.webservicex.net/uszip.asmx</con:endpoint><con:request><![CDATA[<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:web="http://www.webserviceX.NET">
    <soap:Header/>
    <soap:Body>
       <web:GetInfoByCity>
@@ -2315,7 +2740,7 @@
       <TIME_ZONE>E</TIME_ZONE>
     </Table>
   </NewDataSet>
-</GetInfoByCityResult>]]></content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.webserviceX.NET/GetInfoByCity"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="InfoByState" searchProperties="true" id="8c20433c-b937-4825-b692-230058b21245"><con:settings/><con:testStep type="request" name="GetInfoByState - Request 1"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>USZipSoap</con:interface><con:operation>GetInfoByState</con:operation><con:request name="GetInfoByState - Request 1" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="31c6c609-fa26-4dcb-ae97-79337e2e8506"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://www.webservicex.net/uszip.asmx</con:endpoint><con:request><![CDATA[<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:web="http://www.webserviceX.NET">
+</GetInfoByCityResult>]]></content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.webserviceX.NET/GetInfoByCity"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="InfoByState" searchProperties="true"><con:settings/><con:testStep type="request" name="GetInfoByState - Request 1"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>USZipSoap</con:interface><con:operation>GetInfoByState</con:operation><con:request name="GetInfoByState - Request 1" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="31c6c609-fa26-4dcb-ae97-79337e2e8506"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://www.webservicex.net/uszip.asmx</con:endpoint><con:request><![CDATA[<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:web="http://www.webserviceX.NET">
    <soap:Header/>
    <soap:Body>
       <web:GetInfoByState>
@@ -9941,7 +10366,7 @@
       <TIME_ZONE>E</TIME_ZONE>
     </Table>
   </NewDataSet>
-</GetInfoByStateResult>]]></content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.webserviceX.NET/GetInfoByState"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="InfoByZip" searchProperties="true" id="e793120b-a06d-451f-97bd-ea3028e9b2df"><con:settings/><con:testStep type="request" name="GetInfoByZIP - Request 1"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>USZipSoap</con:interface><con:operation>GetInfoByZIP</con:operation><con:request name="GetInfoByZIP - Request 1" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="ab8f4a70-eb95-436d-a616-f3110914048d"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://www.webservicex.net/uszip.asmx</con:endpoint><con:request><![CDATA[<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:web="http://www.webserviceX.NET">
+</GetInfoByStateResult>]]></content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.webserviceX.NET/GetInfoByState"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/></con:testCase><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="InfoByZip" searchProperties="true"><con:settings/><con:testStep type="request" name="GetInfoByZIP - Request 1"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>USZipSoap</con:interface><con:operation>GetInfoByZIP</con:operation><con:request name="GetInfoByZIP - Request 1" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="ab8f4a70-eb95-436d-a616-f3110914048d"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://www.webservicex.net/uszip.asmx</con:endpoint><con:request><![CDATA[<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:web="http://www.webserviceX.NET">
    <soap:Header/>
    <soap:Body>
       <web:GetInfoByZIP>
@@ -9958,4 +10383,4 @@
       <TIME_ZONE>E</TIME_ZONE>
     </Table>
   </NewDataSet>
-</GetInfoByZIPResult>]]></content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.webserviceX.NET/GetInfoByZIP"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/></con:testCase><con:properties/></con:testSuite><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/><con:sensitiveInformation/></con:soapui-project>
+</GetInfoByZIPResult>]]></content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.webserviceX.NET/GetInfoByZIP"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/></con:testCase><con:properties/></con:testSuite><con:properties/><con:wssContainer/></con:soapui-project>

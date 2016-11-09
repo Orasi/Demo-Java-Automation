@@ -28,7 +28,7 @@ public class SoapUITestNGReports {
 
 	// Create a new WSDL project
 	try {
-	    project = new WsdlProject("src/main/resources/soapui/demo-project_backup.xml");
+	    project = new WsdlProject("src/main/resources/soapui/Demo2-soapui-project.xml");
 	} catch (XmlException | IOException | SoapUIException e) {
 	   throw new SoapException("Failed to start SoapUI project",e);
 	}
