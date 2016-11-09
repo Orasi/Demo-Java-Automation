@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
 import java.nio.charset.Charset;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.xml.soap.MessageFactory;
 import javax.xml.soap.MimeHeaders;
@@ -61,7 +63,7 @@ import com.orasi.utils.XMLTools;
 import groovy.util.logging.Log4j;
 
 public abstract class SoapService{
-    	private static WsdlProject project = null;
+    private static WsdlProject project = null;
 	private String strServiceName;
 	private String strOperationName;
 	private String url = null;
@@ -70,7 +72,8 @@ public abstract class SoapService{
 	private Document responseDocument = null;
 	protected StringBuffer buffer = new StringBuffer();
 	private String soapVersion = SOAPConstants.SOAP_1_1_PROTOCOL;
-
+	private Map<String, String> functionMap = new HashMap<String, String>();
+	
 	/*****************************
 	 **** Start Gets and Sets ****
 	 *****************************/
@@ -599,20 +602,61 @@ public abstract class SoapService{
 	 */
 	public boolean validateNodeValueByXPath(Document doc, Object[][] scenarios) {
 		boolean status = true;
+		boolean isArrayActive=false;
+		int arrays = 0;
+		Map<Integer, String> arrayTracker = new HashMap<Integer, String>();
+		
 		buffer.setLength(0);
 		buffer.append("<table border='1' width='100%'>");
 		buffer.append("<tr><td style='width: 100px; color: black; text-align: center;'><b>XPath</b></td>");
 		buffer.append("<td style='width: 100px; color: black; text-align: center;'><b>Regex</b></td>");
 		buffer.append("<td style='width: 100px; color: black; text-align: center;'><b>Value</b></td>");
 		buffer.append("<td style='width: 100px; color: black; text-align: center;'><b>Status</b></td></tr>");
-		for (int x = 0; x < scenarios.length; x++) {
-			if (!validateNodeValueByXPath(doc, scenarios[x][0].toString(),
-					scenarios[x][1].toString())) {
-				status = false;
+			for (int x = 0; x < scenarios.length; x++) {
+			
+				if (!validateNodeValueByXPath(doc, scenarios[x][0].toString(), scenarios[x][1].toString())) {
+					status = false;
+				}
+		}
+		buffer.append("</table><br/>");
+		Reporter.log(buffer.toString());
+		return status;
+	}
+	
+	private boolean validateScenarios(Document doc, Object[][] scenarios, int startPosition){
+		boolean status = true;
+		boolean isArrayActive=false;
+		int arrays = 0;
+		Map<Integer, String> arrayTracker = new HashMap<Integer, String>();
+		
+		String function = "";
+		for (int x = startPosition; x < scenarios.length; x++) {
+			function = scenarios[x][1].toString();
+			if(function.toLowerCase().contains("fx:startarray")){
+				arrays++;
+				String[] params = function.split(";");
+				arrayTracker.put(arrays, params[1] + ":::" + getNumberOfResponseNodesByXPath(scenarios[x][0].toString()) +":::" + scenarios[x][0].toString());
+				isArrayActive=true;
+				//validateScenarios(doc, scenarios, x);
+			}else if(isArrayActive){
+				function = scenarios[x][1].toString();
+				if(function.toLowerCase().contains("fx:endarray")){
+					int numberNodes = Integer.valueOf(arrayTracker.get(arrays).split(":::")[1]);
+					for(int index = 1 ; index <= numberNodes ; index ++){
+						if (!validateNodeValueByXPath(doc, scenarios[x][0].toString(), function)) {
+							status = false;
+						}
+					}
+				}else{
+					functionMap.put(arrayTracker.get(arrays).split(":::")[2] + "[{index}]" + scenarios[x][0], function);
+				}
+			}else{
+			
+				if (!validateNodeValueByXPath(doc, scenarios[x][0].toString(), function)) {
+					status = false;
+				}
 			}
 		}
-		buffer.append("</table>");
-		Reporter.log(buffer.toString()+ "<br/>");
 		return status;
 	}
 	/**
@@ -721,6 +765,7 @@ public abstract class SoapService{
 	 */
 	protected String buildRequestFromWSDL(String operation) {
 		TestReporter.logTrace("Entering SoapService#buildRequestFromWSDL");
+		strOperationName = operation;
 		System.setProperty("soapui.log4j.config", this.getClass().getResource("/soapui-log4j.xml").getPath());
 		WsdlInterface[] wsdls = null;
 		WsdlInterface wsdl = null;

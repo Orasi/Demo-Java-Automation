@@ -28,7 +28,7 @@ import com.webservicex.genericBarCode.GenericBarCode;
 public class GenerateBarCode extends GenericBarCode{
     public GenerateBarCode(){
 	//Generate a request from a project xml file
-	File xml = new File(this.getClass().getResource("/xml/BarCode_Template.xml").getPath());
+	File xml = new File(this.getClass().getResource("/xml/generateBarCode/BarCode_Template.xml").getPath());
 	setOperationName("GenerateBarCode");
 	setRequestDocument(XMLTools.makeXMLDocument(xml));
 	removeComments() ;

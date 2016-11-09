@@ -4,9 +4,9 @@
 	<parameter name="environment" value="staging" />
 	<test name="WithXMLTemplates">
 		<classes>
-			<class name="com.webservicex.loadXmlWithXmlTemplate.TestSoapService"></class><!-- 
+			<class name="com.webservicex.loadXmlWithXmlTemplate.TestSoapService"></class> 
 			<class name="com.webservicex.loadXmlWithSoapUI.excelExternalData.TestSoapService"></class>
-			<class name="com.webservicex.loadXmlWithSoapUI.noExternalData.TestSoapService"></class> -->
+			<class name="com.webservicex.loadXmlWithSoapUI.noExternalData.TestSoapService"></class> 
 		</classes>
 	</test> <!-- TestingRadioGroups -->
 </suite> <!-- TestingRadioGroups -->

@@ -38,13 +38,14 @@ public class TestSoapService extends TestEnvironment{
 	TestReporter.logAPI(getInfo.getNumberOfResults() != 0, "Results were returned", getInfo);
     }
 
-    //@Test
+    @Test
     public void getInfoByState(){
 	GetInfoByState getInfo = new GetInfoByState();
 	setSoapService(getInfo);
 	getInfo.setState("NC");
 	getInfo.sendRequest();
 	TestReporter.logAPI(getInfo.getNumberOfResults() != 0, "Results were returned", getInfo);
+	TestReporter.assertTrue(getInfo.validateResponse("/excelsheets/GetInfoByStateResponse.xls", "Main"),"Validate Response");
     }
     
     //@Test
@@ -81,7 +82,7 @@ public class TestSoapService extends TestEnvironment{
 	TestReporter.logAPI(change.getResult().equals("89.6"), "Result not empty", change);
     }
 
-    @Test
+   // @Test
     public void temperatureConvertTest_RandomResult() {
 	ChangeTemperatureUnit change = new ChangeTemperatureUnit("TempConvertCToF");
 	change.setTemperature(Randomness.randomNumber(2));
