@@ -7,7 +7,7 @@ import com.webservicex.locationSearch.usZip.USZip;
 
 public class GetInfoByZip extends USZip{
 	public GetInfoByZip() {
-		File xml = new File(this.getClass().getResource("/xml/usZipSoap/getInfoByZip/getInfoByZip.xml").getPath());
+		File xml = new File(this.getClass().getResource("/xml/usZipSoap/getInfoByZIP/getInfoByZip.xml").getPath());
 		setRequestDocument(XMLTools.makeXMLDocument(xml));
 		
 		//Generate a request from a project xml file
