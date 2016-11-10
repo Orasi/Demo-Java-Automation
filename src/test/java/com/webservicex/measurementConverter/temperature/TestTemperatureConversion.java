@@ -1,4 +1,4 @@
-package com.webservicex.loadXmlWithSoapUI.excelExternalData;
+package com.webservicex.measurementConverter.temperature;
 
 import org.testng.annotations.Test;
 
@@ -9,33 +9,15 @@ import com.webservicex.measurementConverter.frequency.operations.ChangeFrequency
 import com.webservicex.measurementConverter.temperature.operations.ChangeTemperatureUnit;
 
 
-public class TestSoapService extends TestEnvironment{
+public class TestTemperatureConversion extends TestEnvironment{
 
-    @Test
-    public void frequencyConvertTest_SpecificResult() {
-	ChangeFrequencyUnit change = new ChangeFrequencyUnit("FreqConvertRadPMinToFres");
-	setSoapService(change);
-	change.setFreqValue("17");
-	change.sendRequest();
-	TestReporter.logAPI(change.getResult().equals("45093900355.000404"), "Result was not [ 45093900355.000404 ]", change);
-    }
-    
-    @Test
-    public void frequencyConvertTest_RandomResult() {
-	ChangeFrequencyUnit change = new ChangeFrequencyUnit("FreqConvertRadPMinToFres");
-	setSoapService(change);
-	change.setFreqValue(Randomness.randomNumber(2));
-	change.sendRequest();
-	TestReporter.logAPI(change.getResult() != "", "Result not empty", change);
-    }
-    
     @Test
     public void temperatureConvertCtoF_SpecificResult() {
 	ChangeTemperatureUnit change = new ChangeTemperatureUnit("TempConvertCToF");
 	setSoapService(change);
 	change.setTemperature("32");
 	change.sendRequest();
-	TestReporter.logAPI(change.getResult().equals("89.6"), "Result not [ 89.6 ]", change);
+	TestReporter.logAPI(change.getResult().equals("89.6"), "Result is [ 89.6 ]", change);
     }
 
     @Test
@@ -54,7 +36,7 @@ public class TestSoapService extends TestEnvironment{
 	setSoapService(change);
 	change.setTemperature("32");
 	change.sendRequest();
-	TestReporter.logAPI(change.getResult().equals("0"), "Result not [ 0 ]", change);
+	TestReporter.logAPI(change.getResult().equals("0"), "Result is [ 0 ]", change);
     }
 
     @Test

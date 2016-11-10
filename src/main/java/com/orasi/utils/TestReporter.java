@@ -302,6 +302,8 @@ public class TestReporter {
 		if(!pass){
 			failFormat = "<font size = 2 color=\"red\">";
 			logFailure(message);
+		}else{
+		    assertTrue(true, message);
 		}
 		String request =bs.getRequest(); 
 		String response =bs.getResponse();

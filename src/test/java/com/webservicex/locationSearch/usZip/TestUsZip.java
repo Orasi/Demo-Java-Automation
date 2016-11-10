@@ -1,4 +1,4 @@
-package com.webservicex.loadXmlWithSoapUI.noExternalData;
+package com.webservicex.locationSearch.usZip;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -14,7 +14,7 @@ import com.webservicex.measurementConverter.frequency.operations.ChangeFrequency
 import com.webservicex.measurementConverter.temperature.operations.ChangeTemperatureUnit;
 
 
-public class TestSoapService extends TestEnvironment{
+public class TestUsZip extends TestEnvironment{
 
     @Test
     public void getInfoByAreaCode(){
@@ -23,6 +23,7 @@ public class TestSoapService extends TestEnvironment{
 	getInfo.setAreaCode("901");
 	getInfo.sendRequest();
 	TestReporter.logAPI(getInfo.getNumberOfResults() != 0, "Results were returned", getInfo);
+	TestReporter.assertTrue(getInfo.validateResponse("/excelsheets/usZip/GetInfoByAreaCode/GetInfoByAreaCodeResponse.xls", "Main"), "Validate Response");
     }
 
     @Test
@@ -32,6 +33,7 @@ public class TestSoapService extends TestEnvironment{
 	getInfo.setCity("Greensboro");
 	getInfo.sendRequest();
 	TestReporter.logAPI(getInfo.getNumberOfResults() != 0, "Results were returned", getInfo);
+	TestReporter.assertTrue(getInfo.validateResponse("/excelsheets/usZip/GetInfoByCity/GetInfoByCityResponse.xls", "Main"), "Validate Response");
     }
 
     @Test
@@ -41,6 +43,7 @@ public class TestSoapService extends TestEnvironment{
 	getInfo.setState("NC");
 	getInfo.sendRequest();
 	TestReporter.logAPI(getInfo.getNumberOfResults() != 0, "Results were returned", getInfo);
+	TestReporter.assertTrue(getInfo.validateResponse("/excelsheets/usZip/GetInfoByState/GetInfoByStateResponse.xls", "Main"), "Validate Response");
     }
     
     @Test
@@ -50,5 +53,6 @@ public class TestSoapService extends TestEnvironment{
 	getInfo.setZip("27410");
 	getInfo.sendRequest();
 	TestReporter.logAPI(getInfo.getNumberOfResults() != 0, "Results were returned", getInfo);
+	TestReporter.assertTrue(getInfo.validateResponse("/excelsheets/usZip/GetInfoByZip/GetInfoByZipResponse.xls", "Main"), "Validate Response");
     }
 }

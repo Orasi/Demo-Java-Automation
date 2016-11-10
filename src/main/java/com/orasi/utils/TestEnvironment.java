@@ -1,5 +1,7 @@
 package com.orasi.utils;
 
+import org.testng.ITestResult;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
@@ -31,8 +33,21 @@ public class TestEnvironment {
 	  @Parameters({ "environment"})
 	public void setup(@Optional String environment){
 	    this.environment = environment;
+	    Sleeper.sleep(250);
 	}
+	
+	@AfterMethod
+	public void teardown(ITestResult testResults){
+	    String result = "";
+	    switch (testResults.getStatus()){
+	    case ITestResult.FAILURE: result = "FAILED"; break;
+	    case ITestResult.SKIP: result = "SKIPPED"; break;
+	    case ITestResult.SUCCESS: result = "PASSED"; break;
 
+	    }
+	    System.out.println(testResults.getMethod().getTestClass().getName()+ "#"+testResults.getName() + " Completed... Result Status: " + result); 
+	}
+	
 	/*
 	 * Mustard Fields
 	 */

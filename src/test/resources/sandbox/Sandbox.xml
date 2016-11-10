@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="TestingRadioGroups" parallel="methods" thread-count="15">
+<suite name="TestingRadioGroups" parallel="methods" thread-count="1">
 	<parameter name="environment" value="staging" />
 	<test name="WithXMLTemplates">
 		<classes>

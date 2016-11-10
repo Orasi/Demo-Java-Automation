@@ -443,9 +443,9 @@ public abstract class SoapService{
 			response.getSOAPBody().normalize();
 			responseBody = response.getSOAPBody();
 		} catch (UnsupportedOperationException uoe) {
-			throw new SoapException("Operation given did not match any operations in the service"+ uoe.getCause());
+			throw new SoapException("Operation given did not match any operations in the service "+ uoe.getCause());
 		} catch (SOAPException soape) {
-			throw new SoapException("Soap Connection failure" , soape.getCause());
+			throw new SoapException("Soap Connection failure", soape.getCause());
 		} catch (IOException ioe) {
 			throw new SoapException("Failed to read the request properly"
 					+ ioe.getCause());
