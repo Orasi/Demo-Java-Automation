@@ -156,8 +156,8 @@ public class TestReporter {
 	 */
 	public static void logInfo(String message) {
 		if(debugLevel >= INFO){
-			Reporter.log(getTimestamp() + " INFO :: "+ getClassPath()  + message + "<br />");
-			System.out.println(getTimestamp() + " INFO :: "  + getClassPath() + " > "+ trimHtml(message).trim());
+			Reporter.log(getTimestamp() + "INFO :: "+ getClassPath()  + message + "<br />");
+			System.out.println(getTimestamp() + "INFO :: "  + getClassPath() + trimHtml(message).trim());
 		}
 	}
 
@@ -168,7 +168,7 @@ public class TestReporter {
 	public static void logDebug(String message) {
 		if(debugLevel >= DEBUG){
 			Reporter.log(getTimestamp() + "DEBUG :: "+ getClassPath()  + message + "<br />");
-			System.out.println(getTimestamp()+ "DEBUG :: "  + getClassPath() + " > "+ trimHtml(message).trim());
+			System.out.println(getTimestamp()+ "DEBUG :: "  + getClassPath() + trimHtml(message).trim());
 		}
 	}
 
