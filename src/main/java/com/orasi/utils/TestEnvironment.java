@@ -31,7 +31,9 @@ public class TestEnvironment {
 	protected ThreadLocal<SoapService> soapService = new ThreadLocal<SoapService>();
 
 	@BeforeSuite(alwaysRun=true)
-	public void suiteSetup(){
+	@Parameters({ "environment"})
+	public void suiteSetup(@Optional String environment){
+	    this.environment = environment;
 		try{
 			String debugLevel = System.getenv("debugLevel");
 			debugLevel = (debugLevel == null) ? System.getProperty("debugLevel") : debugLevel;
@@ -48,18 +50,14 @@ public class TestEnvironment {
 			case "trace":
 				level = 3;
 				break;
-			default:
-				break;
 			}
 			TestReporter.setDebugLevel(level);
-		}catch(Exception e){}		
+		}catch(Exception throwAway){}		
 		//TestReporter.setDebugLevel(2);
 	}
 	
 	@BeforeMethod
-	@Parameters({ "environment"})
-	public void setup(@Optional String environment){
-	    this.environment = environment;
+	public void setup(){
 	    Sleeper.sleep(250);
 	}
 	
