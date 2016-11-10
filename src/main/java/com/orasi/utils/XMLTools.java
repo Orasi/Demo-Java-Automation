@@ -388,7 +388,7 @@ public class XMLTools{
 		Document doc = null;
 		try {
 			DocumentBuilder builder = factory.newDocumentBuilder();
-			TestReporter.logTrace("Attempting to from file and save as to XML");
+			TestReporter.logTrace("Attempting to from file and save as to XML. File [ " + file.getPath()+ " ]");
 			doc = builder.parse(file);
 		} catch (SAXException saxe) {
 			 throw new RuntimeException("Failed to parse the xml", saxe.getCause());
