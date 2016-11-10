@@ -34,8 +34,24 @@ public class TestEnvironment {
 	public void suiteSetup(){
 		try{
 			String debugLevel = System.getenv("debugLevel");
-			debugLevel = (debugLevel == null) ? System.getProperty("debugLevel") : debugLevel; 
-			TestReporter.setDebugLevel(Integer.parseInt(debugLevel));
+			debugLevel = (debugLevel == null) ? System.getProperty("debugLevel") : debugLevel;
+			int level = 0;
+			switch (debugLevel.toLowerCase()) {
+			case "none":
+				break;
+			case "info":
+				level = 1;
+				break;
+			case "debug":
+				level = 2;
+				break;
+			case "trace":
+				level = 3;
+				break;
+			default:
+				break;
+			}
+			TestReporter.setDebugLevel(level);
 		}catch(Exception e){}		
 		//TestReporter.setDebugLevel(2);
 	}
