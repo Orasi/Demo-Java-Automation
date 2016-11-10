@@ -3,6 +3,7 @@ package com.orasi.utils;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 
@@ -29,8 +30,18 @@ public class TestEnvironment {
 
 	protected ThreadLocal<SoapService> soapService = new ThreadLocal<SoapService>();
 
+	@BeforeSuite(alwaysRun=true)
+	public void suiteSetup(){
+		try{
+			String debugLevel = System.getenv("debugLevel");
+			debugLevel = (debugLevel == null) ? System.getProperty("debugLevel") : debugLevel; 
+			TestReporter.setDebugLevel(Integer.parseInt(debugLevel));
+		}catch(Exception e){}		
+		//TestReporter.setDebugLevel(2);
+	}
+	
 	@BeforeMethod
-	  @Parameters({ "environment"})
+	@Parameters({ "environment"})
 	public void setup(@Optional String environment){
 	    this.environment = environment;
 	    Sleeper.sleep(250);
