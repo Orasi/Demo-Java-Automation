@@ -19,7 +19,7 @@ import com.orasi.utils.Sleeper;
 import com.orasi.utils.TestReporter;
 
 public class SoapUITestNGReports {
-
+    
     WsdlProject project = null;
     @DataProvider(name="testlist")
     public String[][] testlist(){

@@ -6,7 +6,7 @@ import java.util.Calendar;
 
 public class Constants {
 
-	final static public int CURRENT_YEAR = Calendar.getInstance().get(Calendar.YEAR);
+final static public int CURRENT_YEAR = Calendar.getInstance().get(Calendar.YEAR);
     final static public int CURRENT_MONTH = Calendar.getInstance().get(Calendar.MONTH);
     final static public int CURRENT_DAY = Calendar.getInstance().get(Calendar.DATE);
 	
@@ -22,6 +22,15 @@ public class Constants {
     /** Location of drivers in project */
     final static public String DRIVERS_PATH_LOCAL = "/drivers/";
     final static public String DRIVERS_PATH_REMOTE = "C:\\Selenium\\WebDrivers\\";
+    
+    /** Location of Excel sheets **/
+    final static public String EXCEL_SHEETS = "/excelsheets";
+
+    /** Location of SoapUI projects **/
+    final static public String SOAPUI_PROJECTS = "/soapui";
+
+    /** Location of XML files**/
+    final static public String XML_FILES = "/xml";
     
     /** Location of tnsnames in project */
     final static public String TNSNAMES_PATH = "/database/";

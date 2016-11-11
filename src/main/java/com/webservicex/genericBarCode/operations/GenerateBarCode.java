@@ -20,6 +20,7 @@ import org.testng.Reporter;
 
 import com.orasi.exception.AutomationException;
 import com.orasi.utils.Base64Coder;
+import com.orasi.utils.Constants;
 import com.orasi.utils.Randomness;
 import com.orasi.utils.TestReporter;
 import com.orasi.utils.XMLTools;
@@ -28,7 +29,7 @@ import com.webservicex.genericBarCode.GenericBarCode;
 public class GenerateBarCode extends GenericBarCode{
     public GenerateBarCode(){
 	//Generate a request from a project xml file
-	File xml = new File(this.getClass().getResource("/xml/generateBarCode/BarCode_Template.xml").getPath());
+	File xml = new File(this.getClass().getResource(Constants.XML_FILES + "/generateBarCode/BarCode_Template.xml").getPath());
 	setOperationName("GenerateBarCode");
 	setRequestDocument(XMLTools.makeXMLDocument(xml));
 	removeComments() ;

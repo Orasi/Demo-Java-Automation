@@ -3,6 +3,7 @@ package com.webservicex.locationSearch.usZip;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import com.orasi.utils.Constants;
 import com.orasi.utils.Randomness;
 import com.orasi.utils.TestEnvironment;
 import com.orasi.utils.TestReporter;
@@ -16,43 +17,40 @@ import com.webservicex.measurementConverter.temperature.operations.ChangeTempera
 
 public class TestUsZip extends TestEnvironment{
 
+    private String excelFileLocation = Constants.EXCEL_SHEETS + "/usZip";
     @Test
     public void getInfoByAreaCode(){
 	GetInfoByAreaCode getInfo = new GetInfoByAreaCode();
-	setSoapService(getInfo);
 	getInfo.setAreaCode("901");
 	getInfo.sendRequest();
 	TestReporter.logAPI(getInfo.getNumberOfResults() != 0, "Results were returned", getInfo);
-	TestReporter.assertTrue(getInfo.validateResponse("/excelsheets/usZip/GetInfoByAreaCode/GetInfoByAreaCodeResponse.xls", "Main"), "Validate Response");
+	TestReporter.assertTrue(getInfo.validateResponse(excelFileLocation +"/GetInfoByAreaCode/GetInfoByAreaCodeResponse.xls", "Main"), "Validate Response");
     }
 
     @Test
     public void getInfoByCity(){
 	GetInfoByCity getInfo = new GetInfoByCity();
-	setSoapService(getInfo);
 	getInfo.setCity("Greensboro");
 	getInfo.sendRequest();
 	TestReporter.logAPI(getInfo.getNumberOfResults() != 0, "Results were returned", getInfo);
-	TestReporter.assertTrue(getInfo.validateResponse("/excelsheets/usZip/GetInfoByCity/GetInfoByCityResponse.xls", "Main"), "Validate Response");
+	TestReporter.assertTrue(getInfo.validateResponse(excelFileLocation +"/GetInfoByCity/GetInfoByCityResponse.xls", "Main"), "Validate Response");
     }
 
     @Test
     public void getInfoByState(){
 	GetInfoByState getInfo = new GetInfoByState();
-	setSoapService(getInfo);
 	getInfo.setState("NC");
 	getInfo.sendRequest();
 	TestReporter.logAPI(getInfo.getNumberOfResults() != 0, "Results were returned", getInfo);
-	TestReporter.assertTrue(getInfo.validateResponse("/excelsheets/usZip/GetInfoByState/GetInfoByStateResponse.xls", "Main"), "Validate Response");
+	TestReporter.assertTrue(getInfo.validateResponse(excelFileLocation +"/GetInfoByState/GetInfoByStateResponse.xls", "Main"), "Validate Response");
     }
     
     @Test
     public void getInfoByZip(){
 	GetInfoByZip getInfo = new GetInfoByZip();
-	setSoapService(getInfo);
 	getInfo.setZip("27410");
 	getInfo.sendRequest();
 	TestReporter.logAPI(getInfo.getNumberOfResults() != 0, "Results were returned", getInfo);
-	TestReporter.assertTrue(getInfo.validateResponse("/excelsheets/usZip/GetInfoByZip/GetInfoByZipResponse.xls", "Main"), "Validate Response");
+	TestReporter.assertTrue(getInfo.validateResponse(excelFileLocation +"/GetInfoByZip/GetInfoByZipResponse.xls", "Main"), "Validate Response");
     }
 }

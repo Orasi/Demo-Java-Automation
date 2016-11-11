@@ -20,6 +20,23 @@
             <web:checkSumMethod>None</web:checkSumMethod>
             <web:showTextPosition>BottomCenter</web:showTextPosition>
             <web:BarCodeImageFormat>PNG</web:BarCodeImageFormat>
+            
+            
+            <filterCriterias>
+            	<name>ReservationType</name>
+            	<value>blah</value>
+            </filterCriterias>
+            <filterCriterias>
+            	<name>ArrivalDate</name>
+            	<value>blah</value>
+            </filterCriterias>
+            <filterCriterias>
+            	<name>DepartureDate</name>
+            	<value>blah</value>
+            </filterCriterias>
+            
+            
+            
          </web:BarCodeParam>
          <web:BarCodeText>734341232213334</web:BarCodeText>
       </web:GenerateBarCode>

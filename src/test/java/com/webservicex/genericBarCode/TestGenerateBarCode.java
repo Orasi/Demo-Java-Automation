@@ -1,6 +1,5 @@
 package com.webservicex.genericBarCode;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.orasi.utils.Randomness;
