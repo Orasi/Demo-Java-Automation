@@ -205,9 +205,9 @@ public class TestReporter {
    	if(getPrintToConsole()) System.out.println(getTimestamp() + "Assert Not Null - " + trimHtml(description));
        }
     
-    public static void logScreenshot(WebDriver driver, String fileLocation, String runLocation) {
+	public static void logScreenshot(WebDriver driver, String fileLocation, String slash, String runLocation) {
 		File file = new File("");
-	
+
 		try {
 			file = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
 			FileUtils.copyFile(file, new File(fileLocation));
@@ -216,15 +216,15 @@ public class TestReporter {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		if(runLocation.equalsIgnoreCase("grid") || runLocation.equalsIgnoreCase("sauce")){
-			fileLocation = fileLocation.replace("/var/lib/jenkins/jobs/Demo/jobs/" + System.getenv("JOB_NAME") + ")/workspace/", 
-					"job/Demo/job/" + System.getenv("JOB_NAME") + "/ws/");
+		if(runLocation.equalsIgnoreCase("grid") || runLocation.equalsIgnoreCase("sauce") ){
+			fileLocation = fileLocation.replace("/var/lib/jenkins/jobs/Demo/jobs/Demo_JavaAutomation/workspace/", "job/Demo/job/Demo_JavaAutomation/ws/");
 			Reporter.log("<a href='https://jenkins.orasi.com/" + fileLocation + "'>FAILED SCREENSHOT</a>");
 		}else{
 			TestReporter.log(fileLocation);
 			Reporter.log("<a href='" + fileLocation + "'> <img src='file:///" + fileLocation + "' height='200' width='300'/> </a>");
 		}
-    }
+	}
+
     
 	@Step("https://saucelabs.com/beta/tests/{0}")
 	public static void logVideo(String sessionId) {

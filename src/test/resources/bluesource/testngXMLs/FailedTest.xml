@@ -6,11 +6,11 @@
 		<listener class-name="com.orasi.utils.Screenshot" />
 	</listeners>
 
-	<parameter name="browserUnderTest" value="safari" />
+	<parameter name="browserUnderTest" value="firefox" />
 	<parameter name="environment" value="qa" />
-	<parameter name="runLocation" value="sauce" />
-	<parameter name="browserVersion" value="9.0" />
-	<parameter name="operatingSystem" value="MAC OS X 10.11" />
+	<parameter name="runLocation" value="local" />
+	<parameter name="browserVersion" value="47" />
+	<parameter name="operatingSystem" value="Windows" />
 	<!-- <parameter name="runLocation" value="remote"</parameter> -->
 	<test name="Test">
 		<classes>

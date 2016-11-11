@@ -11,6 +11,7 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
+import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.remote.Augmenter;
 import org.testng.IReporter;
 import org.testng.ISuite;
@@ -22,81 +23,75 @@ import org.testng.xml.XmlSuite;
 import ru.yandex.qatools.allure.annotations.Attachment;
 
 public class Screenshot extends TestListenerAdapter implements IReporter{
+	
+	private OrasiDriver driver = null;
+	private String runLocation = "";
+	private boolean reportToMustard = true;
+	
+	private void init(ITestResult result){
+	    try{
+		Object currentClass = result.getInstance();
+		driver = ((TestEnvironment) currentClass).getDriver();
+		runLocation = ((TestEnvironment) currentClass).getRunLocation().toLowerCase();		
+		reportToMustard = ((TestEnvironment) currentClass).isReportingToMustard();
+	    }catch (Exception e){}
+	    
+	}
 
 	@Override
 	public void onTestFailure(ITestResult result) {
-
-		byte[] allureScreenshot = null;
+		init(result);
+		if (driver == null) return;
 		String slash = Constants.DIR_SEPARATOR;
 		File directory = new File(".");
-		Object currentClass = result.getInstance();
-		WebDriver driver = ((TestEnvironment) currentClass).getDriver();
-		String runLocation = ((TestEnvironment) currentClass).getRunLocation().toLowerCase();
-		String fileLocation;
-		WebDriver screenshotDriver = null;
-
 		
 		String destDir = null;
 		try {
-			destDir = directory.getCanonicalPath() + slash + "selenium-reports" + slash + "html" + slash
-					+ "screenshots";
+			destDir = directory.getCanonicalPath()
+					+ slash + "selenium-reports" + slash + "html" + slash + "screenshots";
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-
 		Reporter.setCurrentTestResult(result);
-
-		if (driver != null){
-			if (!driver.toString().contains("null")){
-				
-				if (runLocation.equalsIgnoreCase("grid") || runLocation.equalsIgnoreCase("sauce")) {
-					screenshotDriver = new Augmenter().augment(driver);
-				}else {
-					screenshotDriver = driver;
-				}
-				
-				new File(destDir).mkdirs();
-				DateFormat dateFormat = new SimpleDateFormat("dd_MMM_yyyy__hh_mm_ssaa");
-
-				String destFile = dateFormat.format(new Date()) + ".png";
-				
-				fileLocation = destDir + "/" + destFile;
-
-				//For remote runs & on Jenkins
-				if (runLocation.equalsIgnoreCase("grid") || runLocation.equalsIgnoreCase("sauce")){
-					//this if for reporting to allure
-					try {
-						allureScreenshot = ((TakesScreenshot) screenshotDriver).getScreenshotAs(OutputType.BYTES);
-						attachScreenshotforAllure(allureScreenshot);
-					} catch (Exception e){
-						TestReporter.log("Was not able to take a screenshot due to exception: " + e.getMessage());
-					}
-					
-				}
-				 try{
-					 TestReporter.logScreenshot(screenshotDriver, fileLocation, runLocation);
-				  	} catch (WebDriverException e){
-				 System.out.println(e.getMessage()); 
-				 }
-			}
-		}
 		
+		WebDriver augmentDriver= driver.getWebDriver();
+		if(!(augmentDriver instanceof HtmlUnitDriver)){
+			if (runLocation == "remote" ){
+				augmentDriver = new Augmenter().augment(driver.getWebDriver());
+			}
+		
+			new File(destDir).mkdirs();
+			DateFormat dateFormat = new SimpleDateFormat("dd_MMM_yyyy_hh_mm_ssaa");
+	
+			String destFile = dateFormat.format(new Date()) + ".png";
+	
+			//Capture a screenshot for TestNG reporting
+			TestReporter.logScreenshot(augmentDriver, destDir + slash + destFile, slash, runLocation);
+		}		
+		//Capture a screenshot for Allure reporting
+	//	FailedScreenshot(augmentDriver);
+		if(reportToMustard) Mustard.postResultsToMustard(driver, result, runLocation );
 	}
 
 	@Override
 	public void onTestSkipped(ITestResult result) {
 		// will be called after test will be skipped
+		init(result);
+		if (driver == null) return;
+		if(reportToMustard) Mustard.postResultsToMustard(driver, result, runLocation );
 	}
 
 	@Override
 	public void onTestSuccess(ITestResult result) {
 		// will be called after test will pass
+		init(result);
+		if (driver == null) return;
+		if(reportToMustard) Mustard.postResultsToMustard(driver, result, runLocation );
 	}
 
 	@Attachment(type = "image/png")
-	public byte[] attachScreenshotforAllure(byte[] allureScreenshot) {
-		return allureScreenshot;
+	public static byte[] FailedScreenshot(WebDriver driver) {
+		return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
 	}
 
 	@Override
