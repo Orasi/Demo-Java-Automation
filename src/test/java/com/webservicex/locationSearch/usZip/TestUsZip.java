@@ -24,7 +24,7 @@ public class TestUsZip extends TestEnvironment{
 	getInfo.setAreaCode("901");
 	getInfo.sendRequest();
 	TestReporter.logAPI(getInfo.getNumberOfResults() != 0, "Results were returned", getInfo);
-	TestReporter.assertTrue(getInfo.validateResponse(excelFileLocation +"/GetInfoByAreaCode/GetInfoByAreaCodeResponse.xls", "Main"), "Validate Response");
+	TestReporter.assertTrue(getInfo.validateResponse(excelFileLocation +"/GetInfoByAreaCode/GetInfoByAreaCodeResponse_CSV.csv", "Main"), "Validate Response");
     }
 
     @Test
@@ -33,7 +33,7 @@ public class TestUsZip extends TestEnvironment{
 	getInfo.setCity("Greensboro");
 	getInfo.sendRequest();
 	TestReporter.logAPI(getInfo.getNumberOfResults() != 0, "Results were returned", getInfo);
-	TestReporter.assertTrue(getInfo.validateResponse(excelFileLocation +"/GetInfoByCity/GetInfoByCityResponse.xls", "Main"), "Validate Response");
+	TestReporter.assertTrue(getInfo.validateResponse(excelFileLocation +"/GetInfoByCity/GetInfoByCityResponse_XLSX.xlsx", "Main"), "Validate Response");
     }
 
     @Test

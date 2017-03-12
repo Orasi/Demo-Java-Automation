@@ -4,15 +4,23 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import com.orasi.exception.AutomationException;
+
 public class ExcelDocumentReader {
-    private XSSFSheet excelWSheet;
-    private XSSFWorkbook excelWBook;
-    private XSSFCell cell;
+    private Sheet excelWSheet;
+    private Workbook excelWBook;
+    private Cell cell;
     private String filepath;
+    private int startRow = 1;
     
     public ExcelDocumentReader(String filepath){
 	this.filepath = filepath;
@@ -32,14 +40,15 @@ public class ExcelDocumentReader {
     
 
     public Object[][] readData(String sheetName) {
-    	return (readData(sheetName, -1));
+    	return (readData(sheetName, -1, 1));
     }
     
     public Object[][] readData(String filepath, String sheetName) {
 	return (readData(filepath, sheetName, -1));
     }
 
-    public Object[][] readData(String sheetName, int rowToRead) {
+    public Object[][] readData(String sheetName, int rowToRead, int startRow) {
+    	this.startRow = startRow;
 	return readData(filepath, sheetName, rowToRead);
     }
 
@@ -53,19 +62,22 @@ public class ExcelDocumentReader {
 		FileInputStream excelFile = new FileInputStream(filepath);
 
 		// Access the required test data sheet
-
-		excelWBook = new XSSFWorkbook(excelFile);
-
-		excelWSheet = excelWBook.getSheet(sheetName);
-
-		int startRow = 1;
+        if (filepath.toUpperCase().indexOf(".XLSX") > 0) {
+        	excelWBook = new XSSFWorkbook(filepath); //XLSX
+        }
+        else {
+        	excelWBook = new HSSFWorkbook(excelFile); //XLS
+        }
+        
+        if(StringUtils.isNumeric(sheetName))excelWSheet = excelWBook.getSheetAt(Integer.valueOf(sheetName));
+        else excelWSheet = excelWBook.getSheet(sheetName);
 
 		int startCol = 0;
 
 		int ci, cj;
 
 		
-		if (rowToRead == -1) totalRows = excelWSheet.getLastRowNum();
+		if (rowToRead == -1) totalRows = (excelWSheet.getLastRowNum() +1);
 
 		// you can write a function as well to get Column count
 
@@ -74,11 +86,7 @@ public class ExcelDocumentReader {
 		tabArray = new String[totalRows][totalCols];
 
 		ci = 0;
-
-		
-		cj = 0;
-		
-		for (int i = startRow; i <= totalRows; i++, ci++) {
+		for (int i = startRow; i <= totalRows-1; i++, ci++) {
 			cj = 0;
 			for (int j = startCol; j < totalCols; j++, cj++) {					
 				tabArray[ci][cj] = getCellData(i, j);
@@ -86,11 +94,9 @@ public class ExcelDocumentReader {
 		}
 		
 	}catch (FileNotFoundException e) {
-		System.out.println("Could not read the Excel sheet");
-		e.printStackTrace();
+		throw new AutomationException("Failed to locate Excel file");
 	}catch (IOException e) {
-		System.out.println("Could not read the Excel sheet");
-		e.printStackTrace();
+		throw new AutomationException("Could not read Excel file");
 	}
 	return (tabArray);
     }

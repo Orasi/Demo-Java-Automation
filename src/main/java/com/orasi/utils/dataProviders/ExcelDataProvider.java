@@ -35,7 +35,7 @@ public class ExcelDataProvider {
     }
 
     public Object[][] getTestData() {
-	return new ExcelDocumentReader(this.filepath).readData(this.sheetName, this.row);
+	return new ExcelDocumentReader(this.filepath).readData(this.sheetName, this.row, 1);
     }
 //
 //    public String getDataParameter(String field) {

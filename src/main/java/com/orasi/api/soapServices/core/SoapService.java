@@ -19,51 +19,30 @@ import javax.xml.soap.SOAPConstants;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPFault;
 import javax.xml.soap.SOAPMessage;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
+import javax.xml.ws.WebServiceException;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
-import jxl.Cell;
-import jxl.Sheet;
-import jxl.Workbook;
-import jxl.read.biff.BiffException;
-
-import org.apache.xmlbeans.XmlException;
 import org.testng.Reporter;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import com.eviware.soapui.impl.wsdl.WsdlInterface;
-import com.eviware.soapui.impl.wsdl.WsdlOperation;
-import com.eviware.soapui.impl.wsdl.WsdlProject;
-import com.eviware.soapui.impl.wsdl.support.wsdl.WsdlImporter;
-import com.eviware.soapui.model.iface.Interface;
-import com.eviware.soapui.support.SoapUIException;
 import com.orasi.api.soapServices.core.exceptions.SoapException;
 import com.orasi.api.soapServices.core.exceptions.XPathNotFoundException;
 import com.orasi.api.soapServices.core.exceptions.XPathNullNodeValueException;
-import com.orasi.exception.AutomationException;
+import com.orasi.utils.ExcelDocumentReader;
 import com.orasi.utils.Randomness;
 import com.orasi.utils.Regex;
-import com.orasi.utils.Sleeper;
 import com.orasi.utils.TestReporter;
 import com.orasi.utils.XMLTools;
-
-import groovy.util.logging.Log4j;
+import com.orasi.utils.dataProviders.CSVDataProvider;
 
 public abstract class SoapService{
-    private static WsdlProject project = null;
 	private String strServiceName;
 	private String strOperationName;
 	private String url = null;
@@ -72,8 +51,9 @@ public abstract class SoapService{
 	private Document responseDocument = null;
 	protected StringBuffer buffer = new StringBuffer();
 	private String soapVersion = SOAPConstants.SOAP_1_1_PROTOCOL;
-	private Map<String, String> functionMap = new HashMap<String, String>();
-	
+	private Map<String, String> requestHeaders = new HashMap<String, String>();
+	private MimeHeaders responseHeaders = null;
+
 	/*****************************
 	 **** Start Gets and Sets ****
 	 *****************************/
@@ -135,7 +115,7 @@ public abstract class SoapService{
 	public String getServiceURL() {
 		return url;
 	}
-	
+
 	/**
 	 *  Return the Service Name of the service under test
 	 * @author Justin Phlegar
@@ -243,7 +223,7 @@ public abstract class SoapService{
 	protected void setOperationName(String name) {
 		strOperationName = name;
 	}
-	
+
 	/**
 	 * Used to define Soap Version to use. Default is 1.2
 	 * Can by changed using SOAPConstants.SOAP_1_1_PROTOCOL or SOAPConstants.SOAP_1_2_PROTOCOL
@@ -254,7 +234,18 @@ public abstract class SoapService{
 	protected void setSoapVersion(String version){
 		soapVersion = version;
 	}
-	
+
+
+	public String getResponseHeader(String name){
+		for(String header : responseHeaders.getHeader(name)){
+			return header;
+		}
+		return "";
+	}
+
+	public void addRequestHeader(String header, String value){
+		requestHeaders.put(header, value);
+	}
 	/***************************
 	 **** End Gets and Sets ****
 	 ***************************/
@@ -324,7 +315,7 @@ public abstract class SoapService{
 	}
 
 	/**
-	 *  Find and open the excel file sent. If successful, look and find
+	 *  Find and open the excel or csv file sent. If successful, look and find
 	 *          the matching scenario name then return its xpath and value data.
 	 * @author Justin Phlegar
 	 * @version Created: 08/28/2014
@@ -338,67 +329,56 @@ public abstract class SoapService{
 		TestReporter.logTrace("Entering SoapService#getTestScenario");
 		String[][] tabArray = null;
 		String filePath = "";
-		try {
-			TestReporter.logTrace("Getting file from Resources");
-			filePath = getClass().getResource(file).getPath();
+		TestReporter.logTrace("Getting file from Resources");
+		int startCol, endRow, endCol, ci, cj;
+		filePath = getClass().getResource(file).getPath();
 
-			filePath = filePath.replace("%20", " ");
-			TestReporter.logDebug("Full file path ["+filePath+"]");
-			
-			TestReporter.logTrace("Opening excel workbook with file");
-			Workbook workbook = Workbook.getWorkbook(new File(filePath));
-			
-			TestReporter.logTrace("Load default worksheet");
-			Sheet sheet = workbook.getSheet(0);
-			int startRow, startCol, endRow, endCol, ci, cj;
-			
-			TestReporter.logTrace("Searching for column containing scenario");
-			Cell tableStart = sheet.findCell(scenario);
-			
-			TestReporter.logTrace("Scenario found");
-			startRow = tableStart.getRow();
-			startCol = tableStart.getColumn();
+		filePath = filePath.replace("%20", " ");
+		TestReporter.logTrace("Full file path ["+filePath+"]");
 
-			TestReporter.logTrace("Determining last row containing data");
-			
-			for (int i = startRow + 1;; i++) {
-				try {
-					if (sheet.getCell(startCol + 1, i).getContents().toString()
-							.equals("")) {
-						endRow = i;
-						break;
-					}
-				} catch (ArrayIndexOutOfBoundsException arrayError) {
-					endRow = i;
-					break;
-				}
-
-			}
-			
-			TestReporter.logDebug("Start Column ["+startCol+"]" );
-			TestReporter.logDebug("End Row ["+endRow+"]" );
-			endCol = startCol + 3;
-
-			TestReporter.logTrace("Create an array based on end row");
-			tabArray = new String[endRow - startRow - 1][endCol - startCol - 1];
-			ci = 0;
-
-
-			TestReporter.logTrace("Transfer data from excel sheet to array");
-			for (int i = startRow + 1; i < endRow; i++, ci++) {
-				cj = 0;
-				for (int j = startCol + 1; j < endCol; j++, cj++) {
-					tabArray[ci][cj] = sheet.getCell(j, i).getContents();
-				}
-			}
-		} catch (FileNotFoundException fnfe) {
-			throw new AutomationException("File not found in path ["+filePath+"]", fnfe.getCause());
-		} catch (BiffException be) {
-			throw new AutomationException("Unable to read file. Ensure file is [xls] format and not [xlsx]", be.getCause());
-		} catch (IOException ioe) {
-			throw new RuntimeException("Unable to open file " + file + "\n"
-					+ ioe.getCause());
+		Object[][] xlsSheet = null; 
+		if (filePath.toUpperCase().indexOf(".XLS") > 0) {
+			TestReporter.logTrace("Retrieving data from ExcelDocumentReader");
+			xlsSheet = new ExcelDocumentReader(filePath).readData("0", -1, 0);
 		}
+		else {
+			TestReporter.logTrace("CSVDataProvider");
+			xlsSheet = CSVDataProvider.getData(filePath);
+		}
+		TestReporter.logTrace("Successfully retrieved data");
+
+		startCol = -1;
+		
+		TestReporter.logTrace("Finding column with scenario [ " + scenario + " ]");
+		for(int column = 0 ; column < xlsSheet[0].length ; column++){
+			if (xlsSheet[0][column].toString().contains(scenario)){
+				startCol = column;
+				break;
+			}
+		}
+		if(startCol == -1) throw new WebServiceException("Failed to find scenario [ " + scenario + " ] in CSV ");
+		endCol = startCol + 3;
+		TestReporter.logTrace("Found scenario [ " + scenario + " ]");
+		TestReporter.logTrace("Start Column [ "+startCol+"] " );
+		TestReporter.logTrace("End Column [ "+(startCol + 3)+" ]" );
+		
+		TestReporter.logTrace("Determining last row of data in column [ " + (startCol +1)+ " ]");
+		
+		for(endRow = xlsSheet.length ; xlsSheet[endRow-1][startCol+1].toString().isEmpty() ; endRow--){}
+		TestReporter.logTrace("Found last row of data in column [ " + (startCol +1)+ " ]");
+		TestReporter.logTrace("End Row [ "+endRow+"] " );
+		
+		tabArray = new String[endRow-1][2];
+		ci = 0;
+
+		TestReporter.logTrace("Transfer data from excel sheet to array");
+		for (int i = 1; i < endRow; i++, ci++) {
+			cj = 0;
+			for (int j = startCol + 1; j < endCol; j++, cj++) {
+				tabArray[ci][cj] = xlsSheet[i][j].toString();
+			}
+		}
+		TestReporter.logTrace("Successfull transfered data to array");
 		TestReporter.logTrace("Exiting SoapService#getTestScenario");
 		return (tabArray);
 	}
@@ -422,7 +402,7 @@ public abstract class SoapService{
 			TestReporter.logTrace("Create Soap Message Factory");
 			messageFactory = MessageFactory.newInstance(soapVersion);
 			TestReporter.logTrace("Message Factory started");
-			
+
 			TestReporter.logTrace("Loading request XML into byte stream");
 			InputStream in = new ByteArrayInputStream(getRequest().getBytes(Charset.defaultCharset()));
 			TestReporter.logTrace("Successfully loaded XML into stream");
@@ -430,22 +410,33 @@ public abstract class SoapService{
 			request = messageFactory.createMessage(new MimeHeaders(),in);	
 			TestReporter.logTrace("Successfully generated Soap Message");
 
+			if(requestHeaders.size() > 0){		
+				TestReporter.logTrace("Additional headers to be added");
+				for(String key : requestHeaders.keySet()){
+					TestReporter.logInfo("Adding header [" + key + " ] with value [" + requestHeaders.get(key) + " ]");
+					MimeHeaders soapHeader = request.getMimeHeaders();
+					soapHeader.addHeader(key, requestHeaders.get(key));	
+				}		
+			}
+
 			TestReporter.logTrace("Create Soap Connection Factory");
 			connectionFactory = SOAPConnectionFactory.newInstance();
 
 			TestReporter.logTrace("Create Soap Connection");
 			connection = connectionFactory.createConnection();
-			
+
 			TestReporter.logTrace("Send request to service");
 			response = connection.call(request, url);
+
+			responseHeaders = response.getMimeHeaders();
 
 			TestReporter.logTrace("Successfully sent Soap Message. Normalizing response");
 			response.getSOAPBody().normalize();
 			responseBody = response.getSOAPBody();
 		} catch (UnsupportedOperationException uoe) {
-			throw new SoapException("Operation given did not match any operations in the service "+ uoe.getCause());
+			throw new SoapException("Operation given did not match any operations in the service"+ uoe.getCause());
 		} catch (SOAPException soape) {
-			throw new SoapException("Soap Connection failure", soape.getCause());
+			throw new SoapException("Soap Connection failure" , soape.getCause());
 		} catch (IOException ioe) {
 			throw new SoapException("Failed to read the request properly"
 					+ ioe.getCause());
@@ -471,11 +462,11 @@ public abstract class SoapService{
 		Document doc = XMLTools.makeXMLDocument(response);
 		doc.normalize();
 		setResponseDocument(doc);
-		
+
 		TestReporter.logTrace("Successfully converted response to XML document");
 		TestReporter.logTrace("Exiting SoapService#sendRequest");
 	}	
-	
+
 	/**
 	 *  Update an XPath node or attribute based on the value. The value
 	 *          is not limited to simple values, but may also call various
@@ -501,7 +492,7 @@ public abstract class SoapService{
 		XPath xPath = xPathFactory.newXPath();
 		XPathExpression expr;
 		NodeList nList = null;
-		
+
 		try {
 			TestReporter.logTrace("Checking validity of xpath [ "+xpath+" ]");
 			expr = xPath.compile(xpath);
@@ -514,16 +505,16 @@ public abstract class SoapService{
 		if (nList.item(0) == null){	
 			throw new XPathNotFoundException(xpath);
 		}
-		
+
 		if( value == null || value.isEmpty()){
 			throw new XPathNullNodeValueException(xpath);
 		}		
-	
+
 		if (value.contains("fx:")) {
 			TestReporter.logTrace("Executing runtime function [ " + value + " ]");
 			value = handleValueFunction(doc, value, xpath);
 		}
-		
+
 		//If a prior function call previous updated the XML, nothing more is needed.
 		if (!value.equalsIgnoreCase("XMLUpdated")) {
 			if(value.equalsIgnoreCase("true")) value = "true";
@@ -531,8 +522,8 @@ public abstract class SoapService{
 			TestReporter.logTrace("Setting value [ "+value+" ] to xpath");
 			nList.item(0).setTextContent(value);
 		}
-	
-		
+
+
 		//Store changes
 		setRequestDocument(doc);	
 
@@ -558,7 +549,7 @@ public abstract class SoapService{
 	 *            <br><b>value="fx:funcName"</b> -- Will call the function "funcName" to be handled in {@link #handleValueFunction}
 	 */
 	public void setRequestNodeValueByXPath(String xpath, String value) {
-			setRequestNodeValueByXPath(getRequestDocument(),xpath,value);
+		setRequestNodeValueByXPath(getRequestDocument(),xpath,value);
 	}
 
 	/**
@@ -602,61 +593,20 @@ public abstract class SoapService{
 	 */
 	public boolean validateNodeValueByXPath(Document doc, Object[][] scenarios) {
 		boolean status = true;
-		boolean isArrayActive=false;
-		int arrays = 0;
-		Map<Integer, String> arrayTracker = new HashMap<Integer, String>();
-		
 		buffer.setLength(0);
 		buffer.append("<table border='1' width='100%'>");
 		buffer.append("<tr><td style='width: 100px; color: black; text-align: center;'><b>XPath</b></td>");
 		buffer.append("<td style='width: 100px; color: black; text-align: center;'><b>Regex</b></td>");
 		buffer.append("<td style='width: 100px; color: black; text-align: center;'><b>Value</b></td>");
 		buffer.append("<td style='width: 100px; color: black; text-align: center;'><b>Status</b></td></tr>");
-			for (int x = 0; x < scenarios.length; x++) {
-			
-				if (!validateNodeValueByXPath(doc, scenarios[x][0].toString(), scenarios[x][1].toString())) {
-					status = false;
-				}
-		}
-		buffer.append("</table><br/>");
-		Reporter.log(buffer.toString());
-		return status;
-	}
-	
-	private boolean validateScenarios(Document doc, Object[][] scenarios, int startPosition){
-		boolean status = true;
-		boolean isArrayActive=false;
-		int arrays = 0;
-		Map<Integer, String> arrayTracker = new HashMap<Integer, String>();
-		
-		String function = "";
-		for (int x = startPosition; x < scenarios.length; x++) {
-			function = scenarios[x][1].toString();
-			if(function.toLowerCase().contains("fx:startarray")){
-				arrays++;
-				String[] params = function.split(";");
-				arrayTracker.put(arrays, params[1] + ":::" + getNumberOfResponseNodesByXPath(scenarios[x][0].toString()) +":::" + scenarios[x][0].toString());
-				isArrayActive=true;
-				//validateScenarios(doc, scenarios, x);
-			}else if(isArrayActive){
-				function = scenarios[x][1].toString();
-				if(function.toLowerCase().contains("fx:endarray")){
-					int numberNodes = Integer.valueOf(arrayTracker.get(arrays).split(":::")[1]);
-					for(int index = 1 ; index <= numberNodes ; index ++){
-						if (!validateNodeValueByXPath(doc, scenarios[x][0].toString(), function)) {
-							status = false;
-						}
-					}
-				}else{
-					functionMap.put(arrayTracker.get(arrays).split(":::")[2] + "[{index}]" + scenarios[x][0], function);
-				}
-			}else{
-			
-				if (!validateNodeValueByXPath(doc, scenarios[x][0].toString(), function)) {
-					status = false;
-				}
+		for (int x = 0; x < scenarios.length; x++) {
+			if (!validateNodeValueByXPath(doc, scenarios[x][0].toString(),
+					scenarios[x][1].toString())) {
+				status = false;
 			}
 		}
+		buffer.append("</table>");
+		Reporter.log(buffer.toString()+ "<br/>");
 		return status;
 	}
 	/**
@@ -679,7 +629,7 @@ public abstract class SoapService{
 		NodeList nList = null;
 		String xPathValue = "";
 		String errorMessage = "";
-		
+
 		//Find the node based on xpath expression
 		try {
 			expr = xPath.compile(xpath);
@@ -687,16 +637,16 @@ public abstract class SoapService{
 		}catch (XPathExpressionException xpe) {
 			errorMessage = "Failed to build xpath [ " + xpath + " ]. Please check format.";
 		}
-		
+
 		//Ensure an element was found, if not then throw error and fail
 		if (nList.item(0) == null && errorMessage.isEmpty()) {
 			errorMessage = "No xpath was found with the path [ " + xpath + " ] ";
 		}
-		
+
 		if (errorMessage.isEmpty()){
 			//Handle prefix types
 			if (regexValue.trim().toLowerCase().contains("value:")) {
-				
+
 				//Node value was specifically stated. Find value of node to validate based on xpath
 				regexValue = regexValue.substring(regexValue.indexOf(":") + 1,
 						regexValue.length()).trim();
@@ -757,71 +707,6 @@ public abstract class SoapService{
 				getTestScenario(resourcePath, scenario));
 	}
 
-	/**
-	 *  Opens the WSDL file that was loaded with the {@link setEnvironmentServiceURL} and load a XML Template for selected operation
-	 * @author Justin Phlegar
-	 * @version Created: 08/28/2014
-	 * @param operation String: operation to load
-	 */
-	protected String buildRequestFromWSDL(String operation) {
-		TestReporter.logTrace("Entering SoapService#buildRequestFromWSDL");
-		strOperationName = operation;
-		System.setProperty("soapui.log4j.config", this.getClass().getResource("/soapui-log4j.xml").getPath());
-		WsdlInterface[] wsdls = null;
-		WsdlInterface wsdl = null;
-		try {
-		    boolean isLoaded = false;
-		    TestReporter.logTrace("Starting empty SoapUI Project");
-		    project = new WsdlProject();
-
-		    TestReporter.logTrace("Successfully started SoapUI Project");
-		    /*if(project.getInterfaceList().size()>0){
-			for(Interface soapInterface : project.getInterfaceList()){
-			    if(soapInterface.getName().contains(getServiceName())){
-				isLoaded = true;
-				wsdl = (WsdlInterface) soapInterface;
-				break;
-			    }
-			}
-		    }
-		    if(isLoaded ==false){*/
-			TestReporter.logTrace("Import WSDL into project from URL [ " + url+" ]");
-			wsdls = WsdlImporter.importWsdl(project, url);
-
-			/*project.importWsdl(url, true);
-			project.save();*/
-			wsdl = wsdls[0];
-			/*for(Interface soapInterface : project.getInterfaceList()){
-			    if(soapInterface.getName().contains(getServiceName())){
-				isLoaded = true;
-				wsdl = (WsdlInterface) soapInterface;
-				break;
-			    }
-			}*/
-			TestReporter.logTrace("Successfully loaded WSDL");
-		    //}
-		} catch (XmlException xmle) {
-			throw new RuntimeException("Error loading XML: " + xmle.getCause());
-		} catch (IOException ioe) {
-			throw new RuntimeException("Error reading WSDL file: " + ioe.getCause());		
-		} catch (SoapUIException e1) {	
-			throw new SoapException("Failed to start Soap Project", e1.getCause());
-		} catch (Exception e) {
-			throw new RuntimeException("Error reading WSDL file: " + e.getCause());
-		}
-		
-		TestReporter.logTrace("Load Operation by name [ "+operation+" ]");
-		WsdlOperation wsdlOperation = wsdl.getOperationByName(operation);
-		
-		TestReporter.logTrace("Successfully loaded operation");
-		TestReporter.logTrace("Generate raw request from operation");
-		String rawRequest = wsdlOperation.createRequest(true);
-		
-		TestReporter.logTrace("Successfully generated request");
-		TestReporter.logTrace("Exiting SoapService#buildRequestFromWSDL");
-		return rawRequest ;
-	}
-
 	protected void removeComments() {
 		setRequestDocument((Document) XMLTools.removeComments(getRequestDocument()));
 	}
@@ -860,7 +745,7 @@ public abstract class SoapService{
 			} else {
 				// report error
 			}
-			
+
 		case "fx:getdate":
 			daysOut = params[1].split(":");
 			if (daysOut[0].trim().equalsIgnoreCase("DaysOut")) {
@@ -872,7 +757,7 @@ public abstract class SoapService{
 			String tag = params[1].replace("node:", "").replace("Node:", "");
 			setRequestDocument(XMLTools.addNode(doc,tag.trim(), xpath));
 			return "XMLUpdated";
-			
+
 		case "fx:addnodes":
 			tagName = params[1].split(":");
 			if (tagName[0].toLowerCase().trim().contains("node")) {
@@ -895,7 +780,7 @@ public abstract class SoapService{
 				// report error
 			}
 			return "XMLUpdated";
-			
+
 		case "fx:addnamespace":
 			tagName = params[1].split(":",2);
 			if (tagName[0].trim().equalsIgnoreCase("namespace")) {
@@ -909,19 +794,19 @@ public abstract class SoapService{
 		case "fx:removenode":
 			setRequestDocument(XMLTools.removeNode(doc, xpath));
 			return "XMLUpdated";
-			
+
 		case "fx:removeattribute":
 			String attribute = xpath.substring(xpath.lastIndexOf("@") + 1, xpath.length());
 			xpath = xpath.substring(0,xpath.lastIndexOf("@") -1);
 			setRequestDocument(XMLTools.removeAttribute(doc,attribute, xpath));
 			return "XMLUpdated";
-/*
+			/*
 		case "fx:dbquery":
 			break;
 
 		case "fx:dbresult":
 			break;
-*/
+			 */
 
 		case "fx:randomnumber":
 			length = params[1].split(":");
@@ -937,7 +822,7 @@ public abstract class SoapService{
 				return Randomness.randomString(Integer.parseInt(length[1]));
 			} else {
 				return Randomness.randomString(Integer.parseInt(length[0]));
-		}
+			}
 
 		case "fx:randomalphanumeric":
 			length = params[1].split(":");
@@ -946,7 +831,7 @@ public abstract class SoapService{
 			} else {
 				// report error
 			}
-		
+
 		default:
 			throw new RuntimeException("The command [" + command + " ] is not a valid command");
 		}
