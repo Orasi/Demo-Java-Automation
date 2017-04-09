@@ -21,7 +21,7 @@ import org.testng.Reporter;
 import org.testng.TestListenerAdapter;
 import org.testng.xml.XmlSuite;
 
-import com.orasi.api.soapServices.core.SoapService;
+import com.orasi.api.soapServices.SoapService;
 import com.orasi.utils.Constants;
 import com.orasi.utils.Mustard;
 import com.orasi.utils.OrasiDriver;

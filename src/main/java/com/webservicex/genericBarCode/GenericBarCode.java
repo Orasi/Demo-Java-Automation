@@ -1,6 +1,6 @@
 package com.webservicex.genericBarCode;
 
-import com.orasi.api.soapServices.core.SoapService;
+import com.orasi.api.soapServices.SoapService;
 
 public class GenericBarCode extends SoapService{
 

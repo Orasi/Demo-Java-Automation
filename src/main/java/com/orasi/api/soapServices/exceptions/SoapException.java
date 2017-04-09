@@ -1,4 +1,4 @@
-package com.orasi.api.soapServices.core.exceptions;
+package com.orasi.api.soapServices.exceptions;
 
 import com.orasi.api.WebServiceException;
 

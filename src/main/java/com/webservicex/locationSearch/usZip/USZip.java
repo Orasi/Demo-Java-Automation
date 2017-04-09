@@ -1,6 +1,6 @@
 package com.webservicex.locationSearch.usZip;
 
-import com.orasi.api.soapServices.core.SoapService;
+import com.orasi.api.soapServices.SoapService;
 
 public class USZip extends SoapService{
 

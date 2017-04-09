@@ -14,7 +14,7 @@ import com.eviware.soapui.model.testsuite.TestCase;
 import com.eviware.soapui.model.testsuite.TestRunner;
 import com.eviware.soapui.model.testsuite.TestSuite;
 import com.eviware.soapui.support.SoapUIException;
-import com.orasi.api.soapServices.core.exceptions.SoapException;
+import com.orasi.api.soapServices.exceptions.SoapException;
 import com.orasi.utils.Sleeper;
 import com.orasi.utils.TestReporter;
 

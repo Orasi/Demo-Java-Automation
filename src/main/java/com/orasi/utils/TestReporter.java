@@ -10,13 +10,16 @@ import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import org.testng.Reporter;
 
-import com.orasi.api.soapServices.core.SoapService;
-import com.orasi.api.soapServices.core.exceptions.SoapException;
+import com.orasi.api.restServices.RestResponse;
+import com.orasi.api.restServices.exceptions.RestException;
+import com.orasi.api.soapServices.SoapService;
+import com.orasi.api.soapServices.exceptions.SoapException;
 import com.orasi.utils.date.SimpleDate;
 
 public class TestReporter {
-	private static boolean printToConsole = true;
+	private static boolean printToConsole = false;
 	private static boolean printClassPath= true;
+	private static ThreadLocal<Boolean> assertFailed = new ThreadLocal<Boolean>();
 	/**
 	 * No additional info printed to console
 	 */
@@ -156,8 +159,8 @@ public class TestReporter {
 	 */
 	public static void logInfo(String message) {
 		if(debugLevel >= INFO){
-			Reporter.log(getTimestamp() + "INFO :: "+ getClassPath()  + message + "<br />");
-			System.out.println(getTimestamp() + "INFO :: "  + getClassPath() + trimHtml(message).trim());
+			Reporter.log(getTimestamp() + "INFO  :: "+ getClassPath()  + message + "<br />");
+			System.out.println(getTimestamp() + "INFO  :: "  + getClassPath() + trimHtml(message).trim());
 		}
 	}
 
@@ -296,6 +299,103 @@ public class TestReporter {
 			Reporter.log("<a href='" + fileLocation + "'> <img src='file:///" + fileLocation + "' height='200' width='300'/> </a>");
 		}
 	}
+	public static boolean softAssertTrue(boolean condition, String description){
+		try {
+			Assert.assertTrue(condition, description);
+			Reporter.log(getTimestamp() + " <font size = 2 color=\"green\"><b><u>Assert True - " + description
+					+ "</font></u></b><br />");
+			if (getPrintToConsole())
+				System.out.println(getTimestamp() + "Assert True - " + trimHtml(description));
+		} catch (AssertionError failure) {
+			Reporter.log(getTimestamp() + "<font size = 2 color=\"red\"><b><u>Assert True - " + description + "</b></u></font><br />");
+			if (getPrintToConsole())
+				System.out.println(getTimestamp() + "Assert True - " + trimHtml(description));
+			assertFailed.set(true);
+			return false;
+		}
+		return true;
+	}
+
+	public static boolean softAssertEquals(Object value1, Object value2, String description){
+
+		try {
+			Assert.assertEquals(value1, value2, description);
+			Reporter.log(getTimestamp() + " <font size = 2 color=\"green\"><b><u>Assert Equals - " + description
+					+ "</font></u></b><br />");
+			if (getPrintToConsole())
+				System.out.println(getTimestamp() + "Assert Equals - " + trimHtml(description));
+		} catch (AssertionError failure) {
+			Reporter.log(getTimestamp() + "<font size = 2 color=\"red\"><b><u>Assert Equals - " + description + "</b></u></font><br />");
+			if (getPrintToConsole())
+				System.out.println(getTimestamp() + "Assert Equals - " + trimHtml(description));
+			assertFailed.set(true);
+			return false;
+		}
+		return true;
+
+	}
+
+	public static boolean softAssertFalse(boolean condition, String description){
+		try {
+			Assert.assertFalse(condition, description);
+			Reporter.log(getTimestamp() + " <font size = 2 color=\"green\"><b><u>Assert False - " + description
+					+ "</font></u></b><br />");
+			if (getPrintToConsole())
+				System.out.println(getTimestamp() + "Assert False - " + trimHtml(description));
+		} catch (AssertionError failure) {
+			Reporter.log(getTimestamp() + "<font size = 2 color=\"red\"><b><u>Assert False - " + description + "</b></u></font><br />");
+			if (getPrintToConsole())
+				System.out.println(getTimestamp() + "Assert False - " + trimHtml(description));
+			assertFailed.set(true);
+			return false;
+		}
+		return true;
+	}
+
+	public static boolean softAssertNull(Object condition, String description) {
+		try {
+			Assert.assertNull(condition, description);
+		} catch (AssertionError failure) {
+			Reporter.log(getTimestamp() + "<font size = 2 color=\"red\"><b>Assert Null - " + description+ "</font></u></b><br />");
+			if (getPrintToConsole())
+				System.out.println(getTimestamp() + "Assert Null - " + trimHtml(description));
+			assertFailed.set(true);
+			return false;
+		}
+		Reporter.log(getTimestamp() + " <font size = 2 color=\"green\"><b><u>Assert Null - " + description
+				+ "</font></u></b><br />");
+		if (getPrintToConsole())
+			System.out.println(getTimestamp() + "Assert Null - " + trimHtml(description));
+
+		return true;
+	}
+
+	public static boolean softAssertNotNull(Object condition, String description) {
+		try {
+			Assert.assertNotNull(condition, description);
+		} catch (AssertionError failure) {
+			Reporter.log(getTimestamp() + "<font size = 2 color=\"red\"><b>Assert Not Null - " + description + "</font></u></b><br />");
+			if (getPrintToConsole())
+				System.out.println(getTimestamp() + "Assert Not Null - " + trimHtml(description));
+			assertFailed.set(true);
+			return false;
+		}
+		Reporter.log(getTimestamp() + "<font size = 2 color=\"green\"><b><u>Assert Not Null - " + description
+				+ "</font></u></b><br />");
+		if (getPrintToConsole())
+			System.out.println(getTimestamp() + "Assert Not Null - " + trimHtml(description));
+
+		return true;
+	}
+
+	public static void assertAll(){
+		boolean failed = assertFailed.get() == null ? false : assertFailed.get();
+		if (failed){
+			assertFailed.set(false);
+			Reporter.log(getTimestamp() + "<font size = 2 color=\"red\"><b>Soft assertions failed - see failures above</font></u></b><br />");
+			Assert.fail("Soft assertions failed - see testNG report for details");
+		}
+	}
 
 	public static void logAPI(boolean pass, String message, SoapService bs){
 		String failFormat = "";
@@ -320,6 +420,28 @@ public class TestReporter {
 
 		if(!pass){
 			throw new SoapException(message);
+		}
+	}
+	
+	public static void logAPI(boolean pass, String message, RestResponse rs){
+		String failFormat = "";
+		if(!pass){
+			failFormat = "<font size = 2 color=\"red\">";
+			logFailure(message);
+		}
+		Reporter.log("<font size = 2><b>Endpoint: " + rs.getMethod() + " " + rs.getURL() + "</b><br/>"+failFormat+ "<b>REST REQUEST </b></font>");
+		Reporter.setEscapeHtml(true);
+		Reporter.log(rs.getRequestBody().replaceAll("</*>", "</*>"));
+		Reporter.setEscapeHtml(false);
+		Reporter.log("<br/>");
+		Reporter.log(failFormat + "<br/><b>REST RESPONSE</b></font>" );
+		Reporter.setEscapeHtml(true);
+		Reporter.log(rs.getResponse());
+		Reporter.setEscapeHtml(false);
+		Reporter.log("<br/>");
+
+		if(!pass){
+			throw new RestException(message);
 		}
 	}
 }

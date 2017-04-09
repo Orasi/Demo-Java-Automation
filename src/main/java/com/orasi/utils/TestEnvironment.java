@@ -7,7 +7,7 @@ import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 
-import com.orasi.api.soapServices.core.SoapService;
+import com.orasi.api.soapServices.SoapService;
 /**
  * 
  * @author Justin Phlegar & Waightstill W Avery

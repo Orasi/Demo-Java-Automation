@@ -1,19 +1,10 @@
-package com.orasi.api.restServices.core;
+package com.orasi.api.restServices;
 
 import org.apache.http.Header;
 import org.apache.http.message.BasicHeader;
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
 
 import com.orasi.utils.Randomness;
 import com.orasi.utils.TestReporter;
-
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.List;
-
 
 public class Headers {
 	//private Header[] headers ;
@@ -49,13 +40,13 @@ public class Headers {
 		  Header[] headers = null;
 	        switch(type) {		    
 		        case AUTH:		        	
-        			TestReporter.logDebug("Creating headers for [AUTH]");
+        			TestReporter.logTrace("Creating headers for [AUTH]");
 
 		        	headers= new Header[] {
 		    	   		     new BasicHeader("Content-type", "application/x-www-form-urlencoded")};
 		        	break;
 		        case BASIC_CONVO:
-        			TestReporter.logDebug("Creating headers for [BASIC_CONVO]");
+        			TestReporter.logTrace("Creating headers for [BASIC_CONVO]");
 		        	headers = new Header[] {
 		    	   		     new BasicHeader("Content-type", "application/json;charset=utf-8")
 		    	   		    ,new BasicHeader("Accept", "application/json")
@@ -66,7 +57,7 @@ public class Headers {
 		    	   		};
 		        	break;   
 		        case JSON:
-	        			TestReporter.logDebug("Creating headers for [JSON]");
+	        			TestReporter.logTrace("Creating headers for [JSON]");
 			        	headers = new Header[] {
 			    	   		     new BasicHeader("Content-type", "application/json")
 			    	   		    
@@ -81,7 +72,7 @@ public class Headers {
 	    	for (Header header : headers){
 	    		allHeaders += "[" +header.getName() + ": " + header.getValue()+"] ";
 	    	}
-			TestReporter.logDebug("Headers added " + allHeaders);
+			TestReporter.logTrace("Headers added " + allHeaders);
 			
 			return headers;
 	    }

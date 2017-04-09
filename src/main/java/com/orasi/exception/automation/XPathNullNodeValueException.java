@@ -1,4 +1,4 @@
-package com.orasi.api.soapServices.core.exceptions;
+package com.orasi.exception.automation;
 
 import com.orasi.exception.AutomationException;
 

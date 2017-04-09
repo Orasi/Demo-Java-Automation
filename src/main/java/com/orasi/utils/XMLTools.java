@@ -36,8 +36,8 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import com.orasi.api.soapServices.core.exceptions.SoapException;
-import com.orasi.api.soapServices.core.exceptions.XPathNotFoundException;
+import com.orasi.api.soapServices.exceptions.SoapException;
+import com.orasi.exception.automation.XPathNotFoundException;
 
 
 public class XMLTools{
@@ -266,36 +266,7 @@ public class XMLTools{
 		//If no errors, then return the value found
 		return nList.item(0).getTextContent();
 	}
-	
-	/**
-	 *  Load an XML file from an external location
-	 * @author Justin Phlegar
-	 * @version Created: 08/28/2014
-	 * @param xml XML as a string 
-	 * @return Document xml of input file
-	 */	
-	public static Document loadXML(String xml) {
-		TestReporter.logTrace("Entering XMLTools#loadXML");
-		SOAPMessage soapMessage = null;
-		MessageFactory messageFactory = null;
-		try {
-			TestReporter.logTrace("Attempting to load XML from project");
-			messageFactory = MessageFactory.newInstance(SOAPConstants.SOAP_1_1_PROTOCOL);
-			
-			soapMessage = messageFactory.createMessage(new MimeHeaders(),new ByteArrayInputStream(xml.getBytes()));
-		} catch (SOAPException se) {
-			throw new RuntimeException("Failed to create a SOAP message", se.getCause());
-		} catch (IOException ioe) {
-			throw new RuntimeException("Unable to transform XML [ " + xml + " ]", ioe.getCause());
-		}
 
-		TestReporter.logTrace("Successfully loaded XML. Transform to XML Document");
-		Document doc = makeXMLDocument(soapMessage); 
-
-		TestReporter.logTrace("Successfully transformmed to XML Document");
-		TestReporter.logTrace("Exiting XMLTools#loadXML");
-		return doc;
-	}
 	
 	/**
 	 * Generate an XML Document from SOAPMessage

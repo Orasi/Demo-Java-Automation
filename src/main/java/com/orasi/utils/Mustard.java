@@ -8,9 +8,9 @@ import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.openqa.selenium.OutputType;
 import org.testng.ITestResult;
 
-import com.orasi.api.restServices.core.Headers.HeaderType;
-import com.orasi.api.restServices.core.RestService;
-import com.orasi.api.soapServices.core.SoapService;
+import com.orasi.api.restServices.RestService;
+import com.orasi.api.restServices.Headers.HeaderType;
+import com.orasi.api.soapServices.SoapService;
 import com.orasi.core.Beta;
 import com.orasi.utils.debugging.MustardResult;
 import com.saucelabs.common.SauceOnDemandAuthentication;
