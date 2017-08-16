@@ -4,6 +4,8 @@
 	<test name="WebServiceX">
 		<packages>
 			<package name="com.webservicex.*"/>
+			<package name="com.typicode.*"/>
+			<package name="com.soapui.*"/>
 		</packages>
 	</test> 
 </suite> 
