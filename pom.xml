@@ -52,7 +52,7 @@
 						<jenkinsBrowserVersion></jenkinsBrowserVersion>
 					</systemPropertyVariables>
 					<suiteXmlFiles>
-						<suiteXmlFile>${testNGSourceDirectory}/bluesource/testngXMLs/DemoRun.xml</suiteXmlFile>
+						<suiteXmlFile>${testNGSourceDirectory}/${suiteFile}</suiteXmlFile>
 					</suiteXmlFiles>
 				</configuration>
 				<dependencies>
