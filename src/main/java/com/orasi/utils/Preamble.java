@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.orasi.utils;
 
@@ -15,19 +15,31 @@ import java.lang.annotation.Target;
  */
 @Documented
 @Retention(RetentionPolicy.SOURCE)
-@Target({ElementType.METHOD,ElementType.CONSTRUCTOR,ElementType.TYPE})
+@Target({ ElementType.METHOD, ElementType.CONSTRUCTOR, ElementType.TYPE })
 public @interface Preamble {
     String author();
+
     String date();
-    String[] reviewers();
-    String[] steps();
+
     String summary();
+
+    String[] reviewers() default "N/A";
+
+    String[] steps() default "N/A";
+
     String precondition() default "N/A";
+
     String dataFile() default "N/A";
+
     String[] params() default "N/A";
+
     String returns() default "N/A";
+
     String[] canThrow() default "N/A";
+
     int currentRevision() default 1;
+
     String lastModified() default "N/A";
+
     String lastModifiedBy() default "N/A";
 }

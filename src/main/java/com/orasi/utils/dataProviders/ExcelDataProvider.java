@@ -1,44 +1,60 @@
 package com.orasi.utils.dataProviders;
 
-import com.orasi.utils.ExcelDocumentReader;
+import java.net.URL;
+
+import com.orasi.utils.exception.DataProviderInputFileNotFound;
+import com.orasi.utils.io.ExcelDocumentReader;
 
 public class ExcelDataProvider {
-    private String filepath;
+    private String filePath;
     private String sheetName;
     private int row;
-//    private Recordset datatable;
 
-    public ExcelDataProvider(String filepath, String sheetName) {
-	this.filepath = getClass().getResource(filepath).getPath();
-	this.sheetName = sheetName;
-	this.row = -1;
-//	datatable = new Recordset(new ExcelDocumentReader(this.filepath).readData(this.sheetName, this.row));
-    }
-    
-    public ExcelDataProvider(String filepath, String sheetName, int rowToRead) {
-	this.filepath = filepath;
-	this.sheetName = sheetName;
-	this.row = rowToRead;
-//	datatable = new Recordset(new ExcelDocumentReader(this.filepath).readData(this.sheetName, this.row));
-    }
-    
-    public void setDatatablePath(String path) {
-	this.filepath = path;
+    @Deprecated
+    /**
+     * Move to use static ExcelDataProvider.getTestData
+     * 
+     * @param filePath
+     * @param sheetName
+     */
+    public ExcelDataProvider(String filePath, String sheetName) {
+        this(filePath, sheetName, -1);
     }
 
-    public void setDatatableSheet(String sheet) {
-	this.sheetName = sheet;
+    @Deprecated
+    /**
+     * Move to use static ExcelDataProvider.getTestData
+     * 
+     * @param filePath
+     * @param sheetName
+     */
+    public ExcelDataProvider(String filePath, String sheetName, int rowToRead) {
+        URL file = getClass().getResource(filePath);
+        if (file == null) {
+            throw new DataProviderInputFileNotFound("Failed to find a file in path [ " + filePath + " ]");
+        }
+
+        this.filePath = file.getPath();
+        this.sheetName = sheetName;
+        this.row = rowToRead;
     }
 
-    public void setDatatableRow(int rowToRead) {
-	this.row = rowToRead;
-    }
-
+    @Deprecated
+    /**
+     * Move to use static ExcelDataProvider.getTestData
+     * 
+     * @param filePath
+     * @param sheetName
+     */
     public Object[][] getTestData() {
-	return new ExcelDocumentReader(this.filepath).readData(this.sheetName, this.row, 1);
+        return ExcelDocumentReader.readData(this.filePath, this.sheetName, this.row);
     }
-//
-//    public String getDataParameter(String field) {
-//	return datatable.getValue(field);
-//    }
+
+    public static Object[][] getTestData(String filePath, String sheetName) {
+        return getTestData(filePath, sheetName, -1);
+    }
+
+    public static Object[][] getTestData(String filePath, String sheetName, int rowToRead) {
+        return ExcelDocumentReader.readData(filePath, sheetName, rowToRead);
+    }
 }
